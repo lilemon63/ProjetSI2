@@ -1,12 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    VideoReader * cam1 = new VideoReader();
+    cam1->useCamera();
     ui->setupUi(this);
     connect( &m_extractor, SIGNAL(imageHandled(ImageDataPtr,ImageDataPtr,ImageDataPtr)),
              this, SLOT(setImage(ImageDataPtr,ImageDataPtr,ImageDataPtr)));
+    m_extractor.useSource(cam1, 0);
+    m_extractor.start(10);
 }
 
 MainWindow::~MainWindow()

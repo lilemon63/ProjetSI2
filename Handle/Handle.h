@@ -1,7 +1,7 @@
 #ifndef HANDLE_H
 #define HANDLE_H
 
-#define MainHandle "modele"
+#define MainHandle "Modele"
 
 #include "virtualhandle.h"
 

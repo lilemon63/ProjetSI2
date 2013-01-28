@@ -18,7 +18,9 @@ public :
 
     /** @brief Create a new VideoExtractor
       @param bool dual : true if we use two camera, false if we use only one camera */
-    VideoExtractor(bool dual = true);
+    VideoExtractor(bool dual = true, VideoReader *source1 = new VideoReader(), VideoReader *source2= new VideoReader());
+
+    virtual ~VideoExtractor();
 
     /** @brief stop the video stream handle */
     inline void stop(void);
@@ -39,6 +41,8 @@ public :
         @param qint64 timeMax : maximal time in nanosecond for the all handle, zero for infinite
         @param qint64 nbMaxImage : number of image we want, zero for infinite */
     void start( qint64 time, qint64 timeMax = 0 , qint64 nbMaxImage = 0);
+
+    void useSource(VideoReader * source, int channel);
 private :
 
     /** @brief true if the handle is stopped else return false */
@@ -60,7 +64,7 @@ private :
     qint64 m_nbImageHandled;
 
     /** @brief video stream to handled */
-    VideoReader m_videoStream[2];
+    VideoReader * m_videoStream[2];
 
     /** @brief start the VideoExtractor's thread */
     void run(void);

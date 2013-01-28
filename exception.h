@@ -12,6 +12,12 @@
     #define throwExc(X, Y, Z) Exception::throwException( (X), (Y), (Z), __FILE__, __LINE__, this , "")
 #endif
 
+#if defined(__GNUC__) || defined(__GNUG__)
+#define throwExcOutClass(X, Y, Z) Exception::throwException( (X), (Y), (Z), __FILE__, __LINE__, (const void *)nullptr , __PRETTY_FUNCTION__)
+#else
+    #define throwExcOutClass(X, Y, Z) Exception::throwException( (X), (Y), (Z), __FILE__, __LINE__, (const void *)nullptr , "")
+#endif
+
 /** @brief Exception class throw it with throwExc(messageError, className, methodName); */
 class Exception : public std::runtime_error
 {

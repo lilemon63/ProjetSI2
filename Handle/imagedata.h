@@ -13,6 +13,8 @@ public:
         @param const IplImage & image : image which will be stocked */
     ImageData(const IplImage & image);
 
+    virtual ~ImageData();
+
     /** @brief Get the stocked Image
         @return IplImage * : pointer to the stocked image. */
     IplImage * getImage(void);
@@ -23,7 +25,7 @@ public:
 private :
 
     /** @brief Image */
-    IplImage m_image;
+    IplImage * m_image;
 };
 
 typedef std::shared_ptr<ImageData> ImageDataPtr;

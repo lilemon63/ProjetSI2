@@ -17,15 +17,15 @@ ModelHandle::ModelHandle()
 }
 
 // your handle
-ImageDataPtr ModelHandle::startHandle(const ImageDataPtr, const ImageDataPtr)
+ImageDataPtr ModelHandle::startHandle(const ImageDataPtr source, const ImageDataPtr)
 {
     //write your own handle process here
 
     //for example :
     if(tour--)
-        return VirtualHandle::executeHandle("Modele", NULL, NULL ); //call the handle named "modele".
+        return VirtualHandle::executeHandle("Modele", source, NULL ); //call the handle named "modele".
     else
-        return NULL;
+        return source;
 }
 
 //now you just have to edit Handle.h
