@@ -4,6 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <memory>
 #include <QPixmap>
+#include <QMetaType>
 
 /** @brief Contains an Image and his data */
 class ImageData
@@ -29,5 +30,6 @@ private :
 };
 
 typedef std::shared_ptr<ImageData> ImageDataPtr;
+
 
 #endif // IMAGEDATA_H

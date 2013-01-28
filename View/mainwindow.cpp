@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     VideoReader * cam1 = new VideoReader();
     cam1->useCamera();
     ui->setupUi(this);
+    qRegisterMetaType<ImageDataPtr>("ImageDataPtr");/* obligatoire, à n'appeler qu'une fois et dans une fonction /!\ */
     connect( &m_extractor, SIGNAL(imageHandled(ImageDataPtr,ImageDataPtr,ImageDataPtr)),
              this, SLOT(setImage(ImageDataPtr,ImageDataPtr,ImageDataPtr)));
     m_extractor.useSource(cam1, 0);
