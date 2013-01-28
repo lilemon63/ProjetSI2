@@ -55,9 +55,9 @@ void VideoExtractor::run(void)
         if(src2)
             source2 = ImageDataPtr(new ImageData(*src2));
 
-        endOfCapture = timer.nsecsElapsed();
+        //endOfCapture = timer.nsecsElapsed();
         ImageDataPtr result = VirtualHandle::executeHandle(MainHandle, source1, source2);
-        endOfHandle = timer.nsecsElapsed();
+        //endOfHandle = timer.nsecsElapsed();
 
 
         m_nbImageHandled++;
@@ -67,10 +67,19 @@ void VideoExtractor::run(void)
             stoppedByUser = false;
             break;
         }
-        QThread::usleep( (m_time - timer.nsecsElapsed() + begin )/1000 );
+        qint64 waitTime = (m_time - timer.nsecsElapsed() + begin )/1000;
+        if(waitTime < 0)
+        {
+            std::cerr << "Warning : la boucle a du retard : " <<  waitTime
+                      << "\nDuree de la boucle : " << m_time
+                      << "\nDuree reelle : " << timer.nsecsElapsed() << std::endl;
+        }
+        else
+            QThread::usleep( waitTime );
     }
 
     emit finished(stoppedByUser);
+    deleteLater();
 }
 
 void VideoExtractor::useSource(VideoReader * source, int channel)

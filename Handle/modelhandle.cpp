@@ -25,7 +25,10 @@ ImageDataPtr ModelHandle::startHandle(const ImageDataPtr source, const ImageData
     if(tour--)
         return VirtualHandle::executeHandle("Modele", source, NULL ); //call the handle named "modele".
     else
+    {
+        tour = 1; //be carrefull when you modify the class'attribute.
         return source;
+    }
 }
 
 //now you just have to edit Handle.h
