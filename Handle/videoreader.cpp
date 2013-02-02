@@ -20,6 +20,6 @@ void VideoReader::useCamera(int idCamera)
 {
     auto tmp = cvCreateCameraCapture(idCamera);
     if( ! tmp )
-        throwExc("Can't use this camera as source", "VideoReader", "useCamera");
+        throw Exception::buildException("Can't use this camera as source", "VideoReader", "useCamera", EPC);
     m_video = tmp;
 }
