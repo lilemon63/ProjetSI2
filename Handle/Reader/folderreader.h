@@ -11,7 +11,6 @@ class FolderReader : public VideoReader
 {
 public:
     FolderReader();
-
     /**
      * @brief parse a file with his own name : The file's name must be like that :<br/>
      *        *_[year]-[month]-[day]-[hours]h[minute]m[sec]s[msec].* <br/>
