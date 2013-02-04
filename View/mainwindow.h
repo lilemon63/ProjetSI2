@@ -19,7 +19,7 @@ public:
     
 private:
     Ui::MainWindow *ui;
-    VideoExtractor m_extractor;
+    VideoExtractor * m_extractor;
 public slots :
     virtual void setImage(const ImageDataPtr result, const ImageDataPtr src1 , const ImageDataPtr src2);
 };

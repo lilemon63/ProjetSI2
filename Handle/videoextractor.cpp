@@ -4,10 +4,10 @@
 
 #include "Handle.h"
 
-VideoExtractor::VideoExtractor(bool dual )
-    : m_stopped(true), m_dual(dual)
+VideoExtractor::VideoExtractor(bool dual, VideoReader * source1, VideoReader * source2 )
+    : m_stopped(true), m_dual(dual), m_videoStream{ source1 , source2 }
 {
-    //activer les caméras
+
 }
 
 void VideoExtractor::start(qint64 time, qint64 timeMax, qint64 nbMaxImage)
@@ -19,7 +19,7 @@ void VideoExtractor::start(qint64 time, qint64 timeMax, qint64 nbMaxImage)
     m_nbMaxImage = nbMaxImage;
     m_stopped = false;
     m_nbImageHandled = 0;
-    run();
+    QThread::start();
 }
 
 
@@ -36,8 +36,8 @@ void VideoExtractor::run(void)
     {
         begin = timer.nsecsElapsed();
 
-        m_videoStream[0].grab(); // a for for that ... I'm too lazy
-        m_videoStream[1].grab();
+        m_videoStream[0]->grab(); // a for for that ... I'm too lazy
+        m_videoStream[1]->grab();
 
         if( m_timeMax && m_timeMax > begin)
         {
@@ -45,8 +45,8 @@ void VideoExtractor::run(void)
             break;
         }
 
-        src1 = m_videoStream[0].getImage();
-        src2 = m_videoStream[1].getImage();
+        src1 = m_videoStream[0]->getImage();
+        src2 = m_videoStream[1]->getImage();
 
         ImageDataPtr source1, source2;
 
@@ -55,9 +55,9 @@ void VideoExtractor::run(void)
         if(src2)
             source2 = ImageDataPtr(new ImageData(*src2));
 
-        endOfCapture = timer.nsecsElapsed();
+        //endOfCapture = timer.nsecsElapsed();
         ImageDataPtr result = VirtualHandle::executeHandle(MainHandle, source1, source2);
-        endOfHandle = timer.nsecsElapsed();
+        //endOfHandle = timer.nsecsElapsed();
 
 
         m_nbImageHandled++;
@@ -67,10 +67,31 @@ void VideoExtractor::run(void)
             stoppedByUser = false;
             break;
         }
-        QThread::usleep( (m_time - timer.nsecsElapsed() + begin )/1000 );
+        qint64 waitTime = (m_time - timer.nsecsElapsed() + begin )/1000;
+        if(waitTime < 0)
+        {
+            std::cerr << "Warning : la boucle a du retard : " <<  waitTime
+                      << "\nDuree de la boucle : " << m_time
+                      << "\nDuree reelle : " << timer.nsecsElapsed() << std::endl;
+        }
+        else
+            QThread::usleep( waitTime );
     }
 
     emit finished(stoppedByUser);
+    deleteLater();
+}
+
+void VideoExtractor::useSource(VideoReader * source, int channel)
+{
+    delete m_videoStream[channel];
+    m_videoStream[channel] = source;
+}
+
+VideoExtractor::~VideoExtractor()
+{
+    delete m_videoStream[0];
+    delete m_videoStream[1];
 }
 
 //grab + wait

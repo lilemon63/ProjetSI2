@@ -39,7 +39,8 @@ public:
         @param ImageDataPtr src2 : second image, NULL if unused
         @return ImageDataPtr : handle's result.
       */
-    virtual ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr src2 = NULL) = 0;
+    virtual ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr src2) = 0;
+
 protected :
 
 private:

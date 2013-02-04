@@ -12,7 +12,9 @@ SOURCES += \
     Handle/videoreader.cpp \
     Handle/imagedata.cpp \
     View/mainwindow.cpp \
-    exception.cpp
+    exception.cpp \
+    Handle/putyourcodehere.cpp \
+    Handle/Reader/folderreader.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -23,7 +25,9 @@ HEADERS += \
     Handle/videoreader.h \
     Handle/imagedata.h \
     View/mainwindow.h \
-    exception.h
+    exception.h \
+    Handle/putyourcodehere.h \
+    Handle/Reader/folderreader.h
 
 LIBS += -lopencv_core \
         -lopencv_gpu \
