@@ -1,9 +1,6 @@
 #include "parseexception.h"
-#include <iostream>
 
-
-
-parseException::parseException(string s)
+ParseException::ParseException(EXCEPTIONS_ARGS_CST_IMPL)
+    :Exception(msg, MsgError , EXCEPTIONS_VALUES)
 {
-    std::cerr << "Exception when the file is parsed : " << s << std::endl;
 }
