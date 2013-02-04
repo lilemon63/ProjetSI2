@@ -8,7 +8,7 @@
 
 #if defined(__GNUC__) || defined(__GNUG__)
     #define PRETTY __PRETTY_FUNCTION__
-#define PRETTY_SHOW(X) (X) << "Complete methode name :\n" << pretty << "\n"
+    #define PRETTY_SHOW(X) (X) << "Complete methode name :\n" << pretty << "\n"
 #else
     #define PRETTY ""
     #define PRETTY_SHOW(X) (X) << "Pretty function only available on GNU system\n"
