@@ -36,7 +36,7 @@ public:
 
     /** @brief Return true if the reading cursor can be moved
         @brief bool : true if the reading cursor can be moved else false */
-    bool isCursorMouvable(void);
+    bool acceptSeek(void);
 
 
     // TODO : IplImage * getImage(void); un petit oublie ? ^^

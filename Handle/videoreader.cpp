@@ -24,7 +24,7 @@ void VideoReader::useCamera(int idCamera)
     m_video = tmp;
 }
 
-bool VideoReader::isCursorMouvable(void)
+bool VideoReader::acceptSeek(void)
 {
     return false;
 }

@@ -46,7 +46,7 @@ void FolderReader::grab()
 }
 
 
-bool FolderReader::isCursorMouvable(void)
+bool FolderReader::acceptSeek(void)
 {
     return true;
 }

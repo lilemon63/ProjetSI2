@@ -24,7 +24,7 @@ public:
 
     /** @brief Return true if the reading cursor can be moved
         @brief bool : true if the reading cursor can be moved else false */
-    virtual bool isCursorMouvable(void);
+    virtual bool acceptSeek(void);
 
 private :
     /** @brief video stream */
