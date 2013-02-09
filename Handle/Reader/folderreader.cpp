@@ -2,8 +2,17 @@
 #include <QRegExp>
 #include <QStringList>
 
-FolderReader::FolderReader()
+FolderReader::FolderReader(const std::string & path)
 {
+    QDir dir( path.c_str() );
+    if( ! dir.isReadable() )
+        throw Exception::buildException("Attention le dossier " + path + " n'existe pas ou vous n'avez pas les droits pour y accéder.", "FolderReader", "Folderreader", EPC);
+    QFileInfoList liste = dir.entryInfoList(QDir::Files);
+
+    std::for_each(liste.begin(), liste.end(), [this](QFileInfo & info){
+        m_listePath[parseFileName(info.fileName())] = info.fileName();
+    });
+    m_iterator = m_listePath.begin();
 }
 
 
@@ -29,4 +38,15 @@ QDateTime FolderReader::parseFileName(QString fileName){
     time.addMSecs(dataList[7].toInt());
 
     return time;
+}
+
+void FolderReader::grab()
+{
+    ++m_iterator;
+}
+
+
+bool FolderReader::isCursorMouvable(void)
+{
+    return true;
 }

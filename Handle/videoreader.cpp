@@ -23,3 +23,8 @@ void VideoReader::useCamera(int idCamera)
         throw Exception::buildException("Can't use this camera as source", "VideoReader", "useCamera", EPC);
     m_video = tmp;
 }
+
+bool VideoReader::isCursorMouvable(void)
+{
+    return false;
+}

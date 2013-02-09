@@ -16,11 +16,16 @@ public:
     /** @brief grab the current image from the video stream.<br/>
         There is no copy so it's faster so we can get several image from several video stream at the same time
         with more accuracy. */
-    inline void grab(void);
+    virtual inline void grab(void); // N.B. the "inline" as no effect when we call grab on a pointer or a references.
 
     /** @brief get the last image grabbed
         @return IplImage * : last image grabbed */
-    IplImage * getImage(void);
+    virtual IplImage * getImage(void);
+
+    /** @brief Return true if the reading cursor can be moved
+        @brief bool : true if the reading cursor can be moved else false */
+    virtual bool isCursorMouvable(void);
+
 private :
     /** @brief video stream */
     CvCapture * m_video;

@@ -4,13 +4,18 @@
 #include "../videoreader.h"
 #include "../parseexception.h"
 #include <QDateTime>
+#include <QDir>
 
 
 /** @brief Read a folder as an video stream */
-class FolderReader : public VideoReader
+class FolderReader final : public VideoReader
 {
 public:
-    FolderReader();
+
+    /** @brief Create a reader from all image which is in a same folder.
+        @param const std::string & path : folder's path */
+    FolderReader(const std::string & path);
+
     /**
      * @brief parse a file with his own name : The file's name must be like that :<br/>
      *        *_[year]-[month]-[day]-[hours]h[minute]m[sec]s[msec].* <br/>
@@ -21,6 +26,28 @@ public:
      * @throw ParseException : if an error occured.
      */
     static QDateTime parseFileName(QString fileName);
+
+    /** @brief grab the current image from the video stream.<br/>
+        There is no copy so it's faster so we can get several image from several video stream at the same time
+        with more accuracy. */
+    void grab();
+
+    void remplissage(const std::string nom, QDateTime date, QString s);
+
+    /** @brief Return true if the reading cursor can be moved
+        @brief bool : true if the reading cursor can be moved else false */
+    bool isCursorMouvable(void);
+
+
+    // TODO : IplImage * getImage(void); un petit oublie ? ^^
+
+private :
+    typedef std::map<QDateTime, QString> ListPath;
+    /** @brief iterator on the current image */
+    ListPath::iterator m_iterator;
+
+    /** @brief All image path and their associated date time */
+    ListPath m_listePath;
 };
 
 #endif // FOLDERREADER_H
