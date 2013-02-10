@@ -7,7 +7,11 @@
 VideoExtractor::VideoExtractor(bool dual, VideoReader * source1, VideoReader * source2 )
     : m_stopped(true), m_dual(dual), m_videoStream{ source1 , source2 }
 {
+}
 
+void VideoExtractor::showParameters(QWidget *parent)
+{
+        VirtualHandle::showParameters(parent, MainHandle);
 }
 
 void VideoExtractor::start(qint64 time, qint64 timeMax, qint64 nbMaxImage)

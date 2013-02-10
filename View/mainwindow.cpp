@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( m_extractor, SIGNAL(imageHandled(ImageDataPtr,ImageDataPtr,ImageDataPtr)),
              this, SLOT(setImage(ImageDataPtr,ImageDataPtr,ImageDataPtr)));
     m_extractor->useSource(cam1, 0);
+    m_extractor->showParameters( ui->scrollAreaWidgetContents );
     m_extractor->start(200000000);
 }
 

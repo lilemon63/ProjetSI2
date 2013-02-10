@@ -1,13 +1,13 @@
 #include "putyourcodehere.h"
+#include "Parameters/slider.h"
 
-namespace
-{
-    PutYourCodeHere forHandle;
-}
 
 PutYourCodeHere::PutYourCodeHere()
     : VirtualHandle("PutYourCodeHere") //handle's name
 {
+    HandleParameters param;
+    param.changeSources( std::shared_ptr<SourceParameters>(new Slider() ) );
+    m_listParameters.push_back( param );
 }
 
 // your handle

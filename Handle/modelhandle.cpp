@@ -1,10 +1,5 @@
 #include "modelhandle.h"
 
-//initialise your handle
-namespace
-{
-    ModelHandle forTest;
-}
 /*
 Rq :    You can give parameters when you initialise your handle.
         You can also give your handle's name in parameters.

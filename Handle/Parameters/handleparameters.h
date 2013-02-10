@@ -10,9 +10,8 @@ class SourceParameters;
 class HandleParameters : public QVariant
 {
 public:
-    /** @brief Create an HandleParameters
-        @param QVariant defaultValue : parameters' default value */
-    explicit HandleParameters(QVariant defaultValue);
+    /** @brief Create an HandleParameters*/
+    explicit HandleParameters(void);
 
     /** @brief Show the Parameters on the parameters' area
         @param QWidget * parent : parent */

@@ -29,7 +29,7 @@ public:
     /** @brief Hide the parameters */
     virtual void hideParameters(void) = 0;
 
-    virtual ~SourceParameters() = default;
+    virtual ~SourceParameters(){}
 protected :
     typedef std::set<HandleParameters *> M_ListSuscriber;
     M_ListSuscriber m_suscribers;

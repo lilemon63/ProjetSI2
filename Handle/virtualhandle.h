@@ -46,6 +46,11 @@ public:
         @param QWidget * parent : parent */
     virtual void showParameters(QWidget * parent);
 
+    /** @brief Show all the Parameters on the parameters' area
+        @param QWidget * parent : parent
+        @param const std::string & name : Handle name which will be shown */
+    static void showParameters(QWidget * parent, const std::string & name);
+
     /** @brief Hide all the Parameters on the parameters' area<br/>
                 N.B. the parameters values will be conserved for the next use. */
     virtual void hideParameters(void);

@@ -43,6 +43,11 @@ public :
     void start( qint64 time, qint64 timeMax = 0 , qint64 nbMaxImage = 0);
 
     void useSource(VideoReader * source, int channel);
+
+
+    /** @brief Show the parameters in the widget "parent"
+        @param QWidget * parent : Widget where the parameters will be shown */
+    void showParameters(QWidget * parent);
 private :
 
     /** @brief true if the handle is stopped else return false */

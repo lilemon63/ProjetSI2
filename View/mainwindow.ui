@@ -35,6 +35,12 @@
        </property>
       </widget>
       <widget class="QScrollArea" name="parametersArea">
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAsNeeded</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAsNeeded</enum>
+       </property>
        <property name="widgetResizable">
         <bool>true</bool>
        </property>
@@ -43,10 +49,11 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>90</width>
+          <width>76</width>
           <height>76</height>
          </rect>
         </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2"/>
        </widget>
       </widget>
      </widget>

@@ -1,9 +1,8 @@
 #include "handleparameters.h"
 #include "sourceparameters.h"
 
-HandleParameters::HandleParameters(QVariant defaultValue)
-    : QVariant(defaultValue),
-      m_source(NULL)
+HandleParameters::HandleParameters()
+    : m_source(NULL)
 {
 }
 

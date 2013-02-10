@@ -18,7 +18,9 @@ SOURCES += \
     Handle/parseexception.cpp \
     Handle/BasicHandle/rotation.cpp \
     Handle/Parameters/handleparameters.cpp \
-    Handle/Parameters/sourceparameters.cpp
+    Handle/Parameters/sourceparameters.cpp \
+    Handle/Parameters/slider.cpp \
+    Handle/handletools.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -35,7 +37,9 @@ HEADERS += \
     Handle/parseexception.h \
     Handle/BasicHandle/rotation.h \
     Handle/Parameters/handleparameters.h \
-    Handle/Parameters/sourceparameters.h
+    Handle/Parameters/sourceparameters.h \
+    Handle/Parameters/slider.h \
+    Handle/handletools.h
 
 LIBS += -lopencv_core \
         -lopencv_video \
