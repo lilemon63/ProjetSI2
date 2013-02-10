@@ -5,6 +5,7 @@
 #include <map>
 #include <opencv2/opencv.hpp>
 #include "imagedata.h"
+#include "Parameters/handleparameters.h"
 
 /** @brief
     Class which handle two IplImage and return an IplImage.<br/>
@@ -18,8 +19,8 @@ class VirtualHandle
 {
 public:
     /** @brief Create a new VirtualHandle.
-      @param const std::string & name : handle's name. */
-    VirtualHandle(const std::string & name);
+      @param const std::string & name  = "noname": handle's name. */
+    VirtualHandle(const std::string & name  = "noname");
 
     ~VirtualHandle(void){}
 
@@ -41,7 +42,28 @@ public:
       */
     virtual ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr src2) = 0;
 
+    /** @brief Show all the Parameters on the parameters' area
+        @param QWidget * parent : parent */
+    virtual void showParameters(QWidget * parent);
+
+    /** @brief Hide all the Parameters on the parameters' area<br/>
+                N.B. the parameters values will be conserved for the next use. */
+    virtual void hideParameters(void);
+
+    /** @brief Change the source for a paramters
+        @param unsigned int idParameters : paramenters' identifiant, see the class documentation for more details.
+        @param std::shared_ptr<SourceParameters> source : new sources
+      */
+    virtual void changeSource(unsigned int idParameters, std::shared_ptr<SourceParameters> source);
+
 protected :
+    typedef std::vector<HandleParameters> M_ListParameters;
+    /** @brief List of all handle parameters */
+    M_ListParameters m_listParameters;
+
+    typedef std::vector<VirtualHandle *> M_ListDependancies;
+    /** @brief All dependancies for this handle (for show parameters) */
+    M_ListDependancies m_dependancies;
 
 private:
     /** @brief Handle's name<br/>

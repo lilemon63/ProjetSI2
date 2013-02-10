@@ -15,7 +15,10 @@ SOURCES += \
     exception.cpp \
     Handle/putyourcodehere.cpp \
     Handle/Reader/folderreader.cpp \
-    Handle/parseexception.cpp
+    Handle/parseexception.cpp \
+    Handle/BasicHandle/rotation.cpp \
+    Handle/Parameters/handleparameters.cpp \
+    Handle/Parameters/sourceparameters.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -29,7 +32,10 @@ HEADERS += \
     exception.h \
     Handle/putyourcodehere.h \
     Handle/Reader/folderreader.h \
-    Handle/parseexception.h
+    Handle/parseexception.h \
+    Handle/BasicHandle/rotation.h \
+    Handle/Parameters/handleparameters.h \
+    Handle/Parameters/sourceparameters.h
 
 LIBS += -lopencv_core \
         -lopencv_video \
