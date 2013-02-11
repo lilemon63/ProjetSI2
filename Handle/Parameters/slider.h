@@ -23,7 +23,7 @@ public :
     virtual ~Slider(){}
 
 private :
-    QSlider m_slider;
+    QSlider * m_slider;
 private slots :
     void changeValue(int);
 };
