@@ -13,6 +13,7 @@ public:
     /** @brief Create an HandleParameters*/
     explicit HandleParameters(void);
 
+
     /** @brief Show the Parameters on the parameters' area
         @param QWidget * parent : parent */
     void showParameters(QWidget * parent);

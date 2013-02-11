@@ -33,14 +33,14 @@ public:
     @param ImageDataPtr src1  : first image
     @param ImageDataPtr src2 : second image, NULL if unused
     @return ImageDataPtr : handle's result. */
-    static ImageDataPtr executeHandle(const std::string & name, const ImageDataPtr src1, const ImageDataPtr src2);
+    static ImageDataPtr executeHandle(const std::string & name, ImageDataPtr src1, const ImageDataPtr src2);
 
     /** @brief Handle one or two IplImage
         @param ImageDataPtr src1  : first image
         @param ImageDataPtr src2 : second image, NULL if unused
         @return ImageDataPtr : handle's result.
       */
-    virtual ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr src2) = 0;
+    virtual ImageDataPtr startHandle(ImageDataPtr src1, const ImageDataPtr src2) = 0;
 
     /** @brief Show all the Parameters on the parameters' area
         @param QWidget * parent : parent */

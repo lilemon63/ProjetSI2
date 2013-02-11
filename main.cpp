@@ -1,6 +1,7 @@
 /** @mainpage ... */
 
 #include <QApplication>
+#include <memory>
 #include "View/mainwindow.h"
 #include "exception.h"
 #include "Handle/Handle.h"
@@ -13,7 +14,7 @@ int main(int argc, char *argv[])
         QApplication a(argc, argv);
         a.setApplicationName( "Volcano" ); //évite un warning lors de l'exécution.
 
-        volatile HandleTools t;
+        HandleTools t;
 
         MainWindow w;
         w.show();

@@ -13,7 +13,7 @@ ToFiles::ToFiles(const std::string & path, unsigned int,const std::string &name)
     if(! d.isReadable() )
         throw Exception::buildException("Le dossier " + path + " n'existe pas ou vous n'avez pas le droit d'y accéder", "ToFiles","ToFiles" , EPC);
 
-    m_listParameters.reserve(Max);
+    m_listParameters.resize(Max);
 
     HandleParameters m_frequence;
 
@@ -23,7 +23,7 @@ ToFiles::ToFiles(const std::string & path, unsigned int,const std::string &name)
 }
 
 
-ImageDataPtr ToFiles::startHandle(const ImageDataPtr src1, const ImageDataPtr src2)
+ImageDataPtr ToFiles::startHandle(const ImageDataPtr src1, const ImageDataPtr)
 {
     if( ! src1)
         throw Exception::buildException("La source est vide", "ToFiles", "startHandle", EPC);
@@ -32,10 +32,12 @@ ImageDataPtr ToFiles::startHandle(const ImageDataPtr src1, const ImageDataPtr sr
 
     if( ++m_compteur >= nbFrame)
     {
-        std::string imgPath = m_path + "/TIFF_Image_2012-10-05-21h38m56s209" + QDateTime::currentDateTime().toString("yyyy-MM-dd-hh\hmm\mss\szzz").toStdString() + ".tiff";
+        std::string imgPath = m_path + "/TIFF_Image_" + QDateTime::currentDateTime().toString("yyyy-MM-dd-hh'\'h'mm'm'ss's'zzz").toStdString() + ".tiff";
 
         cvSaveImage( imgPath.c_str() , src1->getImage() );
 
         m_compteur = 0;
     }
+
+    return src1;
 }

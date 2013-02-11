@@ -14,9 +14,9 @@ VirtualHandle::VirtualHandle(const std::string & name)
 
 VirtualHandle::ListHandle VirtualHandle::m_listHandle;
 
-ImageDataPtr VirtualHandle::executeHandle(const std::string & name, const ImageDataPtr src1, const ImageDataPtr src2)
+ImageDataPtr VirtualHandle::executeHandle(const std::string & name, ImageDataPtr src1, const ImageDataPtr src2)
 {
-    if( name == "noname" || ! m_listHandle[name] )
+    if( name == "noname" || m_listHandle.find(name) == m_listHandle.end() )
         throw Exception::buildException(name + " n'est pas un nom de traitement valide",
                                         "VirtualHandle",
                                         "executeHandle",

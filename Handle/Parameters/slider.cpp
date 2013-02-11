@@ -30,5 +30,5 @@ void Slider::addSuscriber(HandleParameters * target)
 void Slider::changeValue(int  value)
 {
     for(HandleParameters * hp : m_suscribers )
-        hp->setValue( (int)value);
+       hp->setValue( (int)value);
 }

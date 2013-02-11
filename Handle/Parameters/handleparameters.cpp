@@ -2,7 +2,7 @@
 #include "sourceparameters.h"
 
 HandleParameters::HandleParameters()
-    : m_source(NULL)
+    : m_source(nullptr)
 {
 }
 

@@ -53,7 +53,7 @@ void VideoExtractor::run(void)
         src1 = m_videoStream[0]->getImage();
         src2 = m_videoStream[1]->getImage();
 
-        ImageDataPtr source1, source2;
+        ImageDataPtr source1 = nullptr, source2 = nullptr;
 
         if(src1)
             source1 = ImageDataPtr(new ImageData(*src1));
