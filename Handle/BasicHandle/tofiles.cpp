@@ -1,6 +1,8 @@
 #include "tofiles.h"
 #include "exception.h"
 #include <QDir>
+#include <QDateTime>
+#include <opencv2/opencv.hpp>
 
 ToFiles::ToFiles(const std::string & path, unsigned int,const std::string &name)
     : VirtualHandle(name),
@@ -30,7 +32,10 @@ ImageDataPtr ToFiles::startHandle(const ImageDataPtr src1, const ImageDataPtr sr
 
     if( ++m_compteur >= nbFrame)
     {
-        //TODO enregistrement
+        std::string imgPath = m_path + "/TIFF_Image_2012-10-05-21h38m56s209" + QDateTime::currentDateTime().toString("yyyy-MM-dd-hh\hmm\mss\szzz").toStdString() + ".tiff";
+
+        cvSaveImage( imgPath.c_str() , src1->getImage() );
+
         m_compteur = 0;
     }
 }
