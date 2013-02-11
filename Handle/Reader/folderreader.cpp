@@ -25,7 +25,7 @@ QDateTime FolderReader::parseFileName(QString fileName){
     dataList = fileName.split('\n');
 
     if(dataList.size() != 8)
-        throw ParseException::buildParseException("The file's name is incorrect.", "FolderReader", "parseFileName",EP);
+        throw ParseException::buildParseException("The file's name " + fileName.toStdString() + "is incorrect.", "FolderReader", "parseFileName",EP);
 
     time.addYears(dataList[1].toInt());
     time.addMonths(dataList[2].toInt());
