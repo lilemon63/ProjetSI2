@@ -2,6 +2,7 @@
 
 #include <QElapsedTimer>
 
+#include "exception.h"
 #include "Handle.h"
 
 VideoExtractor::VideoExtractor(bool dual, VideoReader * source1, VideoReader * source2 )
@@ -62,7 +63,10 @@ void VideoExtractor::run(void)
         //endOfCapture = timer.nsecsElapsed();
         ImageDataPtr result = VirtualHandle::executeHandle(MainHandle, source1, source2);
         //endOfHandle = timer.nsecsElapsed();
-
+        if( ! result)
+        {
+            throw Exception::buildException("Votre traitement ne retourne pas de résultat!", "VideoExtractor", "run", EPC);
+        }
 
         m_nbImageHandled++;
         emit imageHandled(result, source1, source2);

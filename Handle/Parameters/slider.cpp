@@ -1,6 +1,5 @@
 #include "slider.h"
 #include "handleparameters.h"
-#include <iostream>
 
 Slider::Slider()
 {
