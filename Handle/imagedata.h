@@ -18,7 +18,7 @@ public:
 
     /** @brief Get the stocked Image
         @return IplImage * : pointer to the stocked image. */
-    IplImage * getImage(void);
+    inline IplImage * getImage(void);
 
     /** @brief create a QPixmap from the image for an print in a Qt's widget
         @return QPixmap : QPixmap created */
@@ -30,6 +30,11 @@ private :
 };
 
 typedef std::shared_ptr<ImageData> ImageDataPtr;
+
+IplImage * ImageData::getImage(void)
+{
+    return m_image;
+}
 
 
 #endif // IMAGEDATA_H
