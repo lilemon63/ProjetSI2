@@ -2,12 +2,11 @@
 #include "../../exception.h"
 #include "../imagedata.h"
 
-Rotation::Rotation(int defaultValue, const std::string & name)
+Rotation::Rotation(int /* defaultValue TODO*/, const std::string & name)
     : VirtualHandle(name)
 {
     //TODO : Source
-    HandleParameters angle;
-    m_listParameters.push_back(angle);
+    m_listParameters.push_back(std::shared_ptr<HandleParameters>(new HandleParameters() ) );
 }
 
 
@@ -16,7 +15,7 @@ ImageDataPtr Rotation::startHandle(const ImageDataPtr src1, const ImageDataPtr)
     if( ! src1 )
         throw Exception::buildException("La source est vide", "Rotation", "startHandle", EPC);
 
-   int angleDegrees = m_listParameters[AngleRotation].toInt() % 360;
+   int angleDegrees = m_listParameters[AngleRotation]->toInt() % 360;
 
    ImageDataPtr newImage( new ImageData(*src1->getImage() ) );
    IplImage * imageRotated = newImage->getImage();

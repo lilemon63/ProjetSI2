@@ -15,11 +15,8 @@ ToFiles::ToFiles(const std::string & path, unsigned int,const std::string &name)
 
     m_listParameters.resize(Max);
 
-    HandleParameters m_frequence;
 
-    //TODO
-
-    m_listParameters[Frequence] = m_frequence;
+    m_listParameters[Frequence] = std::shared_ptr<HandleParameters>( new HandleParameters() );
 }
 
 
@@ -28,7 +25,7 @@ ImageDataPtr ToFiles::startHandle(const ImageDataPtr src1, const ImageDataPtr)
     if( ! src1)
         throw Exception::buildException("La source est vide", "ToFiles", "startHandle", EPC);
 
-    unsigned int nbFrame = m_listParameters[Frequence].toInt();
+    unsigned int nbFrame = m_listParameters[Frequence]->toInt();
 
     if( ++m_compteur >= nbFrame)
     {

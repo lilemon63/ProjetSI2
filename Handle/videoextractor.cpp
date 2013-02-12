@@ -15,11 +15,10 @@ void VideoExtractor::showParameters(QWidget *parent)
         VirtualHandle::showParameters(parent, MainHandle);
 }
 
-void VideoExtractor::start(qint64 time, qint64 timeMax, qint64 nbMaxImage)
+void VideoExtractor::start(qint64 timeMax, qint64 nbMaxImage)
 {
     if( m_stopped != true )
         return;
-    m_time = time;
     m_timeMax = timeMax;
     m_nbMaxImage = nbMaxImage;
     m_stopped = false;
@@ -32,8 +31,8 @@ void VideoExtractor::run(void)
 {
     bool stoppedByUser = true;
     QElapsedTimer timer;
-    qint64 endOfCapture;
-    qint64 endOfHandle;
+    //qint64 endOfCapture;
+    //qint64 endOfHandle;
     qint64 begin;
     IplImage * src1, * src2;
     timer.start();
@@ -75,11 +74,11 @@ void VideoExtractor::run(void)
             stoppedByUser = false;
             break;
         }
-        qint64 waitTime = (m_time - timer.nsecsElapsed() + begin )/1000;
+        qint64 waitTime = ( m_paramPeriod.toInt() - timer.nsecsElapsed() + begin )/1000;
         if(waitTime < 0)
         {
             std::cerr << "Warning : la boucle a du retard : " <<  waitTime
-                      << "\nDuree de la boucle : " << m_time
+                      << "\nDuree de la boucle : " << m_paramPeriod.toInt()
                       << "\nDuree reelle : " << timer.nsecsElapsed() << std::endl;
         }
         else
@@ -102,4 +101,9 @@ VideoExtractor::~VideoExtractor()
     delete m_videoStream[1];
 }
 
-//grab + wait
+
+void VideoExtractor::changePeriodeParameters( std::shared_ptr<SourceParameters> source, QWidget * area)
+{
+    m_paramPeriod.changeSources(source);
+    m_paramPeriod.showParameters( area );
+}

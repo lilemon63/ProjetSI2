@@ -22,7 +22,7 @@ public:
       @param const std::string & name  = "noname": handle's name. */
     VirtualHandle(const std::string & name  = "noname");
 
-    ~VirtualHandle(void){}
+    ~VirtualHandle(void){};
 
     /** @brief Get the handle's name.
       @return const std::string & : handle's name */
@@ -62,7 +62,7 @@ public:
     virtual void changeSource(unsigned int idParameters, std::shared_ptr<SourceParameters> source);
 
 protected :
-    typedef std::vector<HandleParameters> M_ListParameters;
+    typedef std::vector<std::shared_ptr<HandleParameters> > M_ListParameters;
     /** @brief List of all handle parameters */
     M_ListParameters m_listParameters;
 

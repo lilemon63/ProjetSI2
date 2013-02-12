@@ -26,23 +26,23 @@ ImageDataPtr VirtualHandle::executeHandle(const std::string & name, ImageDataPtr
 
 void VirtualHandle::showParameters(QWidget * parent)
 {
-    for(HandleParameters & param : m_listParameters)
-        param.showParameters(parent);
+    for(auto param : m_listParameters)
+        param->showParameters(parent);
     for(VirtualHandle * handle : m_dependancies)
         handle->showParameters(parent);
 }
 
 void VirtualHandle::hideParameters(void)
 {
-    for(HandleParameters & param : m_listParameters)
-        param.hideParameters();
+    for(auto param : m_listParameters)
+        param->hideParameters();
     for(VirtualHandle * handle : m_dependancies)
         handle->hideParameters();
 }
 
 void VirtualHandle::changeSource(unsigned int idParameters, std::shared_ptr<SourceParameters> source)
 {
-    m_listParameters[idParameters].changeSources(source);
+    m_listParameters[idParameters]->changeSources(source);
 }
 
 void VirtualHandle::showParameters(QWidget * parent, const std::string & name)

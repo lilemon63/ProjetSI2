@@ -5,9 +5,9 @@
 PutYourCodeHere::PutYourCodeHere()
     : VirtualHandle("PutYourCodeHere") //handle's name
 {
-    HandleParameters param;
-    param.changeSources( std::shared_ptr<SourceParameters>(new Slider() ) );
-    m_listParameters.push_back( param );
+    m_listParameters.resize(1);
+    m_listParameters[0] = std::shared_ptr<HandleParameters>(new HandleParameters() );
+    m_listParameters[0]->changeSources( std::shared_ptr<SourceParameters>(new Slider() ) );
 }
 
 // your handle

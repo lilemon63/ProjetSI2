@@ -27,3 +27,9 @@ void HandleParameters::hideParameters(void)
     if(m_source)
         m_source->hideParameters();
 }
+
+HandleParameters::~HandleParameters(void)
+{
+    if(m_source)
+        m_source->removeSuscriber(this);
+}

@@ -12,7 +12,7 @@ class Slider : public QObject, public SourceParameters
 public:
     Q_OBJECT;
 public :
-    Slider();
+    Slider( int defaultValue = 0, int min = 0, int max = 100);
 
     virtual void showParameters(QWidget * parent);
 
@@ -20,8 +20,7 @@ public :
 
     virtual void addSuscriber(HandleParameters * target);
 
-    virtual ~Slider(){}
-
+    virtual ~Slider();
 private :
     QSlider * m_slider;
 private slots :

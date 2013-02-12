@@ -3,6 +3,7 @@
 
 #include <QVariant>
 #include <memory>
+#include <iostream>
 
 class SourceParameters;
 
@@ -12,6 +13,8 @@ class HandleParameters : public QVariant
 public:
     /** @brief Create an HandleParameters*/
     explicit HandleParameters(void);
+
+    ~HandleParameters(void);
 
 
     /** @brief Show the Parameters on the parameters' area
@@ -29,6 +32,12 @@ public:
 private :
     /** @brief HandleParameters' Source */
     std::shared_ptr<SourceParameters> m_source;
+
+    /** @brief copy is forbidden */
+    HandleParameters(const HandleParameters &) : QVariant(0) {};
+
+    /** @brief copy is forbidden */
+    const HandleParameters & operator=(const HandleParameters &){ return *this; };
     
 };
 
