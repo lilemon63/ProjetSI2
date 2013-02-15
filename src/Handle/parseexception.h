@@ -1,7 +1,7 @@
 #ifndef PARSEEXCEPTION_H
 #define PARSEEXCEPTION_H
 
-#include "exception.h"
+#include "../exception.h"
 #include <string>
 
 using std::string;

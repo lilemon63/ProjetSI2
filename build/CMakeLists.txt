@@ -1,0 +1,59 @@
+cmake_minimum_required(VERSION 2.6)
+
+PROJECT(volcano)
+
+FIND_PACKAGE(Qt4 REQUIRED)
+find_package( OpenCV REQUIRED )
+
+
+
+set(CMAKE_CXX_FLAGS "-std=c++11")        ##We use C++11
+
+file( GLOB_RECURSE
+
+        Volcano_SOURCES
+
+        ../src/*.cpp )
+
+file( GLOB_RECURSE
+
+        Volcano_HEADERS
+
+        ../src/*.h )
+
+file( GLOB_RECURSE
+
+        Volcano_FORMS
+
+        ../src/*.ui )
+
+SET(Volcano_RESOURCES)
+
+QT4_WRAP_CPP(Volcano_HEADERS_MOC ${Volcano_HEADERS})
+QT4_WRAP_UI(Volcano_FORMS_HEADERS ${Volcano_FORMS})
+QT4_ADD_RESOURCES(Volcano_RESOURCES_RCC ${Volcano_RESOURCES})
+
+# SET(QT_USE_QTOPENGL TRUE)
+
+#QT_USE_QTNETWORK
+#QT_USE_QTOPENGL
+#QT_USE_QTSQL
+#QT_USE_QTXML
+#QT_USE_QTSVG
+#QT_USE_QTTEST
+#QT_USE_QTDBUS
+#QT_USE_QTSCRIPT
+#QT_USE_QTWEBKIT
+#QT_USE_QTXMLPATTERNS
+#QT_USE_PHONON
+
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+INCLUDE(${QT_USE_FILE})
+ADD_DEFINITIONS(${QT_DEFINITIONS})
+
+ADD_EXECUTABLE(Volcano ${Volcano_SOURCES} 
+    		${Volcano_HEADERS_MOC} 
+    		${Volcano_FORMS_HEADERS} 
+    		${Volcano_RESOURCES_RCC})
+TARGET_LINK_LIBRARIES(Volcano ${QT_LIBRARIES} ${OpenCV_LIBS})
