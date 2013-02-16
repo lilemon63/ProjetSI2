@@ -5,11 +5,14 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_extractor(new VideoExtractor() )
+    m_extractor(new VideoExtractor() ),
+    m_image( m_scene.addPixmap(QPixmap()) )
 {
 
 
     ui->setupUi(this);
+
+    ui->graphicsView->setScene(&m_scene);
 
     int max = 1<<(sizeof(int)*8-2) ;
     m_extractor->changePeriodeParameters( std::shared_ptr<SourceParameters>(new Slider(200000000, 0, max) ),
@@ -35,5 +38,5 @@ MainWindow::~MainWindow()
 
 void MainWindow::setImage(const ImageDataPtr result, const ImageDataPtr , const ImageDataPtr)
 {
-    ui->labelImage->setPixmap(result->toPixmap());
+    m_image->setPixmap(result->toPixmap());
 }

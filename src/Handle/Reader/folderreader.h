@@ -2,7 +2,6 @@
 #define FOLDERREADER_H
 
 #include "../videoreader.h"
-#include "../parseexception.h"
 #include <QDateTime>
 #include <QDir>
 

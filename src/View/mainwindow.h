@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
 #include "../Handle/videoextractor.h"
 #include "../Handle/videoview.h"
 
@@ -20,6 +22,8 @@ public:
 private:
     Ui::MainWindow *ui;
     VideoExtractor * m_extractor;
+    QGraphicsScene m_scene;
+    QGraphicsPixmapItem * m_image;
 public slots :
     virtual void setImage(const ImageDataPtr result, const ImageDataPtr src1 , const ImageDataPtr src2);
 };

@@ -2,7 +2,7 @@
 
 #include <QElapsedTimer>
 
-#include "exception.h"
+#include "../exception.h"
 #include "Handle.h"
 
 VideoExtractor::VideoExtractor(bool dual, VideoReader * source1, VideoReader * source2 )

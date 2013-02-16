@@ -1,4 +1,5 @@
 #include "folderreader.h"
+#include "../parseexception.h"
 #include <QRegExp>
 #include <QStringList>
 
