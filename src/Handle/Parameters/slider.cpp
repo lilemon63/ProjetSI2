@@ -7,11 +7,11 @@ Slider::Slider(QString label, int defaultValue, int min, int max)
     : SourceParameters(label),
       m_slider(new QSlider() )
 {
-    m_slider->setValue(defaultValue);
     m_slider->setOrientation(Qt::Horizontal);
     m_slider->setMinimum(min);
     m_slider->setMaximum(max);
     connect( m_slider, SIGNAL(valueChanged(int)), this, SLOT(changeValue(int)));
+    m_slider->setValue(defaultValue);
 }
 
 

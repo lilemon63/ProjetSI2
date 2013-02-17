@@ -70,6 +70,8 @@ protected :
     /** @brief All dependancies for this handle (for show parameters) */
     M_ListDependancies m_dependancies;
 
+    VirtualHandle * getHandleForDependancies(const std::string &);
+
 private:
     /** @brief Handle's name<br/>
         Thanks this, you can get this handle only with his name. */

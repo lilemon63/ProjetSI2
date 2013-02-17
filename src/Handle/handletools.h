@@ -9,8 +9,9 @@ class HandleTools
 public :
     HandleTools();
 private :
-    PutYourCodeHere p;
     ModelHandle m;
+    Rotation rotation;
     ToFiles tofiles;
+    PutYourCodeHere p;
 };
 #endif // HANDLETOOLS_H

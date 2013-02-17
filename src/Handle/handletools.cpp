@@ -1,7 +1,8 @@
 #include "handletools.h"
 
 HandleTools::HandleTools()
-    : tofiles(".", 0, "ToFiles")
+    : rotation(15, "Rotation"),
+      tofiles(".", 0, "ToFiles")
 {
 
 }

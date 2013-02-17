@@ -11,7 +11,7 @@ class Dial : public QObject, public SourceParameters
 public:
     Q_OBJECT;
 public:
-    Dial(QString label);
+    Dial(QString label, int defaultAngle = 0);
 
     virtual void showParameters(QWidget * parent);
 
@@ -22,7 +22,7 @@ public:
     virtual ~Dial(){}
 
 private :
-    QDial m_dial;
+    QDial * m_dial;
 private slots :
     void changeValue(int);
 };

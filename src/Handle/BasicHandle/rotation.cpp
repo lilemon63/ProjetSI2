@@ -1,12 +1,14 @@
 #include "rotation.h"
 #include "../../exception.h"
 #include "../imagedata.h"
+#include "../Parameters/dial.h"
 
-Rotation::Rotation(int /* defaultValue TODO*/, const std::string & name)
+Rotation::Rotation(int angle, const std::string & name)
     : VirtualHandle(name)
 {
-    //TODO : Source
-    m_listParameters.push_back(std::shared_ptr<HandleParameters>(new HandleParameters() ) );
+    m_listParameters.resize(Max);
+    m_listParameters[AngleRotation] = std::shared_ptr<HandleParameters>(new HandleParameters() );
+    m_listParameters[AngleRotation]->changeSources( std::shared_ptr<SourceParameters>(new Dial("Rotation", angle) ) );
 }
 
 

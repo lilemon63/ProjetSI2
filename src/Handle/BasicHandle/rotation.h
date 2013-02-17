@@ -15,7 +15,7 @@ public:
 
     virtual ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr src2);
 private :
-    enum Params{AngleRotation};
+    enum Params{AngleRotation, Max};
 };
 
 #endif // ROTATION_H

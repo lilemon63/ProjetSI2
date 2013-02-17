@@ -47,10 +47,20 @@ void VirtualHandle::changeSource(unsigned int idParameters, std::shared_ptr<Sour
 
 void VirtualHandle::showParameters(QWidget * parent, const std::string & name)
 {
-    if( name == "noname" || ! m_listHandle[name] )
+    if( name == "noname" || m_listHandle.find(name) == m_listHandle.end() )
         throw Exception::buildException(name + " n'est pas un nom de traitement valide",
                                         "VirtualHandle",
                                         "executeHandle",
                                         EP);
     m_listHandle[name]->showParameters(parent);
+}
+
+VirtualHandle * VirtualHandle::getHandleForDependancies(const std::string & name)
+{
+    if( name == "noname" || m_listHandle.find(name) == m_listHandle.end() )
+        throw Exception::buildException(name + " n'est pas un nom de traitement valide",
+                                        "VirtualHandle",
+                                        "executeHandle",
+                                        EP);
+    return m_listHandle[name];
 }
