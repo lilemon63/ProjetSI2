@@ -13,7 +13,7 @@ void HandleParameters::showParameters(QWidget * parent)
         m_source->showParameters(parent);
 }
 
-void HandleParameters::changeSources(std::shared_ptr<SourceParameters> source)
+void HandleParameters::changeSources(SourceParameters *source)
 {
     if(m_source)
         m_source->removeSuscriber(this);
@@ -32,4 +32,15 @@ HandleParameters::~HandleParameters(void)
 {
     if(m_source)
         m_source->removeSuscriber(this);
+}
+
+
+void HandleParameters::setActionOnChangeValue(std::function<void(QVariant, HandleParameters *)> fct)
+{
+    m_lambda = fct;
+}
+
+void HandleParameters::acceptChanges(QVariant value)
+{
+    QVariant::setValue(value);
 }

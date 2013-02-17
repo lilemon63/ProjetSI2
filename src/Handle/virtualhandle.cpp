@@ -32,6 +32,16 @@ void VirtualHandle::showParameters(QWidget * parent)
         handle->showParameters(parent);
 }
 
+void VirtualHandle::hideParameters(const std::string & name)
+{
+    if( name == "noname" || m_listHandle.find(name) == m_listHandle.end() )
+        throw Exception::buildException(name + " n'est pas un nom de traitement valide",
+                                        "VirtualHandle",
+                                        "executeHandle",
+                                        EP);
+    m_listHandle[name]->hideParameters();
+}
+
 void VirtualHandle::hideParameters(void)
 {
     for(auto param : m_listParameters)
@@ -40,7 +50,7 @@ void VirtualHandle::hideParameters(void)
         handle->hideParameters();
 }
 
-void VirtualHandle::changeSource(unsigned int idParameters, std::shared_ptr<SourceParameters> source)
+void VirtualHandle::changeSource(unsigned int idParameters, SourceParameters * source)
 {
     m_listParameters[idParameters]->changeSources(source);
 }
@@ -63,4 +73,14 @@ VirtualHandle * VirtualHandle::getHandleForDependancies(const std::string & name
                                         "executeHandle",
                                         EP);
     return m_listHandle[name];
+}
+
+QStringList VirtualHandle::getAllHandleName(void)
+{
+    QStringList temp;
+
+    for( auto nom : m_listHandle)
+        temp.append( nom.first.c_str() );
+
+    return temp;
 }

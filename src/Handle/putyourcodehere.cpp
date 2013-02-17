@@ -6,9 +6,9 @@
 PutYourCodeHere::PutYourCodeHere()
     : VirtualHandle("PutYourCodeHere") //handle's name
 {
-    m_listParameters.resize(1);
+   /* m_listParameters.resize(1);
     m_listParameters[0] = std::shared_ptr<HandleParameters>(new HandleParameters() );
-    m_listParameters[0]->changeSources( std::shared_ptr<SourceParameters>(new Slider("Nothing") ) );
+    m_listParameters[0]->changeSources( std::shared_ptr<SourceParameters>(new Slider("Nothing") ) );*/
 
     m_dependancies.push_back( VirtualHandle::getHandleForDependancies("Rotation") );
 }

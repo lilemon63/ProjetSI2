@@ -8,7 +8,7 @@ Rotation::Rotation(int angle, const std::string & name)
 {
     m_listParameters.resize(Max);
     m_listParameters[AngleRotation] = std::shared_ptr<HandleParameters>(new HandleParameters() );
-    m_listParameters[AngleRotation]->changeSources( std::shared_ptr<SourceParameters>(new Dial("Rotation", angle) ) );
+    m_listParameters[AngleRotation]->changeSources( new Dial("Rotation", angle) );
 }
 
 

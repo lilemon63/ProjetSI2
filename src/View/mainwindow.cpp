@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "../Handle/Handle.h"
 #include "../Handle/Parameters/slider.h"
+#include "../Handle/Parameters/combobox.h"
 #include "../Handle/Reader/folderreader.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -18,8 +20,12 @@ MainWindow::MainWindow(QWidget *parent) :
     m_image->setZValue(0);
 
     int max = 1<<(sizeof(int)*8-2) ;
-    m_extractor->changePeriodeParameters( std::shared_ptr<SourceParameters>(new Slider("Time", 200000000, 0, max) ),
+
+    m_extractor->changeHandleParameters( new ComboBox("Traitement", VirtualHandle::getAllHandleName(), MainHandle),
+                                            ui->scrollAreaWidgetContents );
+    m_extractor->changePeriodeParameters( new Slider("Time", 200000000, 0, max) ,
                                           ui->scrollAreaWidgetContents );
+
 
     qRegisterMetaType<ImageDataPtr>("ImageDataPtr");/* obligatoire, à n'appeler qu'une fois et dans une fonction /!\ */
     connect( m_extractor, SIGNAL(imageHandled(ImageDataPtr,ImageDataPtr,ImageDataPtr)),

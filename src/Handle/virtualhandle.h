@@ -55,11 +55,15 @@ public:
                 N.B. the parameters values will be conserved for the next use. */
     virtual void hideParameters(void);
 
+    static void hideParameters(const std::string & name);
+
     /** @brief Change the source for a paramters
         @param unsigned int idParameters : paramenters' identifiant, see the class documentation for more details.
         @param std::shared_ptr<SourceParameters> source : new sources
       */
-    virtual void changeSource(unsigned int idParameters, std::shared_ptr<SourceParameters> source);
+    virtual void changeSource(unsigned int idParameters, SourceParameters *source);
+
+    static QStringList getAllHandleName(void);
 
 protected :
     typedef std::vector<std::shared_ptr<HandleParameters> > M_ListParameters;

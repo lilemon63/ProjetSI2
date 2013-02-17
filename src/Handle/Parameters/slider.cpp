@@ -22,6 +22,7 @@ void Slider::showParameters(QWidget * parent)
 
 void Slider::hideParameters(void)
 {
+    SourceParameters::hideParameters();
     m_slider->hide();
 }
 

@@ -20,6 +20,7 @@ void Dial::showParameters(QWidget * parent)
 
 void Dial::hideParameters(void)
 {
+    SourceParameters::hideParameters();
     m_dial->hide();
 }
 

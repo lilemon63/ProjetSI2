@@ -6,13 +6,29 @@
 #include "Handle.h"
 
 VideoExtractor::VideoExtractor(bool dual, VideoReader * source1, VideoReader * source2 )
-    : m_stopped(true), m_dual(dual), m_videoStream{ source1 , source2 }
+    : m_stopped(true), m_dual(dual), m_videoStream{ source1 , source2 },
+    m_currentParent(nullptr)
 {
+    auto lambda = [this]( QVariant Value, HandleParameters * hp )
+    {
+            hideParameters();
+            hp->acceptChanges(Value);
+            if( m_currentParent )
+                showParameters(m_currentParent);
+    };
+    m_paramHandle.setActionOnChangeValue( lambda );
 }
 
 void VideoExtractor::showParameters(QWidget *parent)
 {
-        VirtualHandle::showParameters(parent, MainHandle);
+        m_currentParent = parent;
+        VirtualHandle::showParameters(parent, m_paramHandle.toString().toStdString());
+}
+
+void VideoExtractor::hideParameters(void)
+{
+    if( m_paramHandle.toString() != "" )
+        VirtualHandle::hideParameters(m_paramHandle.toString().toStdString());
 }
 
 void VideoExtractor::start(qint64 timeMax, qint64 nbMaxImage)
@@ -62,7 +78,7 @@ void VideoExtractor::run(void)
             break;
 
         //endOfCapture = timer.nsecsElapsed();
-        ImageDataPtr result = VirtualHandle::executeHandle(MainHandle, source1, source2);
+        ImageDataPtr result = VirtualHandle::executeHandle(m_paramHandle.toString().toStdString(), source1, source2);
         //endOfHandle = timer.nsecsElapsed();
         if( ! result)
         {
@@ -103,8 +119,13 @@ VideoExtractor::~VideoExtractor()
     delete m_videoStream[1];
 }
 
+void VideoExtractor::changeHandleParameters( SourceParameters * source, QWidget * area)
+{
+    m_paramHandle.changeSources(source);
+    m_paramHandle.showParameters( area );
+}
 
-void VideoExtractor::changePeriodeParameters( std::shared_ptr<SourceParameters> source, QWidget * area)
+void VideoExtractor::changePeriodeParameters( SourceParameters *source, QWidget * area)
 {
     m_paramPeriod.changeSources(source);
     m_paramPeriod.showParameters( area );

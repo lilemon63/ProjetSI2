@@ -49,10 +49,14 @@ public :
         @param QWidget * parent : Widget where the parameters will be shown */
     void showParameters(QWidget * parent);
 
+    void hideParameters(void);
+
 
     /** @brief Change the source for the period Parameters (time beetwen each handle)
         @param std::shared_ptr<SourceParameters> source : source for the period Parameters (time beetwen each handle) */
-    void changePeriodeParameters( std::shared_ptr<SourceParameters> source, QWidget * area = nullptr);
+    void changePeriodeParameters( SourceParameters * source, QWidget * area = nullptr);
+
+    void changeHandleParameters( SourceParameters *source, QWidget * area = nullptr);
 private :
 
     /** @brief true if the handle is stopped else return false */
@@ -78,6 +82,10 @@ private :
 
     /** @brief parameters for period (time beetwen each handle) */
     HandleParameters m_paramPeriod;
+
+    HandleParameters m_paramHandle;
+
+    QWidget * m_currentParent;
 
 signals :
     /** @brief emitted when the handle of the current image is finish

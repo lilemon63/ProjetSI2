@@ -3,6 +3,7 @@
 
 #include<QWidget>
 #include <set>
+#include <QLabel>
 
 class HandleParameters;
 
@@ -27,9 +28,10 @@ public:
     virtual void showParameters(QWidget * parent) = 0;
 
     /** @brief Hide the parameters */
-    virtual void hideParameters(void) = 0;
+    virtual void hideParameters(void);
 
     virtual ~SourceParameters(){}
+
 protected :
     typedef std::set<HandleParameters *> M_ListSuscriber;
     M_ListSuscriber m_suscribers;
@@ -37,6 +39,8 @@ protected :
     void setParentLayout(QWidget * parent, QWidget *);
 
     QString m_label;
+
+    QLabel * m_labelView;
 };
 
 #endif // SOURCEPARAMETERS_H

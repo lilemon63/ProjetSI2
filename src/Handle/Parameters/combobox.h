@@ -11,7 +11,7 @@ class ComboBox : public QObject, public SourceParameters
 public:
     Q_OBJECT;
 public:
-    ComboBox(QString label, QString name, QStringList choices);
+    ComboBox(QString label, QStringList choices, QString defaultValue = QString());
 
     virtual void showParameters(QWidget * parent);
 
@@ -22,9 +22,9 @@ public:
     virtual ~ComboBox(){}
 
 private :
-    QComboBox m_combobox;
+    QComboBox * m_combobox;
 private slots :
-    void changeValue(int);
+    void changeValue(QString newValue);
 };
 
 

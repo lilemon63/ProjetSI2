@@ -3,34 +3,44 @@
 #include <iostream>
 #include <QLayout>
 
-ComboBox::ComboBox(QString label, QString, QStringList choices)
-    : SourceParameters(label)
+ComboBox::ComboBox(QString label, QStringList choices, QString defaultValue)
+    : SourceParameters(label),
+      m_combobox( new QComboBox() )
 {
-    for(int pos = 0; pos < choices.size() ; pos++)
-        m_combobox.insertItem( pos, choices[pos]);
-    //QObject::connect(&m_combobox, SIGNAL(valueChanged(int)),this,SLOT(changeValue(int)));
+    int pos = 0;
+    for( auto value : choices)
+        m_combobox->insertItem( pos++, value);
+    QObject::connect(m_combobox, SIGNAL(currentIndexChanged(QString)),this,SLOT(changeValue(QString)));
+    if(defaultValue != "")
+    {
+        int i = m_combobox->findText(defaultValue);
+        m_combobox->setCurrentIndex(i);
+    }
 }
 
 
 void ComboBox::showParameters(QWidget * parent)
 {
-    setParentLayout(parent, &m_combobox);
+    setParentLayout(parent, m_combobox);
 }
 
 void ComboBox::hideParameters(void)
 {
-    m_combobox.hide();
+    SourceParameters::hideParameters();
+    m_combobox->hide();
 }
 
 void ComboBox::addSuscriber(HandleParameters * target)
 {
     SourceParameters::addSuscriber(target);
-    target->setValue(m_combobox.currentIndex() );
+    target->setValue(m_combobox->currentText() );
 }
 
 
-void ComboBox::changeValue(int  value)
+void ComboBox::changeValue(QString newValue)
 {
     for(HandleParameters * hp : m_suscribers )
-        hp->setValue( (int)value);
+    {
+        hp->setValue( (QString)newValue);
+    }
 }
