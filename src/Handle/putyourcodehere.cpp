@@ -13,7 +13,7 @@ PutYourCodeHere::PutYourCodeHere()
 // your handle
 ImageDataPtr PutYourCodeHere::startHandle(ImageDataPtr source, const ImageDataPtr source1)
 {
-    //executeHandle("ToFiles", source, source1);
+    executeHandle("ToFiles", source, source1);
     //put your code here !
     return source;
 }

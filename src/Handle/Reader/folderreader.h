@@ -37,6 +37,8 @@ public:
         @brief bool : true if the reading cursor can be moved else false */
     bool acceptSeek(void);
 
+    IplImage * getImage(void);
+
 
     // TODO : IplImage * getImage(void); un petit oublie ? ^^
 
@@ -47,6 +49,8 @@ private :
 
     /** @brief All image path and their associated date time */
     ListPath m_listePath;
+
+    std::string m_path;
 };
 
 #endif // FOLDERREADER_H

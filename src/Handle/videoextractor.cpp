@@ -58,6 +58,8 @@ void VideoExtractor::run(void)
             source1 = ImageDataPtr(new ImageData(*src1));
         if(src2)
             source2 = ImageDataPtr(new ImageData(*src2));
+        else if(! src1)
+            break;
 
         //endOfCapture = timer.nsecsElapsed();
         ImageDataPtr result = VirtualHandle::executeHandle(MainHandle, source1, source2);

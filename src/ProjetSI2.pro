@@ -22,7 +22,8 @@ SOURCES += \
     Handle/Parameters/slider.cpp \
     Handle/handletools.cpp \
     Handle/BasicHandle/tovideo.cpp \
-    Handle/BasicHandle/tofiles.cpp
+    Handle/BasicHandle/tofiles.cpp \
+    View/graphicsview.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -43,7 +44,8 @@ HEADERS += \
     Handle/Parameters/slider.h \
     Handle/handletools.h \
     Handle/BasicHandle/tovideo.h \
-    Handle/BasicHandle/tofiles.h
+    Handle/BasicHandle/tofiles.h \
+    View/graphicsview.h
 
 LIBS += -lopencv_core \
         -lopencv_video \

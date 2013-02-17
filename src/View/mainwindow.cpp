@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "../Handle/Parameters/slider.h"
+#include "../Handle/Reader/folderreader.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->graphicsView->setScene(&m_scene);
 
+    m_image->setZValue(0);
+
     int max = 1<<(sizeof(int)*8-2) ;
     m_extractor->changePeriodeParameters( std::shared_ptr<SourceParameters>(new Slider(200000000, 0, max) ),
                                           ui->scrollAreaWidgetContents );
@@ -22,8 +25,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( m_extractor, SIGNAL(imageHandled(ImageDataPtr,ImageDataPtr,ImageDataPtr)),
              this, SLOT(setImage(ImageDataPtr,ImageDataPtr,ImageDataPtr)));
 
-    VideoReader * cam1 = new VideoReader();
-    cam1->useCamera();
+    //VideoReader * cam1 = new VideoReader();
+    //cam1->useCamera();
+
+    FolderReader * cam1 = new FolderReader("img/");
+
     m_extractor->useSource(cam1, 0);
     m_extractor->showParameters( ui->scrollAreaWidgetContents );
 
@@ -39,4 +45,8 @@ MainWindow::~MainWindow()
 void MainWindow::setImage(const ImageDataPtr result, const ImageDataPtr , const ImageDataPtr)
 {
     m_image->setPixmap(result->toPixmap());
+    m_image->setZValue(0);
+    ui->graphicsView->setMinimumHeight(m_image->pixmap().height() + 5);
+    ui->graphicsView->setMinimumWidth(m_image->pixmap().width() + 5);
+    // ui->graphicsView->fitInView(m_image); super utile
 }
