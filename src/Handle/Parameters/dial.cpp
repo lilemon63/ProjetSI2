@@ -3,8 +3,8 @@
 #include <iostream>
 #include <QLayout>
 
-Dial::Dial(QString name)
-    :SourceParameters(name)
+Dial::Dial(QString label)
+    : SourceParameters(label)
 {
     m_dial.setOrientation(Qt::Horizontal);
     QObject::connect(&m_dial, SIGNAL(valueChanged(int)),this,SLOT(changeValue(int)));
@@ -14,7 +14,6 @@ Dial::Dial(QString name)
 void Dial::showParameters(QWidget * parent)
 {
     m_dial.setParent(parent);
-    setParentLayout(parent, &m_name);
     setParentLayout(parent, &m_dial);
     m_dial.show();
 }

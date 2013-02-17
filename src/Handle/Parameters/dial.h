@@ -1,17 +1,17 @@
-#ifndef SPINBOX_H
-#define SPINBOX_H
+#ifndef DIAL_H
+#define DIAL_H
 
 #include <QObject>
-#include <QSpinBox>
+#include <QDial>
 
 #include "sourceparameters.h"
 
-class SpinBox : public QObject, public SourceParameters
+class Dial : public QObject, public SourceParameters
 {
 public:
     Q_OBJECT;
 public:
-    SpinBox(QString name);
+    Dial(QString label);
 
     virtual void showParameters(QWidget * parent);
 
@@ -19,12 +19,12 @@ public:
 
     virtual void addSuscriber(HandleParameters * target);
 
-    virtual ~SpinBox(){}
+    virtual ~Dial(){}
 
 private :
-    QSpinBox m_spinbox;
+    QDial m_dial;
 private slots :
     void changeValue(int);
 };
 
-#endif // SPINBOX_H
+#endif // DIAL_H

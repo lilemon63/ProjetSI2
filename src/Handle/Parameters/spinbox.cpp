@@ -4,8 +4,7 @@
 #include <iostream>
 #include <QLayout>
 
-SpinBox::SpinBox(QString name)
-    :SourceParameters(name)
+SpinBox::SpinBox(void)
 {
     QObject::connect(&m_spinbox, SIGNAL(valueChanged(int)),this,SLOT(changeValue(int)));
 }
@@ -13,10 +12,7 @@ SpinBox::SpinBox(QString name)
 
 void SpinBox::showParameters(QWidget * parent)
 {
-    m_spinbox.setParent(parent);
-    setParentLayout(parent, &m_name);
     setParentLayout(parent, &m_spinbox);
-    m_spinbox.show();
 }
 
 void SpinBox::hideParameters(void)

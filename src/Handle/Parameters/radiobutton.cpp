@@ -2,9 +2,11 @@
 #include "handleparameters.h"
 #include <iostream>
 #include <QLayout>
+#include <QLabel>
 
-RadioButton::RadioButton(QString name, QStringList boxes)
-    :SourceParameters(name), m_group(name)
+RadioButton::RadioButton(QString label, QString name, QStringList boxes)
+    : SourceParameters(label),
+      m_group(name)
 {
     for(int pos = 0; pos < boxes.size(); pos++){
         m_hboxs.push_back(new QHBoxLayout());

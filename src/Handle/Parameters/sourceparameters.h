@@ -11,8 +11,8 @@ class SourceParameters
 {
 public:
     /** @brief Create a SourceParameters
-        @param QWidget * parent = NULL : parent widget */
-    SourceParameters(QWidget * parent = NULL);
+        @param QString * label = QString() : label */
+    SourceParameters(QString label = QString() );
 
     /** @brief Add a SourceParamters' suscriber. The suscribers' value will be changed on events.
         @param HandleParameters * target : HandleParameters were the value will be changed by this SourceParameters */
@@ -33,6 +33,10 @@ public:
 protected :
     typedef std::set<HandleParameters *> M_ListSuscriber;
     M_ListSuscriber m_suscribers;
+
+    void setParentLayout(QWidget * parent, QWidget *);
+
+    QString m_label;
 };
 
 #endif // SOURCEPARAMETERS_H

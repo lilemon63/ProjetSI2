@@ -3,8 +3,8 @@
 #include <iostream>
 #include <QLayout>
 
-ComboBox::ComboBox(QString name, QStringList choices)
-    :SourceParameters(name)
+ComboBox::ComboBox(QString label, QString, QStringList choices)
+    : SourceParameters(label)
 {
     for(int pos = 0; pos < choices.size() ; pos++)
         m_combobox.insertItem( pos, choices[pos]);
@@ -14,10 +14,7 @@ ComboBox::ComboBox(QString name, QStringList choices)
 
 void ComboBox::showParameters(QWidget * parent)
 {
-    m_combobox.setParent(parent);
-    setParentLayout(parent, &m_name);
     setParentLayout(parent, &m_combobox);
-    m_combobox.show();
 }
 
 void ComboBox::hideParameters(void)

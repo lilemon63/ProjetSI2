@@ -20,6 +20,11 @@ SOURCES += \
     Handle/Parameters/handleparameters.cpp \
     Handle/Parameters/sourceparameters.cpp \
     Handle/Parameters/slider.cpp \
+    Handle/Parameters/checkbox.cpp \
+    Handle/Parameters/combobox.cpp \
+    Handle/Parameters/dial.cpp \
+    Handle/Parameters/radiobutton.cpp \
+    Handle/Parameters/spinbox.cpp \
     Handle/handletools.cpp \
     Handle/BasicHandle/tovideo.cpp \
     Handle/BasicHandle/tofiles.cpp \
@@ -42,6 +47,11 @@ HEADERS += \
     Handle/Parameters/handleparameters.h \
     Handle/Parameters/sourceparameters.h \
     Handle/Parameters/slider.h \
+    Handle/Parameters/checkbox.h \
+    Handle/Parameters/combobox.h \
+    Handle/Parameters/dial.h \
+    Handle/Parameters/radiobutton.h \
+    Handle/Parameters/spinbox.h \
     Handle/handletools.h \
     Handle/BasicHandle/tovideo.h \
     Handle/BasicHandle/tofiles.h \

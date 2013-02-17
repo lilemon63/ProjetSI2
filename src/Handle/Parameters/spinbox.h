@@ -1,17 +1,17 @@
-#ifndef COMBOBOX_H
-#define COMBOBOX_H
+#ifndef SPINBOX_H
+#define SPINBOX_H
 
 #include <QObject>
-#include <QComboBox>
+#include <QSpinBox>
 
 #include "sourceparameters.h"
 
-class ComboBox : public QObject, public SourceParameters
+class SpinBox : public QObject, public SourceParameters
 {
 public:
     Q_OBJECT;
 public:
-    ComboBox(QString name, QStringList choices);
+    SpinBox(void);
 
     virtual void showParameters(QWidget * parent);
 
@@ -19,15 +19,12 @@ public:
 
     virtual void addSuscriber(HandleParameters * target);
 
-    virtual ~ComboBox(){}
+    virtual ~SpinBox(){}
 
 private :
-    QComboBox m_combobox;
+    QSpinBox m_spinbox;
 private slots :
     void changeValue(int);
 };
 
-
-
-#endif // COMBOBOX_H
-
+#endif // SPINBOX_H

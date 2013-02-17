@@ -2,9 +2,11 @@
 #include "handleparameters.h"
 #include <iostream>
 #include <QLayout>
+#include <QLabel>
 
-CheckBox::CheckBox(QString name, QStringList boxes)
-    :SourceParameters(name), m_group(name)
+CheckBox::CheckBox(QString label, QString name, QStringList boxes)
+    : SourceParameters(label),
+      m_group(name)
 {
     for(int pos = 0; pos < boxes.size(); pos++){
         m_hboxs.push_back(new QHBoxLayout());
@@ -19,9 +21,7 @@ CheckBox::CheckBox(QString name, QStringList boxes)
 
 void CheckBox::showParameters(QWidget * parent)
 {
-    m_group.setParent(parent);
     setParentLayout(parent, &m_group);
-    m_group.show();
 }
 
 void CheckBox::hideParameters(void)

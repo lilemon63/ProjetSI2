@@ -1,20 +1,20 @@
-#ifndef CHECKBOX_H
-#define CHECKBOX_H
+#ifndef RADIOBUTTON_H
+#define RADIOBUTTON_H
 
 #include <QObject>
 #include <QGroupBox>
-#include <QCheckBox>
+#include <QRadioButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
 #include "sourceparameters.h"
 
-class CheckBox : public QObject, public SourceParameters
+class RadioButton : public QObject, public SourceParameters
 {
 public:
     Q_OBJECT;
 public:
-    CheckBox(QString name, QStringList boxes);
+    RadioButton(QString label, QString name, QStringList boxes);
 
     virtual void showParameters(QWidget * parent);
 
@@ -22,15 +22,15 @@ public:
 
     virtual void addSuscriber(HandleParameters * target);
 
-    virtual ~CheckBox(){}
+    virtual ~RadioButton(){}
 
 private :
     QGroupBox m_group;
-    QList<QCheckBox *> m_checkboxs;
+    QList<QRadioButton *> m_radiobuttons;
     QList<QHBoxLayout *> m_hboxs;
     QVBoxLayout m_vbox;
 private slots :
     void changeValue(int);
 };
 
-#endif // CHECKBOX_H
+#endif // RADIOBUTTON_H

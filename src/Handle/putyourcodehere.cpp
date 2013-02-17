@@ -1,5 +1,6 @@
 #include "putyourcodehere.h"
 #include "Parameters/slider.h"
+#include "Parameters/dial.h"
 
 
 PutYourCodeHere::PutYourCodeHere()
@@ -7,7 +8,10 @@ PutYourCodeHere::PutYourCodeHere()
 {
     m_listParameters.resize(1);
     m_listParameters[0] = std::shared_ptr<HandleParameters>(new HandleParameters() );
-    m_listParameters[0]->changeSources( std::shared_ptr<SourceParameters>(new Slider() ) );
+    m_listParameters[0]->changeSources( std::shared_ptr<SourceParameters>(new Slider("Nothing") ) );
+
+   // m_listParameters[1] = std::shared_ptr<HandleParameters>(new HandleParameters() );
+   // m_listParameters[1]->changeSources( std::shared_ptr<SourceParameters>(new Dial("Rotation") ) );
 }
 
 // your handle

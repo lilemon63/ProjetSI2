@@ -1,17 +1,17 @@
-#ifndef DIAL_H
-#define DIAL_H
+#ifndef COMBOBOX_H
+#define COMBOBOX_H
 
 #include <QObject>
-#include <QDial>
+#include <QComboBox>
 
 #include "sourceparameters.h"
 
-class Dial : public QObject, public SourceParameters
+class ComboBox : public QObject, public SourceParameters
 {
 public:
     Q_OBJECT;
 public:
-    Dial(QString name);
+    ComboBox(QString label, QString name, QStringList choices);
 
     virtual void showParameters(QWidget * parent);
 
@@ -19,12 +19,15 @@ public:
 
     virtual void addSuscriber(HandleParameters * target);
 
-    virtual ~Dial(){}
+    virtual ~ComboBox(){}
 
 private :
-    QDial m_dial;
+    QComboBox m_combobox;
 private slots :
     void changeValue(int);
 };
 
-#endif // DIAL_H
+
+
+#endif // COMBOBOX_H
+

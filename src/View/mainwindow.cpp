@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_image->setZValue(0);
 
     int max = 1<<(sizeof(int)*8-2) ;
-    m_extractor->changePeriodeParameters( std::shared_ptr<SourceParameters>(new Slider(200000000, 0, max) ),
+    m_extractor->changePeriodeParameters( std::shared_ptr<SourceParameters>(new Slider("Time", 200000000, 0, max) ),
                                           ui->scrollAreaWidgetContents );
 
     qRegisterMetaType<ImageDataPtr>("ImageDataPtr");/* obligatoire, à n'appeler qu'une fois et dans une fonction /!\ */

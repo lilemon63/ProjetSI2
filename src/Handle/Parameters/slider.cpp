@@ -3,8 +3,9 @@
 #include <QLayout>
 #include <iostream>
 
-Slider::Slider(int defaultValue, int min, int max)
-    : m_slider(new QSlider() )
+Slider::Slider(QString label, int defaultValue, int min, int max)
+    : SourceParameters(label),
+      m_slider(new QSlider() )
 {
     m_slider->setValue(defaultValue);
     m_slider->setOrientation(Qt::Horizontal);
@@ -16,10 +17,7 @@ Slider::Slider(int defaultValue, int min, int max)
 
 void Slider::showParameters(QWidget * parent)
 {
-    m_slider->setParent(parent);
-    if(parent)
-        parent->layout()->addWidget(m_slider);
-    m_slider->show();
+    setParentLayout(parent, m_slider);
 }
 
 void Slider::hideParameters(void)
