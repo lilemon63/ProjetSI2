@@ -3,6 +3,7 @@
 #include "Parameters/dial.h"
 #include "Parameters/spinbox.h"
 #include "Parameters/radiobutton.h"
+#include "Parameters/colorselection.h"
 
 
 PutYourCodeHere::PutYourCodeHere()
@@ -10,7 +11,9 @@ PutYourCodeHere::PutYourCodeHere()
 {
     m_listParameters.resize(1);
     m_listParameters[0] = std::shared_ptr<HandleParameters>(new HandleParameters() );
-    m_listParameters[0]->changeSources( new RadioButton("Nothing", QStringList({"ee","gg"})) );
+    m_listParameters[0]->changeSources( new ColorSelection("Nothing"));
+
+    //m_listParameters[0]->changeSources( new RadioButton("Nothing", QStringList({"ee","gg"})) );
 
     m_dependancies.push_back( VirtualHandle::getHandleForDependancies("Rotation") );
 }

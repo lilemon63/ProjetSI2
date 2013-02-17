@@ -28,7 +28,8 @@ SOURCES += \
     Handle/handletools.cpp \
     Handle/BasicHandle/tovideo.cpp \
     Handle/BasicHandle/tofiles.cpp \
-    View/graphicsview.cpp
+    View/graphicsview.cpp \
+    Handle/Parameters/colorselection.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -55,7 +56,8 @@ HEADERS += \
     Handle/handletools.h \
     Handle/BasicHandle/tovideo.h \
     Handle/BasicHandle/tofiles.h \
-    View/graphicsview.h
+    View/graphicsview.h \
+    Handle/Parameters/colorselection.h
 
 LIBS += -lopencv_core \
         -lopencv_video \
