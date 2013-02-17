@@ -2,7 +2,7 @@
 #include <QLabel>
 #include <QLayout>
 
-SourceParameters::SourceParameters(QString label)
+SourceParameters::SourceParameters(const QString & label)
     : m_label(label),
       m_labelView(nullptr)
 {

@@ -3,7 +3,7 @@
 #include <QLayout>
 #include <iostream>
 
-Slider::Slider(QString label, int defaultValue, int min, int max)
+Slider::Slider(const QString &label, int defaultValue, int min, int max)
     : SourceParameters(label),
       m_slider(new QSlider() )
 {

@@ -11,7 +11,7 @@ class SpinBox : public QObject, public SourceParameters
 public:
     Q_OBJECT;
 public:
-    SpinBox(void);
+    SpinBox(const QString & label = QString() );
 
     virtual void showParameters(QWidget * parent);
 
@@ -22,7 +22,7 @@ public:
     virtual ~SpinBox(){}
 
 private :
-    QSpinBox m_spinbox;
+    QSpinBox * m_spinbox;
 private slots :
     void changeValue(int);
 };

@@ -13,7 +13,7 @@ class SourceParameters
 public:
     /** @brief Create a SourceParameters
         @param QString * label = QString() : label */
-    SourceParameters(QString label = QString() );
+    SourceParameters(const QString & label = QString() );
 
     /** @brief Add a SourceParamters' suscriber. The suscribers' value will be changed on events.
         @param HandleParameters * target : HandleParameters were the value will be changed by this SourceParameters */
