@@ -5,8 +5,7 @@
 #include <QLabel>
 
 CheckBox::CheckBox(QString label, QString name, QStringList boxes)
-    : SourceParameters(label),
-      m_group(name)
+    : SourceParameters(label)
 {
     for(int pos = 0; pos < boxes.size(); pos++){
         m_hboxs.push_back(new QHBoxLayout());
@@ -15,7 +14,7 @@ CheckBox::CheckBox(QString label, QString name, QStringList boxes)
         m_hboxs[pos]->addWidget(new QLabel(boxes[pos]));
         m_vbox.addLayout(m_hboxs[pos]);
     }
-    m_group.setLayout(&m_vbox);
+    // m_group.setLayout(&m_vbox);
 }
 
 

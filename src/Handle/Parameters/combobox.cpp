@@ -3,7 +3,7 @@
 #include <iostream>
 #include <QLayout>
 
-ComboBox::ComboBox(QString label, QStringList choices, QString defaultValue)
+ComboBox::ComboBox(const QString & label, QStringList choices, QString defaultValue)
     : SourceParameters(label),
       m_combobox( new QComboBox() )
 {

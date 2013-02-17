@@ -11,7 +11,7 @@ class ComboBox : public QObject, public SourceParameters
 public:
     Q_OBJECT;
 public:
-    ComboBox(QString label, QStringList choices, QString defaultValue = QString());
+    ComboBox(const QString & label, QStringList choices, QString defaultValue = QString());
 
     virtual void showParameters(QWidget * parent);
 

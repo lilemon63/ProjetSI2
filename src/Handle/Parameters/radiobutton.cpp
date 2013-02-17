@@ -3,34 +3,41 @@
 #include <iostream>
 #include <QLayout>
 #include <QLabel>
+#include <QButtonGroup>
+#include <QFrame>
+#include <QVBoxLayout>
 
-RadioButton::RadioButton(QString label, QString name, QStringList boxes)
+RadioButton::RadioButton(const QString &label, QStringList boxes)
     : SourceParameters(label),
-      m_group(name)
+      m_group( new QButtonGroup() ),
+      m_frame(new QFrame() )
 {
-    for(int pos = 0; pos < boxes.size(); pos++){
-        m_hboxs.push_back(new QHBoxLayout());
-        m_radiobuttons.push_back(new QRadioButton());
-        m_hboxs[pos]->addWidget(m_radiobuttons[pos]);
-        m_hboxs[pos]->addWidget(new QLabel(boxes[pos]));
-        m_vbox.addWidget(m_radiobuttons[pos]);
+
+    QLayout * layout = new QVBoxLayout();
+    m_frame->setLayout( layout );
+    for(auto label : boxes)
+    {
+        QRadioButton * bouton = new QRadioButton(label);
+        m_radiobuttons.push_back( bouton );
+        m_group->addButton(bouton);
+        layout->addWidget(bouton);
     }
     if(boxes.size() != 0)
         m_radiobuttons[0]->setChecked(true);
-    m_group.setLayout(&m_vbox);
+
+    //m_group.setLayout(m_layout);
 }
 
 
 void RadioButton::showParameters(QWidget * parent)
 {
-    m_group.setParent(parent);
-    setParentLayout(parent, &m_group);
-    m_group.show();
+    setParentLayout(parent, m_frame);
 }
 
 void RadioButton::hideParameters(void)
 {
-    m_group.hide();
+    SourceParameters::hideParameters();
+    m_frame->hide();
 }
 
 void RadioButton::addSuscriber(HandleParameters * target)

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <QLayout>
 
-Dial::Dial(QString label, int angle)
+Dial::Dial(const QString & label, int angle)
     : SourceParameters(label),
       m_dial( new QDial() )
 {

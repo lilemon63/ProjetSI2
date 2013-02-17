@@ -4,8 +4,7 @@
 #include <QObject>
 #include <QGroupBox>
 #include <QRadioButton>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QFormLayout>
 
 #include "sourceparameters.h"
 
@@ -14,7 +13,7 @@ class RadioButton : public QObject, public SourceParameters
 public:
     Q_OBJECT;
 public:
-    RadioButton(QString label, QString name, QStringList boxes);
+    RadioButton(const QString & label, QStringList boxes);
 
     virtual void showParameters(QWidget * parent);
 
@@ -25,10 +24,9 @@ public:
     virtual ~RadioButton(){}
 
 private :
-    QGroupBox m_group;
     QList<QRadioButton *> m_radiobuttons;
-    QList<QHBoxLayout *> m_hboxs;
-    QVBoxLayout m_vbox;
+    QButtonGroup * m_group;
+    QFrame * m_frame;
 private slots :
     void changeValue(int);
 };
