@@ -3,29 +3,32 @@
 #include <iostream>
 #include <QLayout>
 #include <QLabel>
+#include <QButtonGroup>
 
-CheckBox::CheckBox(QString label, QString name, QStringList boxes)
-    : SourceParameters(label)
+CheckBox::CheckBox(QString label, QStringList boxes)
+    : SourceParameters(label),
+      m_frame(new QFrame() )
 {
-    for(int pos = 0; pos < boxes.size(); pos++){
-        m_hboxs.push_back(new QHBoxLayout());
-        m_checkboxs.push_back(new QCheckBox());
-        m_hboxs[pos]->addWidget(m_checkboxs[pos]);
-        m_hboxs[pos]->addWidget(new QLabel(boxes[pos]));
-        m_vbox.addLayout(m_hboxs[pos]);
+    QLayout * layout = new QVBoxLayout();
+    m_frame->setLayout( layout );
+    for(auto label : boxes)
+    {
+        QCheckBox * box = new QCheckBox(label);
+        m_checkboxs.push_back( box );
+        layout->addWidget( box );
     }
-    // m_group.setLayout(&m_vbox);
 }
 
 
 void CheckBox::showParameters(QWidget * parent)
 {
-    setParentLayout(parent, &m_group);
+    setParentLayout(parent, m_frame);
 }
 
 void CheckBox::hideParameters(void)
 {
-    m_group.hide();
+    SourceParameters::hideParameters();
+    m_frame->hide();
 }
 
 void CheckBox::addSuscriber(HandleParameters * target)

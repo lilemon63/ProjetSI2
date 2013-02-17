@@ -30,7 +30,8 @@ SOURCES += \
     Handle/BasicHandle/tofiles.cpp \
     View/graphicsview.cpp \
     Handle/Parameters/colorselection.cpp \
-    View/submdiwindows.cpp
+    View/submdiwindows.cpp \
+    Handle/Parameters/inputtext.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -59,7 +60,8 @@ HEADERS += \
     Handle/BasicHandle/tofiles.h \
     View/graphicsview.h \
     Handle/Parameters/colorselection.h \
-    View/submdiwindows.h
+    View/submdiwindows.h \
+    Handle/Parameters/inputtext.h
 
 LIBS += -lopencv_core \
         -lopencv_video \
