@@ -29,7 +29,8 @@ SOURCES += \
     Handle/BasicHandle/tovideo.cpp \
     Handle/BasicHandle/tofiles.cpp \
     View/graphicsview.cpp \
-    Handle/Parameters/colorselection.cpp
+    Handle/Parameters/colorselection.cpp \
+    View/submdiwindows.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -57,7 +58,8 @@ HEADERS += \
     Handle/BasicHandle/tovideo.h \
     Handle/BasicHandle/tofiles.h \
     View/graphicsview.h \
-    Handle/Parameters/colorselection.h
+    Handle/Parameters/colorselection.h \
+    View/submdiwindows.h
 
 LIBS += -lopencv_core \
         -lopencv_video \

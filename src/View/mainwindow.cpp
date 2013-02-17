@@ -1,3 +1,4 @@
+#include <QGraphicsView>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "../Handle/Handle.h"
@@ -9,15 +10,18 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_extractor(new VideoExtractor() ),
-    m_image( m_scene.addPixmap(QPixmap()) )
+    m_areaMode( QMdiArea::SubWindowView )
 {
 
 
     ui->setupUi(this);
+    m_subImage = new SubMdiWindows("Image Finale");
+    ui->mdiArea->addSubWindow(m_subImage);
 
-    ui->graphicsView->setScene(&m_scene);
+    m_subImage->setWindowTitle("Image finale");
 
-    m_image->setZValue(0);
+    connect(ui->mdiAreaMode, SIGNAL(clicked()), this, SLOT(changeMdiMode()) );
+    connect(m_subImage, SIGNAL(destroyed(QObject*)), this, SLOT(onCloseMainSubWindows()));
 
     int max = 1<<(sizeof(int)*8-2) ;
 
@@ -50,9 +54,27 @@ MainWindow::~MainWindow()
 
 void MainWindow::setImage(const ImageDataPtr result, const ImageDataPtr , const ImageDataPtr)
 {
-    m_image->setPixmap(result->toPixmap());
-    m_image->setZValue(0);
-    ui->graphicsView->setMinimumHeight(m_image->pixmap().height() + 5);
-    ui->graphicsView->setMinimumWidth(m_image->pixmap().width() + 5);
-    // ui->graphicsView->fitInView(m_image); super utile
+    if(m_subImage)
+    {
+        m_subImage->updateImage(result->toPixmap());
+    }
+}
+
+void MainWindow::changeMdiMode(void)
+{
+    if(m_areaMode == QMdiArea::TabbedView)
+    {
+        ui->mdiArea->setViewMode( QMdiArea::SubWindowView );
+        m_areaMode = QMdiArea::SubWindowView;
+    }
+    else
+    {
+        ui->mdiArea->setViewMode( QMdiArea::TabbedView );
+        m_areaMode = QMdiArea::TabbedView;
+    }
+}
+
+void MainWindow::onCloseMainSubWindows(void)
+{
+    m_subImage = nullptr;
 }

@@ -2,10 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
+#include <QMdiArea>
 #include "../Handle/videoextractor.h"
 #include "../Handle/videoview.h"
+#include "submdiwindows.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,10 +22,12 @@ public:
 private:
     Ui::MainWindow *ui;
     VideoExtractor * m_extractor;
-    QGraphicsScene m_scene;
-    QGraphicsPixmapItem * m_image;
+    SubMdiWindows * m_subImage;
+    QMdiArea::ViewMode m_areaMode;
 public slots :
     virtual void setImage(const ImageDataPtr result, const ImageDataPtr src1 , const ImageDataPtr src2);
+    void changeMdiMode(void);
+    void onCloseMainSubWindows(void);
 };
 
 #endif // MAINWINDOW_H
