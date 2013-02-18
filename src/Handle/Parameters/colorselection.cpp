@@ -34,10 +34,13 @@ void ColorSelection::openPopUp(void)
 {
    QColor color = QColorDialog::getColor(m_color);
    m_color = color;
-   QString style ="background-color:" + m_color.name() + "; border-color:" + m_color.name();
-   m_button->setStyleSheet(style);
-   for(HandleParameters * hp : m_suscribers )
+   if(color != QColor() )
    {
-        hp->setValue( color );
+       QString style ="background-color:" + m_color.name() + "; border-color:" + m_color.name();
+       m_button->setStyleSheet(style);
+       for(HandleParameters * hp : m_suscribers )
+       {
+            hp->setValue( color );
+       }
    }
 }
