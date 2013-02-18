@@ -4,7 +4,7 @@
 #include "../virtualhandle.h"
 
 /** @brief Rotate the image */
-class Rotation : VirtualHandle
+class Rotation : public VirtualHandle
 {
 public:
     /** @brief Create a Rotation handle

@@ -5,7 +5,7 @@
 
 #include "../virtualhandle.h"
 
-class ToFiles : VirtualHandle
+class ToFiles : public VirtualHandle
 {
 public:
     /** @brief Build a ToFile handle
