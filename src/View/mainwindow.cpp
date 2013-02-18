@@ -15,10 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     ui->setupUi(this);
-    m_subImage = new SubMdiWindows("Image Finale");
-    ui->mdiArea->addSubWindow(m_subImage);
-
-    m_subImage->setWindowTitle("Image finale");
+    m_subImage = new SubMdiWindows("Image Finale", ui->mdiArea);
+    m_subImageSource1 = new SubMdiWindows("Image Source1", ui->mdiArea);
+    m_subImageSource2 = new SubMdiWindows("Image Source2", ui->mdiArea);
 
     connect(ui->mdiAreaMode, SIGNAL(clicked()), this, SLOT(changeMdiMode()) );
     connect(m_subImage, SIGNAL(destroyed(QObject*)), this, SLOT(onCloseMainSubWindows()));
@@ -35,10 +34,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( m_extractor, SIGNAL(imageHandled(ImageDataPtr,ImageDataPtr,ImageDataPtr)),
              this, SLOT(setImage(ImageDataPtr,ImageDataPtr,ImageDataPtr)));
 
-    //VideoReader * cam1 = new VideoReader();
-    //cam1->useCamera();
+    VideoReader * cam1 = new VideoReader();
+    cam1->useCamera();
 
-    FolderReader * cam1 = new FolderReader("img/");
+    //FolderReader * cam1 = new FolderReader("img/");
 
     m_extractor->useSource(cam1, 0);
     m_extractor->showParameters( ui->scrollAreaWidgetContents );
@@ -52,11 +51,19 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setImage(const ImageDataPtr result, const ImageDataPtr , const ImageDataPtr)
+void MainWindow::setImage(const ImageDataPtr result, const ImageDataPtr source1, const ImageDataPtr source2)
 {
     if(m_subImage)
     {
         m_subImage->updateImage(result->toPixmap());
+    }
+    if(m_subImageSource1 && source1)
+    {
+        m_subImageSource1->updateImage(source1->toPixmap());
+    }
+    if( m_subImageSource2 && source2)
+    {
+        m_subImageSource2->updateImage(source2->toPixmap());
     }
 }
 
@@ -72,9 +79,16 @@ void MainWindow::changeMdiMode(void)
         ui->mdiArea->setViewMode( QMdiArea::TabbedView );
         m_areaMode = QMdiArea::TabbedView;
     }
+    //addMode
 }
 
 void MainWindow::onCloseMainSubWindows(void)
 {
-    m_subImage = nullptr;
+    QObject * ptr = QObject::sender();
+    if(ptr == m_subImage)
+        m_subImage = nullptr;
+    else if(ptr == m_subImageSource1)
+        m_subImageSource1 = nullptr;
+    else
+        m_subImageSource2 = nullptr;
 }

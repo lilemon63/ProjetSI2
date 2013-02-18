@@ -1,6 +1,6 @@
 #include "submdiwindows.h"
 
-SubMdiWindows::SubMdiWindows(const QString &titre, QWidget *parent) :
+SubMdiWindows::SubMdiWindows(const QString &titre, QMdiArea * area, QWidget *parent) :
     QMdiSubWindow(parent),
     m_image( m_scene.addPixmap(QPixmap()) ),
     m_graphicsView( new QGraphicsView(this) )
@@ -9,12 +9,14 @@ SubMdiWindows::SubMdiWindows(const QString &titre, QWidget *parent) :
     setWidget(m_graphicsView);
     setWindowTitle(titre);
     m_image->setZValue(0);
+    if( area )
+        area->addSubWindow(this);
 }
 
 void SubMdiWindows::resizeEvent(QResizeEvent *resizeEvent)
 {
     QMdiSubWindow::resizeEvent(resizeEvent);
-    m_graphicsView->fitInView(m_image);
+    m_graphicsView->fitInView(m_image,Qt::KeepAspectRatio);
 }
 
 void SubMdiWindows::updateImage(const QPixmap & img)
@@ -22,5 +24,5 @@ void SubMdiWindows::updateImage(const QPixmap & img)
     m_image->setPixmap(img);
     // m_graphicsView->setMinimumHeight(m_image->pixmap().height() + 5);
     // m_graphicsView->setMinimumWidth(m_image->pixmap().width() + 5);
-    m_graphicsView->fitInView(m_image);
+    m_graphicsView->fitInView(m_image,Qt::KeepAspectRatio);
 }
