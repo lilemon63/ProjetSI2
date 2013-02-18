@@ -1,4 +1,5 @@
 #include "submdiwindows.h"
+#include <iostream>
 
 SubMdiWindows::SubMdiWindows(const QString &titre, QMdiArea * area, QWidget *parent) :
     QMdiSubWindow(parent),
@@ -17,6 +18,12 @@ void SubMdiWindows::resizeEvent(QResizeEvent *resizeEvent)
 {
     QMdiSubWindow::resizeEvent(resizeEvent);
     m_graphicsView->fitInView(m_image,Qt::KeepAspectRatio);
+}
+
+void SubMdiWindows::closeEvent(QCloseEvent *closeEvent)
+{
+    QMdiSubWindow::closeEvent(closeEvent);
+    deleteLater();
 }
 
 void SubMdiWindows::updateImage(const QPixmap & img)

@@ -16,6 +16,7 @@ public:
     void updateImage(const QPixmap &);
 protected :
     void resizeEvent(QResizeEvent *resizeEvent);
+    void closeEvent(QCloseEvent *closeEvent);
 signals:
 public slots:
 private :

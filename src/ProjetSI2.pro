@@ -31,7 +31,8 @@ SOURCES += \
     View/graphicsview.cpp \
     Handle/Parameters/colorselection.cpp \
     View/submdiwindows.cpp \
-    Handle/Parameters/inputtext.cpp
+    Handle/Parameters/inputtext.cpp \
+    View/mdi.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -61,7 +62,8 @@ HEADERS += \
     View/graphicsview.h \
     Handle/Parameters/colorselection.h \
     View/submdiwindows.h \
-    Handle/Parameters/inputtext.h
+    Handle/Parameters/inputtext.h \
+    View/mdi.h
 
 LIBS += -lopencv_core \
         -lopencv_video \

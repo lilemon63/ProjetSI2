@@ -20,7 +20,14 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QMdiArea" name="mdiArea"/>
+      <widget class="Mdi" name="mdiArea">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+      </widget>
       <widget class="QScrollArea" name="parametersArea">
        <property name="widgetResizable">
         <bool>true</bool>
@@ -30,7 +37,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>88</width>
+          <width>386</width>
           <height>389</height>
          </rect>
         </property>
@@ -42,8 +49,8 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>20</width>
-             <height>40</height>
+             <width>87</width>
+             <height>368</height>
             </size>
            </property>
           </spacer>
@@ -59,11 +66,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QPushButton" name="mdiAreaMode">
-        <property name="text">
-         <string>Change vue</string>
-        </property>
-       </widget>
+       <widget class="QComboBox" name="mdiAreaMode"/>
       </item>
       <item>
        <widget class="QPushButton" name="buttonPlay">
@@ -213,6 +216,14 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Mdi</class>
+   <extends>QFrame</extends>
+   <header>View/mdi.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

@@ -10,17 +10,21 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_extractor(new VideoExtractor() ),
-    m_areaMode( QMdiArea::SubWindowView )
+    m_subImage(nullptr),
+    m_subImageSource1(nullptr),
+    m_subImageSource2(nullptr),
+    m_areaMode( Default )
 {
 
 
     ui->setupUi(this);
-    m_subImage = new SubMdiWindows("Image Finale", ui->mdiArea);
-    m_subImageSource1 = new SubMdiWindows("Image Source1", ui->mdiArea);
-    m_subImageSource2 = new SubMdiWindows("Image Source2", ui->mdiArea);
 
-    connect(ui->mdiAreaMode, SIGNAL(clicked()), this, SLOT(changeMdiMode()) );
-    connect(m_subImage, SIGNAL(destroyed(QObject*)), this, SLOT(onCloseMainSubWindows()));
+    connect(ui->mdiAreaMode, SIGNAL(currentIndexChanged(int)), this, SLOT(changeMdiMode(int)) );
+    connect(ui->mdiArea, SIGNAL(onResize()), this, SLOT(resizeMdi()) );
+
+    ui->mdiAreaMode->addItem("Default", Default);
+    ui->mdiAreaMode->addItem("Tabulation", Tabulation);
+    ui->mdiAreaMode->addItem("Libre", Free);
 
     int max = 1<<(sizeof(int)*8-2) ;
 
@@ -41,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_extractor->useSource(cam1, 0);
     m_extractor->showParameters( ui->scrollAreaWidgetContents );
+
+    ui->mdiAreaMode->setCurrentIndex( ui->mdiAreaMode->findData(m_areaMode) );
 
     m_extractor->start();
 }
@@ -67,19 +73,53 @@ void MainWindow::setImage(const ImageDataPtr result, const ImageDataPtr source1,
     }
 }
 
-void MainWindow::changeMdiMode(void)
+void MainWindow::changeMdiMode(int index)
 {
-    if(m_areaMode == QMdiArea::TabbedView)
+    Mode mode = m_areaMode;
+    if(index != -1)
+        mode = (Mode)ui->mdiAreaMode->itemData(index).toInt();
+    switch(mode)
     {
-        ui->mdiArea->setViewMode( QMdiArea::SubWindowView );
-        m_areaMode = QMdiArea::SubWindowView;
+        case Default :
+        {
+            if( ! m_subImage) {
+                m_subImage = new SubMdiWindows("Image Finale", ui->mdiArea);
+                m_subImage->show();
+                connect(m_subImage, SIGNAL(destroyed(QObject*)), this, SLOT(onCloseMainSubWindows()));
+            }
+            if( ! m_subImageSource1) {
+                m_subImageSource1 = new SubMdiWindows("Image Source1", ui->mdiArea);
+                m_subImageSource1->show();
+                connect(m_subImageSource1, SIGNAL(destroyed(QObject*)), this, SLOT(onCloseMainSubWindows()));
+            }
+            if( ! m_subImageSource2) {
+                m_subImageSource2 = new SubMdiWindows("Image Source2", ui->mdiArea);
+                m_subImageSource2->show();
+                connect(m_subImageSource2, SIGNAL(destroyed(QObject*)), this, SLOT(onCloseMainSubWindows()));
+            }
+            if(m_areaMode == Tabulation)
+                ui->mdiArea->setViewMode( QMdiArea::SubWindowView );
+            int midX = ui->mdiArea->size().width()/2;
+            int midY = ui->mdiArea->size().height()/2;
+            m_subImageSource1->move(0,0);
+            m_subImageSource1->resize(midX, midY);
+            m_subImageSource2->move(midX,0);
+            m_subImageSource2->resize(midX, midY);
+            m_subImage->move(0,midY);
+            m_subImage->resize(midX, midY);
+        }
+        break;
+
+        case Tabulation :
+            if(m_areaMode != Tabulation)
+                ui->mdiArea->setViewMode( QMdiArea::TabbedView );
+        break;
+        case Free :
+            if(m_areaMode == Tabulation)
+                ui->mdiArea->setViewMode( QMdiArea::SubWindowView );
+        break;
     }
-    else
-    {
-        ui->mdiArea->setViewMode( QMdiArea::TabbedView );
-        m_areaMode = QMdiArea::TabbedView;
-    }
-    //addMode
+    m_areaMode = mode;
 }
 
 void MainWindow::onCloseMainSubWindows(void)
@@ -91,4 +131,11 @@ void MainWindow::onCloseMainSubWindows(void)
         m_subImageSource1 = nullptr;
     else
         m_subImageSource2 = nullptr;
+    if( m_areaMode == Default )
+        ui->mdiAreaMode->setCurrentIndex( ui->mdiAreaMode->findData(Free) );
+}
+
+void MainWindow::resizeMdi(void)
+{
+    changeMdiMode(-1);
 }
