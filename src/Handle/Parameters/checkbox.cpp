@@ -16,6 +16,8 @@ CheckBox::CheckBox(QString label, QStringList boxes)
         QCheckBox * box = new QCheckBox(label);
         m_checkboxs.push_back( box );
         layout->addWidget( box );
+        m_values.insert(label, false);
+        connect(box, SIGNAL(clicked(bool)), this, SLOT(changeValue(bool)));
     }
 }
 
@@ -34,12 +36,15 @@ void CheckBox::hideParameters(void)
 void CheckBox::addSuscriber(HandleParameters * target)
 {
     SourceParameters::addSuscriber(target);
-    //target->setValue(m_group.isChecked() );
+    target->setValue( m_values );
 }
 
 
-void CheckBox::changeValue(int  value)
+void CheckBox::changeValue(bool  value)
 {
+    QCheckBox * check = (QCheckBox *)QObject::sender();
+    m_values[check->text()] = value;
+
     for(HandleParameters * hp : m_suscribers )
-        hp->setValue( (int)value);
+        hp->setValue( m_values );
 }

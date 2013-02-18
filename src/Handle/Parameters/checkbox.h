@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include <QCheckBox>
+#include <QMap>
+#include <QString>
+#include <QVariant>
 
 #include "sourceparameters.h"
 
@@ -24,8 +27,9 @@ public:
 private :
     QList<QCheckBox *> m_checkboxs;
     QFrame * m_frame;
+    QMap<QString, QVariant> m_values;
 private slots :
-    void changeValue(int);
+    void changeValue(bool);
 };
 
 #endif // CHECKBOX_H

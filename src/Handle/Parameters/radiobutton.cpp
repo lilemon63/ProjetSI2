@@ -25,7 +25,7 @@ RadioButton::RadioButton(const QString &label, QStringList boxes)
     if(boxes.size() != 0)
         m_radiobuttons[0]->setChecked(true);
 
-    //m_group.setLayout(m_layout);
+    connect(  m_group, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(changeValue()));
 }
 
 
@@ -43,12 +43,12 @@ void RadioButton::hideParameters(void)
 void RadioButton::addSuscriber(HandleParameters * target)
 {
     SourceParameters::addSuscriber(target);
-    //target->setValue(m_group.isChecked() );
+    target->setValue( m_group->checkedButton()->text() );
 }
 
 
-void RadioButton::changeValue(int  value)
+void RadioButton::changeValue(void)
 {
     for(HandleParameters * hp : m_suscribers )
-        hp->setValue( (int)value);
+        hp->setValue( m_group->checkedButton()->text() );
 }

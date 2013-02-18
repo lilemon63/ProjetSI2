@@ -28,7 +28,7 @@ private :
     QButtonGroup * m_group;
     QFrame * m_frame;
 private slots :
-    void changeValue(int);
+    void changeValue();
 };
 
 #endif // RADIOBUTTON_H
