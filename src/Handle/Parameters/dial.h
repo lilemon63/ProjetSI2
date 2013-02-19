@@ -3,15 +3,19 @@
 
 #include <QObject>
 #include <QDial>
+#include <QLabel>
+#include <QFrame>
+#include <QLineEdit>
 
 #include "sourceparameters.h"
 
 class Dial : public QObject, public SourceParameters
 {
 public:
+    enum Helper  {None, PrintValue, EnterValue};
     Q_OBJECT;
 public:
-    Dial(const QString & label, int defaultAngle = 0);
+    Dial(const QString & label, int defaultAngle = 0, Helper = EnterValue);
 
     virtual void showParameters(QWidget * parent);
 
@@ -23,8 +27,12 @@ public:
 
 private :
     QDial * m_dial;
+    QFrame * m_frame;
+    QLabel * m_label;
+    QLineEdit * m_inputText;
 private slots :
     void changeValue(int);
+    void changeValue(void);
 };
 
 #endif // DIAL_H

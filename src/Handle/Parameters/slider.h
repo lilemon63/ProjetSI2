@@ -12,8 +12,8 @@
 /** @brief Slidder used as SourceParameters */
 class Slider : public QObject, public SourceParameters
 {
-    enum Helper {None, PrintValue, EnterValue};
 public:
+    enum Helper {None, PrintValue, EnterValue};
     Q_OBJECT;
 public :
     Slider( const QString & label = QString(), int defaultValue = 0, int min = 0, int max = 100,
