@@ -1,15 +1,13 @@
 #include "submdiwindows.h"
 #include <iostream>
 
-SubMdiWindows::SubMdiWindows(const QString &titre, QMdiArea * area, QWidget *parent) :
+SubMdiWindows::SubMdiWindows(const QString &titre, Mdi * area, QWidget *parent) :
     QMdiSubWindow(parent),
-    m_image( m_scene.addPixmap(QPixmap()) ),
-    m_graphicsView( new QGraphicsView(this) )
+    m_nbSystemResize(0),
+    m_handle(nullptr)
 {
-    m_graphicsView->setScene(&m_scene);
-    setWidget(m_graphicsView);
+
     setWindowTitle(titre);
-    m_image->setZValue(0);
     if( area )
         area->addSubWindow(this);
 }
@@ -17,19 +15,43 @@ SubMdiWindows::SubMdiWindows(const QString &titre, QMdiArea * area, QWidget *par
 void SubMdiWindows::resizeEvent(QResizeEvent *resizeEvent)
 {
     QMdiSubWindow::resizeEvent(resizeEvent);
-    m_graphicsView->fitInView(m_image,Qt::KeepAspectRatio);
+    if( ! m_nbSystemResize )
+        emit onMove();
+    else
+        m_nbSystemResize--;
+}
+
+void SubMdiWindows::moveEvent(QMoveEvent *moveEvent)
+{
+    QMdiSubWindow::moveEvent(moveEvent);
+    if( ! m_nbSystemResize )
+        emit onMove();
+    else
+        m_nbSystemResize--;
 }
 
 void SubMdiWindows::closeEvent(QCloseEvent *closeEvent)
 {
     QMdiSubWindow::closeEvent(closeEvent);
-    deleteLater();
+    if(m_handle)
+        m_handle->viewClosed();
+    emit destroyed();
+    mdiArea()->removeSubWindow(this);
 }
 
-void SubMdiWindows::updateImage(const QPixmap & img)
+void SubMdiWindows::systemResize(int x, int y)
 {
-    m_image->setPixmap(img);
-    // m_graphicsView->setMinimumHeight(m_image->pixmap().height() + 5);
-    // m_graphicsView->setMinimumWidth(m_image->pixmap().width() + 5);
-    m_graphicsView->fitInView(m_image,Qt::KeepAspectRatio);
+    m_nbSystemResize++;
+    resize(QSize(x, y));
+}
+
+void SubMdiWindows::systemMove(int x, int y)
+{
+    m_nbSystemResize++;
+    move(QPoint(x,y));
+}
+
+void SubMdiWindows::linkHandle( VirtualHandle * handle )
+{
+    m_handle = handle;
 }

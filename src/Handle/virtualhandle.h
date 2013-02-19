@@ -6,6 +6,11 @@
 #include <opencv2/opencv.hpp>
 #include "imagedata.h"
 #include "Parameters/handleparameters.h"
+#include "Parameters/checkbox.h"
+#include "../View/mdi.h"
+#include "imagedata.h"
+
+class SubMdiWindowsImage;
 
 /** @brief
     Class which handle two IplImage and return an IplImage.<br/>
@@ -76,6 +81,8 @@ protected :
 
     VirtualHandle * getHandleForDependancies(const std::string &);
 
+    void updateImageForView(ImageDataPtr image);
+
 private:
     /** @brief Handle's name<br/>
         Thanks this, you can get this handle only with his name. */
@@ -86,6 +93,20 @@ private:
     /** @brief Every handle will be registred in this.<br/>
     So we can call any handle process only with his name.*/
     static ListHandle m_listHandle;
+
+    // Outside the m_listParameters to allow inherited class having enum
+    std::shared_ptr<HandleParameters> m_viewParameters;
+    CheckBox * m_visibleCheckBox;
+
+    void showView(bool visible);
+
+    // videoCréée à l'occasion
+    // setImage
+    static Mdi * m_view;
+    SubMdiWindowsImage * m_windows;
+public :
+    static void setView(Mdi *m_view);
+    void viewClosed(void);
 };
 
 const std::string & VirtualHandle::getName(void)

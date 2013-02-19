@@ -95,9 +95,9 @@ void VideoExtractor::run(void)
         qint64 waitTime = ( m_paramPeriod.toInt() - timer.nsecsElapsed() + begin )/1000;
         if(waitTime < 0)
         {
-            std::cerr << "Warning : la boucle a du retard : " <<  waitTime
+         /*   std::cerr << "Warning : la boucle a du retard : " <<  waitTime
                       << "\nDuree de la boucle : " << m_paramPeriod.toInt()
-                      << "\nDuree reelle : " << timer.nsecsElapsed() << std::endl;
+                      << "\nDuree reelle : " << timer.nsecsElapsed() << std::endl; */
         }
         else
             QThread::usleep( waitTime );

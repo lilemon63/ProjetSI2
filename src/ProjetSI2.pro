@@ -32,7 +32,9 @@ SOURCES += \
     Handle/Parameters/colorselection.cpp \
     View/submdiwindows.cpp \
     Handle/Parameters/inputtext.cpp \
-    View/mdi.cpp
+    View/mdi.cpp \
+    View/submdiwindowsresults.cpp \
+    View/submdiwindowsimage.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -63,7 +65,9 @@ HEADERS += \
     Handle/Parameters/colorselection.h \
     View/submdiwindows.h \
     Handle/Parameters/inputtext.h \
-    View/mdi.h
+    View/mdi.h \
+    View/submdiwindowsresults.h \
+    View/submdiwindowsimage.h
 
 LIBS += -lopencv_core \
         -lopencv_video \

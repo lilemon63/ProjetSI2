@@ -24,6 +24,8 @@ public:
 
     virtual ~CheckBox(){}
 
+    virtual void changeValue(const QString & txt, bool  value);
+
 private :
     QList<QCheckBox *> m_checkboxs;
     QFrame * m_frame;

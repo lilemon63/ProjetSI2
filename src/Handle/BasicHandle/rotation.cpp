@@ -31,5 +31,6 @@ ImageDataPtr Rotation::startHandle(const ImageDataPtr src1, const ImageDataPtr)
        cvReleaseMat(&rot_mat);
    }
 
+   updateImageForView(newImage);
    return newImage;
 }

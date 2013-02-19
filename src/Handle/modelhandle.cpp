@@ -22,6 +22,7 @@ ImageDataPtr ModelHandle::startHandle(const ImageDataPtr source, const ImageData
     else
     {
         tour = 1; //be carrefull when you modify the class'attribute.
+        updateImageForView(source);
         return source;
     }
 }

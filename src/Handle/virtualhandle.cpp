@@ -1,8 +1,15 @@
+#include <QVariant>
 #include "virtualhandle.h"
 #include "../exception.h"
+#include "Parameters/checkbox.h"
+#include "../View/submdiwindowsimage.h"
+
+Mdi* VirtualHandle::m_view = nullptr;
 
 VirtualHandle::VirtualHandle(const std::string & name)
-    : m_name(name)
+    : m_name(name),
+      m_viewParameters(new HandleParameters() ),
+      m_windows(nullptr)
 {
     if( name != "noname" && m_listHandle.find(name) != m_listHandle.end() )
         throw Exception::buildException(name + " est un nom de traitement déjà pris",
@@ -10,6 +17,15 @@ VirtualHandle::VirtualHandle(const std::string & name)
                                         "VirtualHandle",
                                         EP);;
     m_listHandle[name] = this;
+
+    m_visibleCheckBox = new CheckBox("", QStringList("Vue active"));
+    m_viewParameters->changeSources( m_visibleCheckBox );
+    auto lambda = [this]( QVariant Value, HandleParameters * hp )
+    {
+            hp->acceptChanges(Value);
+            showView(hp->toMap()["Vue active"].toBool() );
+    };
+    m_viewParameters->setActionOnChangeValue( lambda );
 }
 
 VirtualHandle::ListHandle VirtualHandle::m_listHandle;
@@ -28,6 +44,7 @@ void VirtualHandle::showParameters(QWidget * parent)
 {
     for(auto param : m_listParameters)
         param->showParameters(parent);
+    m_viewParameters->showParameters(parent);
     for(VirtualHandle * handle : m_dependancies)
         handle->showParameters(parent);
 }
@@ -46,6 +63,7 @@ void VirtualHandle::hideParameters(void)
 {
     for(auto param : m_listParameters)
         param->hideParameters();
+    m_viewParameters->hideParameters();
     for(VirtualHandle * handle : m_dependancies)
         handle->hideParameters();
 }
@@ -83,4 +101,44 @@ QStringList VirtualHandle::getAllHandleName(void)
         temp.append( nom.first.c_str() );
 
     return temp;
+}
+
+void VirtualHandle::showView(bool visible)
+{
+    if( ! m_view )
+        return;
+    if( ! visible )
+    {
+        if( m_windows )
+            m_windows->hide();
+    }
+    else
+    {
+        if( ! m_windows )
+        {
+            m_windows = new SubMdiWindowsImage(QString(m_name.c_str()), m_view);
+            m_windows->move(0,0);
+            m_windows->resize(300,300);
+            m_windows->linkHandle(this);
+        }
+        m_windows->show();
+    }
+}
+
+void VirtualHandle::setView(Mdi * view)
+{
+    m_view = view;
+}
+
+
+void VirtualHandle::viewClosed(void)
+{
+    m_visibleCheckBox->changeValue("Vue active", false);
+    m_windows = nullptr;
+}
+
+void VirtualHandle::updateImageForView(ImageDataPtr image)
+{
+    if(m_windows)
+        m_windows->updateImageAsc(image);
 }

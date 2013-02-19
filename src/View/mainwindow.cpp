@@ -13,14 +13,24 @@ MainWindow::MainWindow(QWidget *parent) :
     m_subImage(nullptr),
     m_subImageSource1(nullptr),
     m_subImageSource2(nullptr),
+    m_subResults(nullptr),
     m_areaMode( Default )
 {
 
 
     ui->setupUi(this);
 
+    ui->mdiArea->setMainWindow(this);
+
     connect(ui->mdiAreaMode, SIGNAL(currentIndexChanged(int)), this, SLOT(changeMdiMode(int)) );
     connect(ui->mdiArea, SIGNAL(onResize()), this, SLOT(resizeMdi()) );
+    connect(ui->actionAfficher_les_param_tres, SIGNAL(triggered()), this, SLOT(showHideDockParameters()));
+    connect(ui->actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(ui->actionVue_par_d_faut, SIGNAL(triggered()), this, SLOT(enterInDefaultMode()));
+    connect(ui->actionVue_Tabulation, SIGNAL(triggered()), this, SLOT(enterInTabulationMode()));
+    connect(ui->actionVue_Libre, SIGNAL(triggered()), this, SLOT(enterInFreeMode()));
+    connect(ui->actionAfficher_Cacher_le_contr_le_de_flux, SIGNAL(triggered(bool)), this, SLOT(showHideDockStreamControl()));
+    connect(ui->actionPlein_cran, SIGNAL(triggered()), this, SLOT(fullscreen()));
 
     ui->mdiAreaMode->addItem("Default", Default);
     ui->mdiAreaMode->addItem("Tabulation", Tabulation);
@@ -47,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_extractor->showParameters( ui->scrollAreaWidgetContents );
 
     ui->mdiAreaMode->setCurrentIndex( ui->mdiAreaMode->findData(m_areaMode) );
+    VirtualHandle::setView(ui->mdiArea);
 
     m_extractor->start();
 }
@@ -71,6 +82,8 @@ void MainWindow::setImage(const ImageDataPtr result, const ImageDataPtr source1,
     {
         m_subImageSource2->updateImage(source2->toPixmap());
     }
+    if( m_subResults )
+        m_subResults->extractInformationFromImage(result);
 }
 
 void MainWindow::changeMdiMode(int index)
@@ -83,30 +96,38 @@ void MainWindow::changeMdiMode(int index)
         case Default :
         {
             if( ! m_subImage) {
-                m_subImage = new SubMdiWindows("Image Finale", ui->mdiArea);
-                m_subImage->show();
-                connect(m_subImage, SIGNAL(destroyed(QObject*)), this, SLOT(onCloseMainSubWindows()));
+                m_subImage = new SubMdiWindowsImage("Image Finale", ui->mdiArea);
             }
             if( ! m_subImageSource1) {
-                m_subImageSource1 = new SubMdiWindows("Image Source1", ui->mdiArea);
-                m_subImageSource1->show();
-                connect(m_subImageSource1, SIGNAL(destroyed(QObject*)), this, SLOT(onCloseMainSubWindows()));
+                m_subImageSource1 = new SubMdiWindowsImage("Image Source1", ui->mdiArea);
             }
             if( ! m_subImageSource2) {
-                m_subImageSource2 = new SubMdiWindows("Image Source2", ui->mdiArea);
-                m_subImageSource2->show();
-                connect(m_subImageSource2, SIGNAL(destroyed(QObject*)), this, SLOT(onCloseMainSubWindows()));
+                m_subImageSource2 = new SubMdiWindowsImage("Image Source2", ui->mdiArea);
             }
+            if( ! m_subResults ) {
+                m_subResults = new SubMdiWindowsResults("Donnees issues du traitement", ui->mdiArea);
+                connect(ui->actionSauvegarder_les_donn_es_acquises, SIGNAL(triggered()), m_subResults, SLOT(saveIntoFile()));
+                connect(m_subResults, SIGNAL(resultFile(QString,bool)) ,ui->statusbar, SLOT(showMessage(QString)));
+            }
+            m_subImageSource2->showNormal();
+            m_subImageSource1->showNormal();
+            m_subResults->showNormal();
+            m_subImage->showNormal();
+
             if(m_areaMode == Tabulation)
                 ui->mdiArea->setViewMode( QMdiArea::SubWindowView );
             int midX = ui->mdiArea->size().width()/2;
             int midY = ui->mdiArea->size().height()/2;
-            m_subImageSource1->move(0,0);
-            m_subImageSource1->resize(midX, midY);
-            m_subImageSource2->move(midX,0);
-            m_subImageSource2->resize(midX, midY);
-            m_subImage->move(0,midY);
-            m_subImage->resize(midX, midY);
+            m_subImageSource1->systemMove(0,0);
+            m_subImageSource1->systemResize(midX, midY);
+            m_subImageSource2->systemMove(midX,0);
+            m_subImageSource2->systemResize(midX, midY);
+            m_subImage->systemMove(0,midY);
+            m_subImage->systemResize(midX, midY);
+            m_subResults->systemMove(midX,midY);
+            m_subResults->systemResize(midX, midY);
+
+            ui->mdiArea->reductAllExcept( std::set<SubMdiWindows *>({m_subImage, m_subImageSource1, m_subImageSource2, m_subResults}) );
         }
         break;
 
@@ -129,8 +150,16 @@ void MainWindow::onCloseMainSubWindows(void)
         m_subImage = nullptr;
     else if(ptr == m_subImageSource1)
         m_subImageSource1 = nullptr;
-    else
+    else if(ptr == m_subImageSource2)
         m_subImageSource2 = nullptr;
+    else
+        m_subResults = nullptr;
+    if( m_areaMode == Default )
+        ui->mdiAreaMode->setCurrentIndex( ui->mdiAreaMode->findData(Free) );
+}
+
+void MainWindow::quitDefaultMode(void)
+{
     if( m_areaMode == Default )
         ui->mdiAreaMode->setCurrentIndex( ui->mdiAreaMode->findData(Free) );
 }
@@ -138,4 +167,57 @@ void MainWindow::onCloseMainSubWindows(void)
 void MainWindow::resizeMdi(void)
 {
     changeMdiMode(-1);
+}
+
+void MainWindow::showHideDockParameters(void)
+{
+    ui->dockWidget_2->setVisible(! ui->dockWidget_2->isVisible());
+}
+
+void MainWindow::enterInDefaultMode(void)
+{
+    ui->mdiAreaMode->setCurrentIndex( ui->mdiAreaMode->findData(Default) );
+}
+
+void MainWindow::enterInTabulationMode(void)
+{
+    if( m_areaMode != Tabulation )
+        ui->mdiAreaMode->setCurrentIndex( ui->mdiAreaMode->findData(Tabulation) );
+}
+
+void MainWindow::enterInFreeMode(void)
+{
+    if( m_areaMode != Free )
+        ui->mdiAreaMode->setCurrentIndex( ui->mdiAreaMode->findData(Free) );
+}
+
+void MainWindow::showHideDockStreamControl(void)
+{
+    ui->dockWidget->setVisible(! ui->dockWidget->isVisible());
+}
+
+void MainWindow::fullscreen(void)
+{
+    if( isFullScreen() )
+        showNormal();
+    else
+        showFullScreen();
+}
+
+void MainWindow::saveDataFileName(void)
+{
+    //TODO : add params
+}
+
+void MainWindow::windowStateChanged(Qt::WindowStates states2, Qt::WindowStates states)
+{
+    if( states == Qt::WindowActive || states == Qt::WindowNoState)
+        return;
+    if( m_areaMode == Default )
+    {
+        QObject * sender = QObject::sender();
+        if ( states &  Qt::WindowMinimized && ( sender == m_subImage || sender == m_subImageSource1
+                             || sender == m_subImageSource2 || sender == m_subResults )  )
+            enterInFreeMode();
+    }
 }

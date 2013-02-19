@@ -5,7 +5,8 @@
 #include <QMdiArea>
 #include "../Handle/videoextractor.h"
 #include "../Handle/videoview.h"
-#include "submdiwindows.h"
+#include "submdiwindowsimage.h"
+#include "submdiwindowsresults.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,15 +25,25 @@ private:
 
     Ui::MainWindow *ui;
     VideoExtractor * m_extractor;
-    SubMdiWindows * m_subImage;
-    SubMdiWindows * m_subImageSource1;
-    SubMdiWindows * m_subImageSource2;
+    SubMdiWindowsImage * m_subImage;
+    SubMdiWindowsImage * m_subImageSource1;
+    SubMdiWindowsImage * m_subImageSource2;
+    SubMdiWindowsResults * m_subResults;
     Mode m_areaMode;
 public slots :
     virtual void setImage(const ImageDataPtr result, const ImageDataPtr src1 , const ImageDataPtr src2);
     void changeMdiMode(int index);
     void onCloseMainSubWindows(void);
     void resizeMdi(void);
+    void quitDefaultMode(void);
+    void showHideDockParameters(void);
+    void showHideDockStreamControl(void);
+    void enterInDefaultMode(void);
+    void enterInTabulationMode(void);
+    void enterInFreeMode(void);
+    void fullscreen(void);
+    void saveDataFileName(void);
+    void windowStateChanged(Qt::WindowStates,Qt::WindowStates);
 };
 
 #endif // MAINWINDOW_H

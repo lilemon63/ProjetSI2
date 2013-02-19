@@ -39,6 +39,16 @@ void CheckBox::addSuscriber(HandleParameters * target)
     target->setValue( m_values );
 }
 
+void CheckBox::changeValue(const QString & text, bool  value)
+{
+    m_values[text] = value;
+
+    for(QCheckBox * check : m_checkboxs)
+        if(check->text() == text)
+            check->setChecked(value);
+    for(HandleParameters * hp : m_suscribers )
+        hp->setValue( m_values );
+}
 
 void CheckBox::changeValue(bool  value)
 {

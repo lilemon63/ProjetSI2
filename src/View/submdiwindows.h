@@ -7,22 +7,27 @@
 #include <QGraphicsView>
 #include <QPixmap>
 #include <QMdiArea>
+#include "../Handle/virtualhandle.h"
 
 class SubMdiWindows : public QMdiSubWindow
 {
     Q_OBJECT
 public:
-    explicit SubMdiWindows(const QString &titre = QString(), QMdiArea *area = 0, QWidget *parent = nullptr);
-    void updateImage(const QPixmap &);
+    explicit SubMdiWindows(const QString &titre = QString(), Mdi *area = nullptr, QWidget *parent = nullptr);
+    virtual ~SubMdiWindows(){}
+    void systemResize(int x, int y);
+    void systemMove(int x, int y);
+    virtual void linkHandle( VirtualHandle * );
 protected :
-    void resizeEvent(QResizeEvent *resizeEvent);
-    void closeEvent(QCloseEvent *closeEvent);
+    virtual void resizeEvent(QResizeEvent *resizeEvent);
+    virtual void closeEvent(QCloseEvent *closeEvent);
+    virtual void moveEvent(QMoveEvent *moveEvent);
 signals:
+    void onMove(void);
 public slots:
 private :
-    QGraphicsScene m_scene;
-    QGraphicsPixmapItem * m_image;
-    QGraphicsView * m_graphicsView;
+    int m_nbSystemResize;
+    VirtualHandle * m_handle;
 };
 
 #endif // SUBMDIWINDOWS_H
