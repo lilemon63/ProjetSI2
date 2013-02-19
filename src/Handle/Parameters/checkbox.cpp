@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QButtonGroup>
 
-CheckBox::CheckBox(QString label, QStringList boxes)
+CheckBox::CheckBox(const QString &label, const QStringList &boxes, const QStringList & defaultChecked)
     : SourceParameters(label),
       m_frame(new QFrame() )
 {
@@ -18,6 +18,8 @@ CheckBox::CheckBox(QString label, QStringList boxes)
         layout->addWidget( box );
         m_values.insert(label, false);
         connect(box, SIGNAL(clicked(bool)), this, SLOT(changeValue(bool)));
+        if( defaultChecked.contains(label) )
+            box->setChecked(true);
     }
 }
 

@@ -13,7 +13,7 @@ class RadioButton : public QObject, public SourceParameters
 public:
     Q_OBJECT;
 public:
-    RadioButton(const QString & label, QStringList boxes);
+    RadioButton(const QString & label, const QStringList & boxes, const QString & defaultValue = "");
 
     virtual void showParameters(QWidget * parent);
 

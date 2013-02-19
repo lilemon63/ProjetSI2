@@ -15,7 +15,7 @@ public:
     enum Helper  {None, PrintValue, EnterValue};
     Q_OBJECT;
 public:
-    Dial(const QString & label, int defaultAngle = 0, Helper = EnterValue);
+    Dial(const QString & label, int defaultAngle = 0, int min = 0, int max = 360, Helper = EnterValue);
 
     virtual void showParameters(QWidget * parent);
 

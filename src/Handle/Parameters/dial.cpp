@@ -3,7 +3,7 @@
 #include <iostream>
 #include <QVBoxLayout>
 
-Dial::Dial(const QString & label, int angle, Helper helper)
+Dial::Dial(const QString & label, int angle, int min, int max, Helper helper)
     : SourceParameters(label),
       m_dial( new QDial() ),
       m_frame( new QFrame() ),
@@ -25,7 +25,8 @@ Dial::Dial(const QString & label, int angle, Helper helper)
         connect(m_inputText, SIGNAL(editingFinished()), this, SLOT(changeValue()));
     }
 
-
+    m_dial->setMaximum( max);
+    m_dial->setMinimum( min );
     m_dial->setOrientation(Qt::Horizontal);
     QObject::connect(m_dial, SIGNAL(valueChanged(int)),this,SLOT(changeValue(int)));
     m_dial->setValue(angle);

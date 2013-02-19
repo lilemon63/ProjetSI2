@@ -7,7 +7,7 @@
 #include <QFrame>
 #include <QVBoxLayout>
 
-RadioButton::RadioButton(const QString &label, QStringList boxes)
+RadioButton::RadioButton(const QString &label, const QStringList & boxes, const QString & defaultValue)
     : SourceParameters(label),
       m_group( new QButtonGroup() ),
       m_frame(new QFrame() )
@@ -18,11 +18,13 @@ RadioButton::RadioButton(const QString &label, QStringList boxes)
     for(auto label : boxes)
     {
         QRadioButton * bouton = new QRadioButton(label);
+        if(label == defaultValue)
+            bouton->setChecked(true);
         m_radiobuttons.push_back( bouton );
         m_group->addButton(bouton);
         layout->addWidget(bouton);
     }
-    if(boxes.size() != 0)
+    if(boxes.size() != 0 && defaultValue == "")
         m_radiobuttons[0]->setChecked(true);
 
     connect(  m_group, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(changeValue()));

@@ -3,13 +3,12 @@
 #include <iostream>
 #include <QLayout>
 
-ComboBox::ComboBox(const QString & label, QStringList choices, QString defaultValue)
+ComboBox::ComboBox(const QString & label, const QStringList & choices, const QString & defaultValue)
     : SourceParameters(label),
       m_combobox( new QComboBox() )
 {
-    int pos = 0;
     for( auto value : choices)
-        m_combobox->insertItem( pos++, value);
+        m_combobox->addItem(value);
     QObject::connect(m_combobox, SIGNAL(currentIndexChanged(QString)),this,SLOT(changeValue(QString)));
     if(defaultValue != "")
     {

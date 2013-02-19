@@ -14,7 +14,7 @@ class CheckBox : public QObject, public SourceParameters
 public:
     Q_OBJECT;
 public:
-    CheckBox(QString label, QStringList boxes);
+    CheckBox(const QString & label, const QStringList & boxes, const QStringList & defaultChecked = QStringList() );
 
     virtual void showParameters(QWidget * parent);
 

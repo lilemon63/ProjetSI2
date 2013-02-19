@@ -11,7 +11,7 @@ class SpinBox : public QObject, public SourceParameters
 public:
     Q_OBJECT;
 public:
-    SpinBox(const QString & label = QString() );
+    SpinBox(const QString & label = QString(), int defaultvalue = 0, int min = 0, int max = 100 );
 
     virtual void showParameters(QWidget * parent);
 

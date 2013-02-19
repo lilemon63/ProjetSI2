@@ -4,11 +4,14 @@
 #include <iostream>
 #include <QLayout>
 
-SpinBox::SpinBox(const QString & label)
+SpinBox::SpinBox(const QString & label, int defaultValue, int min, int max)
     : SourceParameters(label),
       m_spinbox(new QSpinBox() )
 {
+    m_spinbox->setMaximum(max);
+    m_spinbox->setMinimum(min);
     QObject::connect(m_spinbox, SIGNAL(valueChanged(int)),this,SLOT(changeValue(int)));
+    m_spinbox->setValue(defaultValue);
 }
 
 
