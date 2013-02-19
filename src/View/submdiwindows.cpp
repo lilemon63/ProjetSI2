@@ -1,10 +1,14 @@
 #include "submdiwindows.h"
 #include <iostream>
+#include <QDialog>
+#include <QVBoxLayout>
 
 SubMdiWindows::SubMdiWindows(const QString &titre, Mdi * area, QWidget *parent) :
     QMdiSubWindow(parent),
     m_nbSystemResize(0),
-    m_handle(nullptr)
+    m_handle(nullptr),
+    m_attached(true),
+    m_area(area)
 {
 
     setWindowTitle(titre);
@@ -54,4 +58,47 @@ void SubMdiWindows::systemMove(int x, int y)
 void SubMdiWindows::linkHandle( VirtualHandle * handle )
 {
     m_handle = handle;
+}
+
+void SubMdiWindows::attach(void)
+{
+    m_attach(nullptr);
+}
+
+void SubMdiWindows::detach(void)
+{
+    this->m_detach(nullptr);
+}
+
+bool SubMdiWindows::isAttached(void)
+{
+    return m_attached;
+}
+
+void SubMdiWindows::m_attach(QWidget * widget)
+{
+    if( widget->parent() )
+        widget->parent()->deleteLater();
+    widget->setParent(this);
+    setWidget(widget);
+    widget->show();
+    m_attached = true;
+    setStyleSheet("");
+}
+
+void SubMdiWindows::m_detach(QWidget * widget)
+{
+    setWidget(nullptr);
+    //widget->setParent(nullptr);
+    //widget->show();
+    QDialog * dialog = new QDialog();
+    dialog->setLayout( new QVBoxLayout() );
+    dialog->layout()->addWidget(widget );
+    dialog->layout()->setMargin(0);
+    dialog->setWindowTitle( windowTitle() );
+    connect(dialog, SIGNAL(finished(int)), this, SLOT(attach()));
+    dialog->show();
+
+    m_attached = false;
+    setStyleSheet("background-color: black");
 }

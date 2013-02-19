@@ -53,6 +53,7 @@
     </property>
     <addaction name="actionAfficher_les_param_tres"/>
     <addaction name="actionAfficher_Cacher_le_contr_le_de_flux"/>
+    <addaction name="actionAttacher_D_tacher_une_fen_tre"/>
     <addaction name="separator"/>
     <addaction name="actionVue_Tabulation"/>
     <addaction name="actionVue_Libre"/>
@@ -101,7 +102,7 @@
           <x>0</x>
           <y>0</y>
           <width>198</width>
-          <height>344</height>
+          <height>380</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -353,6 +354,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionAttacher_D_tacher_une_fen_tre">
+   <property name="text">
+    <string>Attacher/Détacher une fenêtre</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
    </property>
   </action>
  </widget>

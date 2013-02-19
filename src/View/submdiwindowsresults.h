@@ -14,7 +14,8 @@ public:
     void changeText(const QString &);
     void extractInformationFromImage(ImageDataPtr);
     void saveIntoFile(const QString &);
-
+    virtual void attach(void);
+    virtual void detach(void);
 public slots :
     void saveIntoFile(void);
 signals :

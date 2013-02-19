@@ -55,3 +55,13 @@ void SubMdiWindowsResults::saveIntoFile(void)
     if(file != "")
         saveIntoFile(file);
 }
+
+void SubMdiWindowsResults::attach(void)
+{
+    m_attach( m_textEdit );
+}
+
+void SubMdiWindowsResults::detach(void)
+{
+    m_detach( m_textEdit );
+}

@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionVue_Libre, SIGNAL(triggered()), this, SLOT(enterInFreeMode()));
     connect(ui->actionAfficher_Cacher_le_contr_le_de_flux, SIGNAL(triggered(bool)), this, SLOT(showHideDockStreamControl()));
     connect(ui->actionPlein_cran, SIGNAL(triggered()), this, SLOT(fullscreen()));
+    connect(ui->actionAttacher_D_tacher_une_fen_tre, SIGNAL(triggered()), this, SLOT(attachDetach()));
 
     ui->mdiAreaMode->addItem("Default", Default);
     ui->mdiAreaMode->addItem("Tabulation", Tabulation);
@@ -209,7 +210,7 @@ void MainWindow::saveDataFileName(void)
     //TODO : add params
 }
 
-void MainWindow::windowStateChanged(Qt::WindowStates states2, Qt::WindowStates states)
+void MainWindow::windowStateChanged(Qt::WindowStates, Qt::WindowStates states)
 {
     if( states == Qt::WindowActive || states == Qt::WindowNoState)
         return;
@@ -219,5 +220,17 @@ void MainWindow::windowStateChanged(Qt::WindowStates states2, Qt::WindowStates s
         if ( states &  Qt::WindowMinimized && ( sender == m_subImage || sender == m_subImageSource1
                              || sender == m_subImageSource2 || sender == m_subResults )  )
             enterInFreeMode();
+    }
+}
+
+void MainWindow::attachDetach(void)
+{
+    SubMdiWindows * subWind = static_cast<SubMdiWindows *>(ui->mdiArea->currentSubWindow() );
+    if( subWind )
+    {
+        if( subWind->isAttached() )
+            subWind->detach();
+        else
+            subWind->attach();
     }
 }

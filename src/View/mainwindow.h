@@ -44,6 +44,7 @@ public slots :
     void fullscreen(void);
     void saveDataFileName(void);
     void windowStateChanged(Qt::WindowStates,Qt::WindowStates);
+    void attachDetach(void);
 };
 
 #endif // MAINWINDOW_H

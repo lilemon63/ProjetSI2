@@ -18,6 +18,8 @@ public:
     void systemResize(int x, int y);
     void systemMove(int x, int y);
     virtual void linkHandle( VirtualHandle * );
+    virtual void detach(void);
+    bool isAttached(void);
 protected :
     virtual void resizeEvent(QResizeEvent *resizeEvent);
     virtual void closeEvent(QCloseEvent *closeEvent);
@@ -25,9 +27,15 @@ protected :
 signals:
     void onMove(void);
 public slots:
+    virtual void attach(void);
 private :
     int m_nbSystemResize;
     VirtualHandle * m_handle;
+    bool m_attached;
+    Mdi * m_area;
+protected :
+    virtual void m_attach(QWidget *);
+    virtual void m_detach(QWidget *);
 };
 
 #endif // SUBMDIWINDOWS_H

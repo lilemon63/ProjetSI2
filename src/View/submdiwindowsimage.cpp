@@ -36,3 +36,14 @@ void SubMdiWindowsImage::handleSlotUpdateImage(const ImageDataPtr image)
 {
     updateImage( image->toPixmap() );
 }
+
+
+void SubMdiWindowsImage::attach(void)
+{
+    m_attach( m_graphicsView );
+}
+
+void SubMdiWindowsImage::detach(void)
+{
+    m_detach( m_graphicsView );
+}
