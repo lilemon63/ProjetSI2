@@ -10,7 +10,7 @@ class PutYourCodeHere : VirtualHandle
 {
 public:
     PutYourCodeHere();
-
+protected :
     /** @brief Handle one or two IplImage<br>
         An ModelHandle's startHandle() will call startHandle one more time.
         @param ImageDataPtr src1  : first image

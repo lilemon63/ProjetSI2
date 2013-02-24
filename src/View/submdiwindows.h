@@ -30,12 +30,12 @@ public slots:
     virtual void attach(void);
 private :
     int m_nbSystemResize;
-    VirtualHandle * m_handle;
     bool m_attached;
     Mdi * m_area;
 protected :
     virtual void m_attach(QWidget *);
     virtual void m_detach(QWidget *);
+    VirtualHandle * m_handle;
 };
 
 #endif // SUBMDIWINDOWS_H

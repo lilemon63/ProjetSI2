@@ -13,7 +13,7 @@ public:
         @param unsigned int defaultFrequence = 0 : default frequence in frame number
         @param const std::string & name = "noname" : handle's name */
     ToFiles(const std::string & path , unsigned int defaultFrequence = 0, const std::string & name = "noname");
-
+protected :
     ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr src2);
 private :
     /** @brief existant folder where we put the image */

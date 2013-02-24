@@ -11,7 +11,7 @@ public:
     /** @brief Create a new ModelHandle<br>
     A modelHandle is an handle test which explain how write his own handle class. */
     ModelHandle(void);
-
+protected :
     /** @brief Handle one or two IplImage<br>
         An ModelHandle's startHandle() will call startHandle one more time.
         @param ImageDataPtr src1  : first image

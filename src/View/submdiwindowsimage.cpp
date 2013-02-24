@@ -1,4 +1,12 @@
+#include <QMessageBox>
+#include <QDialog>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QFrame>
+#include <QPushButton>
+#include <QFrame>
 #include "submdiwindowsimage.h"
+#include "../Handle/zi.h"
 
 SubMdiWindowsImage::SubMdiWindowsImage(const QString &titre, Mdi *area, QWidget *parent) :
     SubMdiWindows(titre, area, parent),
@@ -9,6 +17,7 @@ SubMdiWindowsImage::SubMdiWindowsImage(const QString &titre, Mdi *area, QWidget 
     setWidget(m_graphicsView);
     m_image->setZValue(0);
     connect(this, SIGNAL(handleSignalUpdateImage(ImageDataPtr)), this, SLOT(handleSlotUpdateImage(ImageDataPtr)));
+    connect(m_graphicsView, SIGNAL(createZI(QRectF)), this, SLOT(createZI(QRectF)));
 }
 
 
@@ -46,4 +55,29 @@ void SubMdiWindowsImage::attach(void)
 void SubMdiWindowsImage::detach(void)
 {
     m_detach( m_graphicsView );
+}
+
+void SubMdiWindowsImage::createZI(QRectF rect)
+{
+    if( ! m_handle )
+    {
+        QMessageBox::information(nullptr, "Erreur lors de la creation d'une Zone d'Interet", "Vous ne pouvez pas creer une Zone d'Interet ici :\nLa vue n'est liee a aucun traitement");
+        return;
+    }
+    QDialog * dialog = new QDialog();
+    dialog->setLayout( new QVBoxLayout() );
+    dialog->layout()->setSpacing(0);
+    QFrame * frame = new QFrame();
+    frame->setLayout( new QHBoxLayout() );
+
+    QPushButton * buttonConfirm = new QPushButton("Creer");
+    QPushButton * buttonCancel = new QPushButton("Annuler");
+    frame->layout()->addWidget(buttonConfirm);
+    frame->layout()->addWidget(buttonCancel);
+    m_handle->createZI(rect)->showParameters( dialog );
+    dialog->layout()->addWidget(frame);
+
+    dialog->setBaseSize(200, 400);
+    dialog->setWindowTitle("Creation d'une nouvelle Zone d'interet");
+    dialog->show();
 }

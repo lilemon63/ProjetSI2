@@ -35,6 +35,5 @@ ImageDataPtr ToFiles::startHandle(const ImageDataPtr src1, const ImageDataPtr)
 
         m_compteur = 0;
     }
-    updateImageForView(src1);
     return src1;
 }

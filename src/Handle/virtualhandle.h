@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <QRect>
 #include <opencv2/opencv.hpp>
 #include "imagedata.h"
 #include "Parameters/handleparameters.h"
@@ -10,6 +11,8 @@
 #include "../View/mdi.h"
 #include "imagedata.h"
 
+
+class ZI;
 class SubMdiWindowsImage;
 
 /** @brief
@@ -40,12 +43,8 @@ public:
     @return ImageDataPtr : handle's result. */
     static ImageDataPtr executeHandle(const std::string & name, ImageDataPtr src1, const ImageDataPtr src2);
 
-    /** @brief Handle one or two IplImage
-        @param ImageDataPtr src1  : first image
-        @param ImageDataPtr src2 : second image, NULL if unused
-        @return ImageDataPtr : handle's result.
-      */
-    virtual ImageDataPtr startHandle(ImageDataPtr src1, const ImageDataPtr src2) = 0;
+    virtual ImageDataPtr executeHandle(ImageDataPtr src1, const ImageDataPtr src2);
+
 
     /** @brief Show all the Parameters on the parameters' area
         @param QWidget * parent : parent */
@@ -70,7 +69,16 @@ public:
 
     static QStringList getAllHandleName(void);
 
+    ZI * createZI(QRectF rect);
+
 protected :
+    /** @brief Handle one or two IplImage
+        @param ImageDataPtr src1  : first image
+        @param ImageDataPtr src2 : second image, NULL if unused
+        @return ImageDataPtr : handle's result.
+      */
+    virtual ImageDataPtr startHandle(ImageDataPtr src1, const ImageDataPtr src2) = 0;
+
     typedef std::vector<std::shared_ptr<HandleParameters> > M_ListParameters;
     /** @brief List of all handle parameters */
     M_ListParameters m_listParameters;
@@ -80,8 +88,6 @@ protected :
     M_ListDependancies m_dependancies;
 
     VirtualHandle * getHandleForDependancies(const std::string &);
-
-    void updateImageForView(ImageDataPtr image);
 
 private:
     /** @brief Handle's name<br/>

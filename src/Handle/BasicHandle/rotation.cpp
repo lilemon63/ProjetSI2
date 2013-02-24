@@ -30,7 +30,5 @@ ImageDataPtr Rotation::startHandle(const ImageDataPtr src1, const ImageDataPtr)
        cvWarpAffine( src1->getImage() , imageRotated, rot_mat );
        cvReleaseMat(&rot_mat);
    }
-
-   updateImageForView(newImage);
    return newImage;
 }

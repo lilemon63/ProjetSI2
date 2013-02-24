@@ -2,7 +2,8 @@
 
 HandleTools::HandleTools()
     : rotation(15, "Rotation"),
-      tofiles(".", 0, "ToFiles")
+      tofiles(".", 0, "ToFiles"),
+      noHandle("NOHANDLE")
 {
 
 }

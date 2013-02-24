@@ -13,5 +13,6 @@ private :
     Rotation rotation;
     ToFiles tofiles;
     PutYourCodeHere p;
+    NoHandle noHandle;
 };
 #endif // HANDLETOOLS_H

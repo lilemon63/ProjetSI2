@@ -29,7 +29,6 @@ ImageDataPtr PutYourCodeHere::startHandle(ImageDataPtr source, const ImageDataPt
 {
     //executeHandle("ToFiles", source, source1);
     ImageDataPtr result = executeHandle("Rotation", source, source1);
-    updateImageForView(result);
     return result;
     //put your code here !
     //return source;

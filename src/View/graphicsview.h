@@ -2,6 +2,7 @@
 #define GRAPHICSVIEW_H
 
 #include <QGraphicsView>
+#include <QRectF>
 
 class GraphicsView : public QGraphicsView
 {
@@ -14,7 +15,7 @@ public:
 
     void mousePressEvent(QMouseEvent *event);
 signals:
-    
+    void createZI(QRectF);
 public slots:
 private :
     int m_originClicX, m_originClicY;

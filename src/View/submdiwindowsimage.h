@@ -19,6 +19,7 @@ signals:
 public slots:
 private slots :
     void handleSlotUpdateImage(const ImageDataPtr );
+    void createZI(QRectF);
 private :
     QGraphicsScene m_scene;
     QGraphicsPixmapItem * m_image;

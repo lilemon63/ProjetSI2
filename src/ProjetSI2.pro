@@ -34,7 +34,9 @@ SOURCES += \
     Handle/Parameters/inputtext.cpp \
     View/mdi.cpp \
     View/submdiwindowsresults.cpp \
-    View/submdiwindowsimage.cpp
+    View/submdiwindowsimage.cpp \
+    Handle/zi.cpp \
+    Handle/BasicHandle/nohandle.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -67,7 +69,9 @@ HEADERS += \
     Handle/Parameters/inputtext.h \
     View/mdi.h \
     View/submdiwindowsresults.h \
-    View/submdiwindowsimage.h
+    View/submdiwindowsimage.h \
+    Handle/zi.h \
+    Handle/BasicHandle/nohandle.h
 
 LIBS += -lopencv_core \
         -lopencv_video \

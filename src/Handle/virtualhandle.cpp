@@ -3,6 +3,7 @@
 #include "../exception.h"
 #include "Parameters/checkbox.h"
 #include "../View/submdiwindowsimage.h"
+#include "zi.h"
 
 Mdi* VirtualHandle::m_view = nullptr;
 
@@ -16,7 +17,6 @@ VirtualHandle::VirtualHandle(const std::string & name)
                                         "VirtualHandle",
                                         "VirtualHandle",
                                         EP);;
-    m_listHandle[name] = this;
 
     m_visibleCheckBox = new CheckBox("", QStringList("Vue active"));
     m_viewParameters->changeSources( m_visibleCheckBox );
@@ -26,6 +26,9 @@ VirtualHandle::VirtualHandle(const std::string & name)
             showView(hp->toMap()["Vue active"].toBool() );
     };
     m_viewParameters->setActionOnChangeValue( lambda );
+
+    if(name != "noname")
+        m_listHandle[name] = this;
 }
 
 VirtualHandle::ListHandle VirtualHandle::m_listHandle;
@@ -37,7 +40,19 @@ ImageDataPtr VirtualHandle::executeHandle(const std::string & name, ImageDataPtr
                                         "VirtualHandle",
                                         "executeHandle",
                                         EP);
-    return m_listHandle[name]->startHandle(src1, src2);
+    return m_listHandle[name]->executeHandle(src1, src2);
+}
+
+
+ImageDataPtr VirtualHandle::executeHandle(ImageDataPtr src1, const ImageDataPtr src2)
+{
+    ImageDataPtr image = startHandle(src1, src2);
+    if(m_windows)
+        m_windows->updateImageAsc(image);
+
+    //TODO ZI
+
+    return image;
 }
 
 void VirtualHandle::showParameters(QWidget * parent)
@@ -137,8 +152,8 @@ void VirtualHandle::viewClosed(void)
     m_windows = nullptr;
 }
 
-void VirtualHandle::updateImageForView(ImageDataPtr image)
+
+ZI * VirtualHandle::createZI(QRectF rect)
 {
-    if(m_windows)
-        m_windows->updateImageAsc(image);
+    return new ZI(rect);
 }

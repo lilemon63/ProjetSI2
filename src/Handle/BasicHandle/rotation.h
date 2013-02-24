@@ -12,7 +12,7 @@ public:
         @param const std::string & name = "noname" : Handle's name
         */
     Rotation( int defaultAngleRotation = 0 , const std::string & name = "noname");
-
+protected :
     virtual ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr src2);
 private :
     enum Params{AngleRotation, Max};

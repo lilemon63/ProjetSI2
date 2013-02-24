@@ -25,10 +25,12 @@ void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
                         mapToScene(bottomRight)
                         );
 
+    emit createZI(rectInScene);
+    /*
     QPen p( QColor(255,0,0));
     QGraphicsRectItem * rect = scene()->addRect(rectInScene);
     rect->setZValue(5);
     rect->setPen(p);
-
+*/
     event->accept();
 }

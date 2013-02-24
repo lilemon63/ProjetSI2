@@ -11,5 +11,6 @@
 #include "putyourcodehere.h"
 #include "BasicHandle/rotation.h"
 #include "BasicHandle/tofiles.h"
+#include "BasicHandle/nohandle.h"
 
 #endif // HANDLE_H
