@@ -49,3 +49,17 @@ ImageData::~ImageData()
 {
     cvReleaseImage(&m_image);
 }
+
+ImageDataPtr ImageData::getSubRegion(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+{
+    ImageData * retour = new ImageData();
+    CvRect cvrect = cvRect(x,y,width, height);
+    retour->m_image = cvCreateImage( cvSize(cvrect.width,cvrect.height),m_image->depth,m_image->nChannels);
+
+    // définit la région d'intérêt
+    cvSetImageROI(m_image,cvrect);
+    // copier le bout sélectionné dans dest
+    cvCopy(m_image, retour->m_image,0);
+
+    return ImageDataPtr( retour );
+}

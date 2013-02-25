@@ -41,9 +41,9 @@ public:
     @param ImageDataPtr src1  : first image
     @param ImageDataPtr src2 : second image, NULL if unused
     @return ImageDataPtr : handle's result. */
-    static ImageDataPtr executeHandle(const std::string & name, ImageDataPtr src1, const ImageDataPtr src2);
+    static ImageDataPtr executeHandle(const std::string & name, const ImageDataPtr src1, const ImageDataPtr src2);
 
-    virtual ImageDataPtr executeHandle(ImageDataPtr src1, const ImageDataPtr src2);
+    virtual ImageDataPtr executeHandle(const ImageDataPtr src1, const ImageDataPtr src2);
 
 
     /** @brief Show all the Parameters on the parameters' area
@@ -99,6 +99,9 @@ private:
     /** @brief Every handle will be registred in this.<br/>
     So we can call any handle process only with his name.*/
     static ListHandle m_listHandle;
+
+    typedef std::list<ZI *> M_ListZI;
+    M_ListZI m_listZI;
 
     // Outside the m_listParameters to allow inherited class having enum
     std::shared_ptr<HandleParameters> m_viewParameters;

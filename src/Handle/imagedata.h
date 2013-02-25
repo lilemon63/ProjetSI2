@@ -6,6 +6,10 @@
 #include <QPixmap>
 #include <QMetaType>
 
+class ImageData;
+
+typedef std::shared_ptr<ImageData> ImageDataPtr;
+
 /** @brief Contains an Image and his data */
 class ImageData
 {
@@ -23,13 +27,13 @@ public:
     /** @brief create a QPixmap from the image for an print in a Qt's widget
         @return QPixmap : QPixmap created */
     QPixmap toPixmap(void);
-private :
 
+    ImageDataPtr getSubRegion(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
+private :
+    ImageData(void){}
     /** @brief Image */
     IplImage * m_image;
 };
-
-typedef std::shared_ptr<ImageData> ImageDataPtr;
 
 IplImage * ImageData::getImage(void)
 {

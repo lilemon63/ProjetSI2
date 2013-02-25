@@ -8,7 +8,8 @@ ZI::ZI(QRectF rect)
     : m_rect(rect)
 {
     m_listParameters.resize(MAX);
-    //m_ListParameters[AREA]; //TODO
+    m_listParameters[AREA] = std::shared_ptr<HandleParameters>( new HandleParameters() );
+    //m_listParameters[AREA]->changeSources( );
     //m_listParameters[SIZE]; //TODO to
     m_listParameters[COLOR] = std::shared_ptr<HandleParameters>( new HandleParameters() );
     m_listParameters[COLOR]->changeSources( new ColorSelection("Couleur"));
@@ -28,6 +29,17 @@ ZI::ZI(QRectF rect)
 
 ImageDataPtr ZI::startHandle(ImageDataPtr src1, const ImageDataPtr src2)
 {
-    ImageDataPtr result = executeHandle(m_listParameters[HANDLE]->toString().toStdString() , src1, src2);
+    ImageDataPtr result = VirtualHandle::executeHandle(m_listParameters[HANDLE]->toString().toStdString() , src1, src2);
     return result;
+}
+
+ImageDataPtr ZI::executeHandle(ImageDataPtr src1, const ImageDataPtr src2)
+{
+    ImageDataPtr srcZi = src1->getSubRegion(100, 100, 200, 200);
+    ImageDataPtr srcZi2 = src1->getSubRegion(100, 100, 200, 200);
+
+    ImageDataPtr result = VirtualHandle::executeHandle(srcZi,srcZi2);
+
+    //TODO merge ZI
+    return src1;
 }

@@ -44,13 +44,13 @@ ImageDataPtr VirtualHandle::executeHandle(const std::string & name, ImageDataPtr
 }
 
 
-ImageDataPtr VirtualHandle::executeHandle(ImageDataPtr src1, const ImageDataPtr src2)
+ImageDataPtr VirtualHandle::executeHandle(const ImageDataPtr src1, const ImageDataPtr src2)
 {
     ImageDataPtr image = startHandle(src1, src2);
     if(m_windows)
         m_windows->updateImageAsc(image);
-
-    //TODO ZI
+    for(ZI * zi : m_listZI)
+        image = zi->executeHandle(image, src1);
 
     return image;
 }
@@ -155,5 +155,7 @@ void VirtualHandle::viewClosed(void)
 
 ZI * VirtualHandle::createZI(QRectF rect)
 {
-    return new ZI(rect);
+    ZI * zi = new ZI(rect);
+    m_listZI.push_back(zi);
+    return zi;
 }
