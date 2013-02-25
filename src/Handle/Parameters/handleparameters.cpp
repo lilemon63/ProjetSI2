@@ -1,5 +1,12 @@
 #include "handleparameters.h"
 #include "sourceparameters.h"
+#include "slider.h"
+#include "dial.h"
+#include "spinbox.h"
+#include "radiobutton.h"
+#include "colorselection.h"
+#include "inputtext.h"
+#include "checkbox.h"
 
 HandleParameters::HandleParameters()
     : m_source(nullptr)
@@ -43,4 +50,54 @@ void HandleParameters::setActionOnChangeValue(std::function<void(QVariant, Handl
 void HandleParameters::acceptChanges(QVariant value)
 {
     QVariant::setValue(value);
+}
+
+std::shared_ptr<HandleParameters> HandleParameters::build_slider( const QString & label = QString(), int defaultValue, int min, int max)
+{
+    std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
+    newParam->changeSources(new Slider(label, defaultValue, min, max));
+    return newParam;
+}
+
+std::shared_ptr<HandleParameters> HandleParameters::build_dial(const QString & label, int defaultAngle)
+{
+    std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
+    newParam->changeSources(new Dial(label, defaultAngle));
+    return newParam;
+}
+
+std::shared_ptr<HandleParameters> HandleParameters::build_spinbox(const QString & label)
+{
+    std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
+    newParam->changeSources(new SpinBox(label));
+    return newParam;
+}
+
+std::shared_ptr<HandleParameters> HandleParameters::build_radiobutton(const QString & label, QStringList boxes)
+{
+    std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
+    newParam->changeSources(new RadioButton(label,boxes));
+    return newParam;
+}
+
+std::shared_ptr<HandleParameters> HandleParameters::build_colorselection(const QString & label, const QColor& c)
+{
+
+    std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
+    newParam->changeSources(new ColorSelection(label, c));
+    return newParam;
+}
+
+std::shared_ptr<HandleParameters> HandleParameters::build_inputtext(const QString & label, const QString &defaultValue)
+{
+    std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
+    newParam->changeSources(new InputText(label, defaultValue));
+    return newParam;
+}
+
+std::shared_ptr<HandleParameters> HandleParameters::build_checkbox(QString label, QStringList boxes)
+{
+    std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
+    newParam->changeSources(new CheckBox(label, boxes));
+    return newParam;
 }

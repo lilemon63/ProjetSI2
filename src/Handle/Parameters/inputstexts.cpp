@@ -8,16 +8,19 @@ InputsTexts::InputsTexts(const QString & label, unsigned int number, const QStri
     m_frame(new QFrame() )
 {
     m_frame->setLayout( new QHBoxLayout() );
+    m_frame->layout()->setContentsMargins(0,0,0,0);
+    m_frame->layout()->setSpacing(0);
     unsigned int max = defaultValue.size();
     for(unsigned int i = 0; i != number; ++i)
     {
         m_inputText[i] = new QLineEdit();
-        m_frame->layout()->addWidget(m_inputText[i]);
-        connect(m_inputText[i], SIGNAL(textChanged(QString)), this, SLOT(valueChanged()));
-        if( i != max)
-            m_inputText[i]->setText(defaultValue[i]);
+        m_frame->layout()->addWidget(m_inputText[i]);    
         m_values.push_back( m_inputText[i]->text() );
+        m_inputText[i]->setMaximumWidth(50);
         m_ids[m_inputText[i] ] = i;
+        connect(m_inputText[i], SIGNAL(textChanged(QString)), this, SLOT(valueChanged()));
+        if( i < max)
+            m_inputText[i]->setText(defaultValue[i]);
     }
 }
 

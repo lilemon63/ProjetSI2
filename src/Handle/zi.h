@@ -12,8 +12,11 @@ public:
 protected:
     virtual ImageDataPtr startHandle(ImageDataPtr src1, const ImageDataPtr src2);
 private :
-    enum Params{NAME, HANDLE, AREA,/* SIZE, */COLOR, ACTIVATION,/* DELETE,*/ MAX};
-    QRectF m_rect; //replace by Area
+    enum Params{NAME, HANDLE, AREA, SIZE, COLOR, ACTIVATION,/* DELETE,*/ MAX};
+    unsigned int m_x;
+    unsigned int m_y;
+    unsigned int m_width;
+    unsigned int m_height;
 };
 
 #endif // ZI_H

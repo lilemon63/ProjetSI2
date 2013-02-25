@@ -8,7 +8,8 @@
 Mdi* VirtualHandle::m_view = nullptr;
 
 VirtualHandle::VirtualHandle(const std::string & name)
-    : m_name(name),
+    : m_listParameters(0),
+      m_name(name),
       m_viewParameters(new HandleParameters() ),
       m_windows(nullptr)
 {
@@ -58,7 +59,10 @@ ImageDataPtr VirtualHandle::executeHandle(const ImageDataPtr src1, const ImageDa
 void VirtualHandle::showParameters(QWidget * parent)
 {
     for(auto param : m_listParameters)
-        param->showParameters(parent);
+        if(param)
+            param->showParameters(parent);
+        else
+            throw Exception::buildException("Parametre non-initialisé!","VirtualHandle","showParameters", EPC);
     m_viewParameters->showParameters(parent);
     for(VirtualHandle * handle : m_dependancies)
         handle->showParameters(parent);

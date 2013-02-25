@@ -6,6 +6,7 @@
 #include "Parameters/colorselection.h"
 #include "Parameters/inputtext.h"
 #include "Parameters/checkbox.h"
+#include "Parameters/inputstexts.h"
 
 
 PutYourCodeHere::PutYourCodeHere()
