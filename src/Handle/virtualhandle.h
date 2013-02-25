@@ -14,6 +14,7 @@
 
 class ZI;
 class SubMdiWindowsImage;
+class Spoiler;
 
 /** @brief
     Class which handle two IplImage and return an IplImage.<br/>
@@ -71,6 +72,8 @@ public:
 
     ZI * createZI(QRectF rect);
 
+    typedef std::vector<std::shared_ptr<HandleParameters> > ListParameters;
+    typedef std::vector<VirtualHandle *> ListDependancies;
 protected :
     /** @brief Handle one or two IplImage
         @param ImageDataPtr src1  : first image
@@ -79,13 +82,11 @@ protected :
       */
     virtual ImageDataPtr startHandle(ImageDataPtr src1, const ImageDataPtr src2) = 0;
 
-    typedef std::vector<std::shared_ptr<HandleParameters> > M_ListParameters;
     /** @brief List of all handle parameters */
-    M_ListParameters m_listParameters;
+    ListParameters m_listParameters;
 
-    typedef std::vector<VirtualHandle *> M_ListDependancies;
     /** @brief All dependancies for this handle (for show parameters) */
-    M_ListDependancies m_dependancies;
+    ListDependancies m_dependancies;
 
     VirtualHandle * getHandleForDependancies(const std::string &);
 
@@ -113,6 +114,8 @@ private:
     // setImage
     static Mdi * m_view;
     SubMdiWindowsImage * m_windows;
+
+    Spoiler * m_spoiler;
 public :
     static void setView(Mdi *m_view);
     void viewClosed(void);

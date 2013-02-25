@@ -4,6 +4,7 @@
 #include "Parameters/checkbox.h"
 #include "../View/submdiwindowsimage.h"
 #include "zi.h"
+#include "Parameters/spoiler.h"
 
 Mdi* VirtualHandle::m_view = nullptr;
 
@@ -11,7 +12,8 @@ VirtualHandle::VirtualHandle(const std::string & name)
     : m_listParameters(0),
       m_name(name),
       m_viewParameters(new HandleParameters() ),
-      m_windows(nullptr)
+      m_windows(nullptr),
+      m_spoiler( new Spoiler() )
 {
     if( name != "noname" && m_listHandle.find(name) != m_listHandle.end() )
         throw Exception::buildException(name + " est un nom de traitement déjà pris",
@@ -58,6 +60,8 @@ ImageDataPtr VirtualHandle::executeHandle(const ImageDataPtr src1, const ImageDa
 
 void VirtualHandle::showParameters(QWidget * parent)
 {
+    m_spoiler->setParam(m_listParameters, m_dependancies, m_name, parent);
+    /*
     for(auto param : m_listParameters)
         if(param)
             param->showParameters(parent);
@@ -65,7 +69,7 @@ void VirtualHandle::showParameters(QWidget * parent)
             throw Exception::buildException("Parametre non-initialisé!","VirtualHandle","showParameters", EPC);
     m_viewParameters->showParameters(parent);
     for(VirtualHandle * handle : m_dependancies)
-        handle->showParameters(parent);
+        handle->showParameters(parent);*/
 }
 
 void VirtualHandle::hideParameters(const std::string & name)
@@ -80,11 +84,13 @@ void VirtualHandle::hideParameters(const std::string & name)
 
 void VirtualHandle::hideParameters(void)
 {
+    m_spoiler->hideAll();
+    /*
     for(auto param : m_listParameters)
         param->hideParameters();
     m_viewParameters->hideParameters();
     for(VirtualHandle * handle : m_dependancies)
-        handle->hideParameters();
+        handle->hideParameters(); */
 }
 
 void VirtualHandle::changeSource(unsigned int idParameters, SourceParameters * source)
