@@ -17,7 +17,7 @@ PutYourCodeHere::PutYourCodeHere()
     m_listParameters[0]->changeSources( new ColorSelection("Nothing"));
 
     m_listParameters[1] = std::shared_ptr<HandleParameters>(new HandleParameters() );
-    m_listParameters[1]->changeSources( new InputText("Nothing", "kikoo", InputText::Directory));
+    m_listParameters[1]->changeSources( new InputText("Noting", "kikoo", InputText::Directory));
 
     m_listParameters[2] = std::shared_ptr<HandleParameters>(new HandleParameters() );
     m_listParameters[2]->changeSources( new CheckBox("Nothing", QStringList({"ee","gg"}) ) );

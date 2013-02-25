@@ -48,7 +48,7 @@ private:
     QFrame *m_frame;
     QPushButton *m_button,*m_button_icon;
     QHBoxLayout *m_layout;
-
+    QFrame * m_title;
 
     bool m_hiden = true;
 };

@@ -2,17 +2,20 @@
 #include <iostream>
 
 Spoiler::Spoiler()
+    :
+    m_layout(new QHBoxLayout(this)),
+    m_button(new QPushButton()),
+    m_button_icon(new QPushButton()),
+    m_frame(new QFrame() ),
+    m_title(new QFrame())
 {
-    m_button = new QPushButton();
-    m_button_icon = new QPushButton();
     m_button_icon->setIcon(QIcon(QPixmap("low_arrow.png")));
-
-    m_layout = new QHBoxLayout(this);
     m_layout->addWidget(m_button_icon);
-    m_layout->addStretch();
     m_layout->addWidget(m_button);
+    m_layout->addStretch();
+    m_layout->setContentsMargins(0,0,0,0);
+    m_layout->setMargin(0);
 
-    m_frame = new QFrame();
     m_frame->setLayout( new QVBoxLayout() );
 
     m_button->setFlat(true);
@@ -24,13 +27,16 @@ Spoiler::Spoiler()
 
 }
 
-void Spoiler::hideAll(){
-
-    std::cerr << "hideAll" << std::endl;
+void Spoiler::hideAll()
+{
+    m_title->hide();
     m_frame->hide();
+    m_hiden = true;
 }
 
-void Spoiler::showAll(){
+void Spoiler::showAll()
+{
+    m_title->show();
     m_frame->show();
 }
 
@@ -54,10 +60,10 @@ void Spoiler::setParam(VirtualHandle::ListParameters listParameters,VirtualHandl
         param->showParameters(m_frame );
     for(auto mobile : dependancies)
         mobile->showParameters( m_frame );
-    QFrame * tmp = new QFrame();
-    tmp->setLayout(m_layout);
-    parent->layout()->addWidget(tmp);
+    m_title->setLayout(m_layout);
+    parent->layout()->addWidget(m_title);
     parent->layout()->addWidget(m_frame);
+    m_title->show();
     m_frame->hide();
 
 }
@@ -69,7 +75,7 @@ void Spoiler::whenClicked(){
         m_button_icon->setIcon(QIcon(QPixmap("high_arrow.png")));
     }
     else{
-        hideAll();
+        hideParameters();
         m_button_icon->setIcon(QIcon(QPixmap("low_arrow.png")));
     }
     m_hiden = !m_hiden;
