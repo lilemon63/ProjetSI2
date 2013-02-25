@@ -58,18 +58,15 @@ ImageDataPtr VirtualHandle::executeHandle(const ImageDataPtr src1, const ImageDa
     return image;
 }
 
+void VirtualHandle::showParameters(QWidget * parent, Numbering num )
+{
+    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_name, parent, num);
+}
+
 void VirtualHandle::showParameters(QWidget * parent)
 {
-    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_name, parent);
-    /*
-    for(auto param : m_listParameters)
-        if(param)
-            param->showParameters(parent);
-        else
-            throw Exception::buildException("Parametre non-initialisé!","VirtualHandle","showParameters", EPC);
-    m_viewParameters->showParameters(parent);
-    for(VirtualHandle * handle : m_dependancies)
-        handle->showParameters(parent);*/
+    Numbering num;
+    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_name, parent, num);
 }
 
 void VirtualHandle::hideParameters(const std::string & name)
@@ -85,12 +82,6 @@ void VirtualHandle::hideParameters(const std::string & name)
 void VirtualHandle::hideParameters(void)
 {
     m_spoiler->hideAll();
-    /*
-    for(auto param : m_listParameters)
-        param->hideParameters();
-    m_viewParameters->hideParameters();
-    for(VirtualHandle * handle : m_dependancies)
-        handle->hideParameters(); */
 }
 
 void VirtualHandle::changeSource(unsigned int idParameters, SourceParameters * source)

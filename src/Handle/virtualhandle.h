@@ -10,6 +10,7 @@
 #include "Parameters/checkbox.h"
 #include "../View/mdi.h"
 #include "imagedata.h"
+#include "numbering.h"
 
 
 class ZI;
@@ -49,6 +50,8 @@ public:
 
     /** @brief Show all the Parameters on the parameters' area
         @param QWidget * parent : parent */
+    virtual void showParameters(QWidget * parent, Numbering );
+
     virtual void showParameters(QWidget * parent);
 
     /** @brief Show all the Parameters on the parameters' area

@@ -38,7 +38,8 @@ SOURCES += \
     Handle/zi.cpp \
     Handle/BasicHandle/nohandle.cpp \
     Handle/Parameters/inputstexts.cpp \
-    Handle/Parameters/spoiler.cpp
+    Handle/Parameters/spoiler.cpp \
+    Handle/numbering.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -75,7 +76,8 @@ HEADERS += \
     Handle/zi.h \
     Handle/BasicHandle/nohandle.h \
     Handle/Parameters/inputstexts.h \
-    Handle/Parameters/spoiler.h
+    Handle/Parameters/spoiler.h \
+    Handle/numbering.h
 
 LIBS += -lopencv_core \
         -lopencv_video \

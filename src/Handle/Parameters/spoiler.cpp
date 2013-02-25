@@ -3,10 +3,10 @@
 
 Spoiler::Spoiler()
     :
-    m_layout(new QHBoxLayout(this)),
+    m_frame(new QFrame() ),
     m_button(new QPushButton()),
     m_button_icon(new QPushButton()),
-    m_frame(new QFrame() ),
+    m_layout(new QHBoxLayout(this)),
     m_title(new QFrame())
 {
     m_button_icon->setIcon(QIcon(QPixmap("low_arrow.png")));
@@ -56,13 +56,14 @@ void Spoiler::hideParameters(void)
 
 void Spoiler::setParam(VirtualHandle::ListParameters listParameters, std::shared_ptr<HandleParameters> viewParam,
                        VirtualHandle::ListDependancies dependancies,
-                       std::string name, QWidget * parent){
-    m_button->setText(name.c_str());
+                       std::string name, QWidget * parent, Numbering &num)
+{
+    m_button->setText( num.text() + " " + name.c_str());
     for(auto param : listParameters)
         param->showParameters(m_frame );
     viewParam->showParameters(m_frame );
     for(auto mobile : dependancies)
-        mobile->showParameters( m_frame );
+        mobile->showParameters( m_frame , num );
     m_title->setLayout(m_layout);
     parent->layout()->addWidget(m_title);
     parent->layout()->addWidget(m_frame);
