@@ -36,7 +36,7 @@ public:
 
     virtual ~Spoiler(){}
 
-    void setParam(VirtualHandle::ListParameters listParameters,VirtualHandle::ListDependancies dependancies,std::string name, QWidget * parent);
+    void setParam(VirtualHandle::ListParameters listParameters, std::shared_ptr<HandleParameters> viewParam , VirtualHandle::ListDependancies dependancies,std::string name, QWidget * parent);
     /**
     * @brief Used to show again all HandlerParameters of a Virtual handle
     * @param parent : Widget on which they'll be show

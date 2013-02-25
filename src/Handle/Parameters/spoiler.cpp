@@ -54,10 +54,13 @@ void Spoiler::hideParameters(void)
     m_frame->hide();
 }
 
-void Spoiler::setParam(VirtualHandle::ListParameters listParameters,VirtualHandle::ListDependancies dependancies,std::string name, QWidget * parent){
+void Spoiler::setParam(VirtualHandle::ListParameters listParameters, std::shared_ptr<HandleParameters> viewParam,
+                       VirtualHandle::ListDependancies dependancies,
+                       std::string name, QWidget * parent){
     m_button->setText(name.c_str());
     for(auto param : listParameters)
         param->showParameters(m_frame );
+    viewParam->showParameters(m_frame );
     for(auto mobile : dependancies)
         mobile->showParameters( m_frame );
     m_title->setLayout(m_layout);

@@ -60,7 +60,7 @@ ImageDataPtr VirtualHandle::executeHandle(const ImageDataPtr src1, const ImageDa
 
 void VirtualHandle::showParameters(QWidget * parent)
 {
-    m_spoiler->setParam(m_listParameters, m_dependancies, m_name, parent);
+    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_name, parent);
     /*
     for(auto param : m_listParameters)
         if(param)
