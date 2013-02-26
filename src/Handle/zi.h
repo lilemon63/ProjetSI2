@@ -12,7 +12,7 @@ public:
 protected:
     virtual ImageDataPtr startHandle(ImageDataPtr src1, const ImageDataPtr src2);
 private :
-    enum Params{NAME, HANDLE, AREA, SIZE, COLOR, ACTIVATION,/* DELETE,*/ MAX};
+    enum Params{NAME, HANDLE, AREA, SIZE, COLOR, ACTIVATION, DELETE, MAX};
     unsigned int m_x;
     unsigned int m_y;
     unsigned int m_width;

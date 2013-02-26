@@ -73,7 +73,7 @@ std::shared_ptr<HandleParameters> HandleParameters::build_spinbox(const QString 
     return newParam;
 }
 
-std::shared_ptr<HandleParameters> HandleParameters::build_radiobutton(const QString & label, QStringList boxes)
+std::shared_ptr<HandleParameters> HandleParameters::build_radiobutton(const QString & label, const QStringList & boxes)
 {
     std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
     newParam->changeSources(new RadioButton(label,boxes));
@@ -95,7 +95,7 @@ std::shared_ptr<HandleParameters> HandleParameters::build_inputtext(const QStrin
     return newParam;
 }
 
-std::shared_ptr<HandleParameters> HandleParameters::build_checkbox(QString label, QStringList boxes)
+std::shared_ptr<HandleParameters> HandleParameters::build_checkbox(const QString & label, const QStringList & boxes)
 {
     std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
     newParam->changeSources(new CheckBox(label, boxes));

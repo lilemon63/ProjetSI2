@@ -4,6 +4,7 @@
 #include "Parameters/inputtext.h"
 #include "Parameters/combobox.h"
 #include "Parameters/inputstexts.h"
+#include <QString>
 
 ZI::ZI(QRectF rect)
     : m_x(rect.x()),
@@ -28,7 +29,8 @@ ZI::ZI(QRectF rect)
     m_listParameters[COLOR]->changeSources( new ColorSelection("Couleur"));
     m_listParameters[ACTIVATION] = std::shared_ptr<HandleParameters>( new HandleParameters() );
     m_listParameters[ACTIVATION]->changeSources( new CheckBox("", QStringList("Activation") ));
-    //m_listParameters[DELETE] TODO
+
+    m_listParameters[DELETE] = HandleParameters::build_checkbox("Supprimer");
 
     m_listParameters[NAME] = std::shared_ptr<HandleParameters>( new HandleParameters() );
     m_listParameters[NAME]->changeSources( new InputText("Nom", "ZI"));

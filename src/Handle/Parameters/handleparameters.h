@@ -50,10 +50,10 @@ public:
     static std::shared_ptr<HandleParameters> build_slider( const QString & label, int defaultValue = 0, int min = 0, int max = 100);
     static std::shared_ptr<HandleParameters> build_dial(const QString & label, int defaultAngle = 0);
     static std::shared_ptr<HandleParameters> build_spinbox(const QString & label = QString() );
-    static std::shared_ptr<HandleParameters> build_radiobutton(const QString & label, QStringList boxes);
+    static std::shared_ptr<HandleParameters> build_radiobutton(const QString & label, const QStringList & boxes = QStringList() );
     static std::shared_ptr<HandleParameters> build_colorselection(const QString & label, const QColor& = QColor(255,0,0));
     static std::shared_ptr<HandleParameters> build_inputtext(const QString & label = QString(), const QString &defaultValue = QString());
-    static std::shared_ptr<HandleParameters> build_checkbox(QString label, QStringList boxes);
+    static std::shared_ptr<HandleParameters> build_checkbox(const QString & label, const QStringList & boxes = QStringList() );
     
 private :
     /** @brief HandleParameters' Source */
