@@ -6,7 +6,7 @@
 class NoHandle : public VirtualHandle
 {
 public:
-    NoHandle(const std::string &);
+    NoHandle(const QString & affName = "Untilted", const std::string & = "noname");
 protected :
     ImageDataPtr startHandle(ImageDataPtr src1, const ImageDataPtr src2);
 };

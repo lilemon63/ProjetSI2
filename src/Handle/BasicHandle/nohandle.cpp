@@ -1,7 +1,7 @@
 #include "nohandle.h"
 
-NoHandle::NoHandle(const std::string & name)
-    : VirtualHandle(name)
+NoHandle::NoHandle(const QString & affName, const std::string & name)
+    : VirtualHandle(affName, name)
 {
 }
 

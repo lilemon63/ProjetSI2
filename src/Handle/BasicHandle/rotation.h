@@ -11,7 +11,7 @@ public:
         @param int AngleRotation = 0 :default angle rotation
         @param const std::string & name = "noname" : Handle's name
         */
-    Rotation( int defaultAngleRotation = 0 , const std::string & name = "noname");
+    Rotation( int defaultAngleRotation = 0 , const QString &affName="untilted", const std::string &name= "noname");
 protected :
     virtual ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr src2);
 private :

@@ -8,9 +8,10 @@
 
 Mdi* VirtualHandle::m_view = nullptr;
 
-VirtualHandle::VirtualHandle(const std::string & name)
+VirtualHandle::VirtualHandle(const QString affName, const std::string & name)
     : m_listParameters(0),
       m_name(name),
+      m_affName(affName),
       m_viewParameters(new HandleParameters() ),
       m_windows(nullptr),
       m_spoiler( new Spoiler() )
@@ -60,13 +61,13 @@ ImageDataPtr VirtualHandle::executeHandle(const ImageDataPtr src1, const ImageDa
 
 void VirtualHandle::showParameters(QWidget * parent, Numbering num )
 {
-    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_name, parent, num);
+    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, num);
 }
 
 void VirtualHandle::showParameters(QWidget * parent)
 {
     Numbering num;
-    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_name, parent, num);
+    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, num);
 }
 
 void VirtualHandle::hideParameters(const std::string & name)
@@ -132,7 +133,7 @@ void VirtualHandle::showView(bool visible)
     {
         if( ! m_windows )
         {
-            m_windows = new SubMdiWindowsImage(QString(m_name.c_str()), m_view);
+            m_windows = new SubMdiWindowsImage(m_affName, m_view);
             m_windows->move(0,0);
             m_windows->resize(300,300);
             m_windows->linkHandle(this);
@@ -159,4 +160,9 @@ ZI * VirtualHandle::createZI(QRectF rect)
     ZI * zi = new ZI(rect);
     m_listZI.push_back(zi);
     return zi;
+}
+
+void VirtualHandle::changeAffName(const QString & name)
+{
+    m_affName = name;            //changeName (spoiler + fenêtre)
 }

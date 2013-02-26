@@ -6,7 +6,7 @@ Rq :    You can give parameters when you initialise your handle.
 */
 
 ModelHandle::ModelHandle()
-    : VirtualHandle("Modele"), //put the handle's name
+    : VirtualHandle("Modele", "Modele"), //put the handle's name
       tour(1) //for exemple
 {
 }

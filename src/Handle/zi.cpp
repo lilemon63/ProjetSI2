@@ -30,10 +30,17 @@ ZI::ZI(QRectF rect)
     m_listParameters[ACTIVATION] = std::shared_ptr<HandleParameters>( new HandleParameters() );
     m_listParameters[ACTIVATION]->changeSources( new CheckBox("", QStringList("Activation") ));
 
-    m_listParameters[DELETE] = HandleParameters::build_checkbox("Supprimer");
+    m_listParameters[DELETE] = HandleParameters::build_checkbox("", QStringList("Supprimer"));
 
-    m_listParameters[NAME] = std::shared_ptr<HandleParameters>( new HandleParameters() );
-    m_listParameters[NAME]->changeSources( new InputText("Nom", "ZI"));
+    m_listParameters[NAME] =  HandleParameters::build_inputtext("Nom", "ZI");
+    /* m_listParameters[NAME]->setActionOnChangeValue([this]( QVariant Value, HandleParameters * hp )
+                                                    {
+                                                            hp->acceptChanges(Value);
+                                                            changeAffName( hp->toString() );
+                                                            hideParameters();
+                                                    });*/
+
+
 
     m_listParameters[HANDLE] = std::shared_ptr<HandleParameters>( new HandleParameters() );
     m_listParameters[HANDLE]->changeSources( new ComboBox("Traitement", getAllHandleName(), "NOHANDLE" ));

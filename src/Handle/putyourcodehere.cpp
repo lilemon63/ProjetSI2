@@ -10,7 +10,7 @@
 
 
 PutYourCodeHere::PutYourCodeHere()
-    : VirtualHandle("PutYourCodeHere") //handle's name
+    : VirtualHandle("PutYourCodeHere", "PutYourCodeHere") //handle's name
 {
     m_listParameters.resize(3);
     m_listParameters[0] = std::shared_ptr<HandleParameters>(new HandleParameters() );

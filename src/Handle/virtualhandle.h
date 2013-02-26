@@ -30,7 +30,7 @@ class VirtualHandle
 public:
     /** @brief Create a new VirtualHandle.
       @param const std::string & name  = "noname": handle's name. */
-    VirtualHandle(const std::string & name  = "noname");
+    VirtualHandle(const QString affName = "untiltled", const std::string & name  = "noname");
 
     ~VirtualHandle(void){};
 
@@ -93,10 +93,14 @@ protected :
 
     VirtualHandle * getHandleForDependancies(const std::string &);
 
+    void changeAffName(const QString & name);
+
 private:
     /** @brief Handle's name<br/>
         Thanks this, you can get this handle only with his name. */
     const std::string m_name;
+
+    QString m_affName;
 
     typedef std::map< std::string, VirtualHandle * > ListHandle;
 

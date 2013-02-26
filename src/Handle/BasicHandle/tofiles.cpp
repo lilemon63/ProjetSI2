@@ -4,8 +4,8 @@
 #include <QDateTime>
 #include <opencv2/opencv.hpp>
 
-ToFiles::ToFiles(const std::string & path, unsigned int,const std::string &name)
-    : VirtualHandle(name),
+ToFiles::ToFiles(const std::string & path, unsigned int, const QString & affName,const std::string &name)
+    : VirtualHandle(affName, name),
       m_path(path),
       m_compteur(0)
 {

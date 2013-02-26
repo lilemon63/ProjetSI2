@@ -3,8 +3,8 @@
 #include "../imagedata.h"
 #include "../Parameters/dial.h"
 
-Rotation::Rotation(int angle, const std::string & name)
-    : VirtualHandle(name)
+Rotation::Rotation(int angle, const QString & affName, const std::string & name)
+    : VirtualHandle(affName, name)
 {
     m_listParameters.resize(Max);
     m_listParameters[AngleRotation] = std::shared_ptr<HandleParameters>(new HandleParameters() );
