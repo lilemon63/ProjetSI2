@@ -6,6 +6,9 @@
 #include <QFrame>
 #include "sourceparameters.h"
 
+
+// Rq : attention : fermer un spoiler alors qu'on a le curseur dans une zdt fait quitter le curseur => finishediting
+
 class InputText : public QObject, public SourceParameters
 {
     Q_OBJECT

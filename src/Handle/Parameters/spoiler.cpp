@@ -15,6 +15,7 @@ Spoiler::Spoiler()
     m_layout->addStretch();
     m_layout->setContentsMargins(0,0,0,0);
     m_layout->setMargin(0);
+    m_title->setLayout(m_layout);
 
     m_frame->setLayout( new QVBoxLayout() );
 
@@ -24,7 +25,6 @@ Spoiler::Spoiler()
     QObject::connect(m_button,SIGNAL(clicked()),this,SLOT(whenClicked()));
 
     QObject::connect(m_button_icon,SIGNAL(clicked()),this,SLOT(whenClicked()));
-
 }
 
 void Spoiler::hideAll()
@@ -64,7 +64,6 @@ void Spoiler::setParam(const VirtualHandle::ListParameters &listParameters, std:
     viewParam->showParameters(m_frame );
     for(auto mobile : dependancies)
         mobile->showParameters( m_frame , num );
-    m_title->setLayout(m_layout);
     parent->layout()->addWidget(m_title);
     parent->layout()->addWidget(m_frame);
     m_title->show();
@@ -72,8 +71,8 @@ void Spoiler::setParam(const VirtualHandle::ListParameters &listParameters, std:
 
 }
 
-void Spoiler::whenClicked(){
-
+void Spoiler::whenClicked()
+{
     if(m_hiden){
         showAll();
         m_button_icon->setIcon(QIcon(QPixmap("high_arrow.png")));

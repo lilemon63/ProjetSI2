@@ -4,7 +4,6 @@
 #include <QHBoxLayout>
 #include <QFrame>
 #include <QPushButton>
-#include <QFrame>
 #include "submdiwindowsimage.h"
 #include "../Handle/zi.h"
 
@@ -64,6 +63,7 @@ void SubMdiWindowsImage::createZI(QRectF rect)
         QMessageBox::information(nullptr, "Erreur lors de la creation d'une Zone d'Interet", "Vous ne pouvez pas creer une Zone d'Interet ici :\nLa vue n'est liee a aucun traitement");
         return;
     }
+
     QDialog * dialog = new QDialog();
     dialog->setLayout( new QVBoxLayout() );
     dialog->layout()->setSpacing(0);
@@ -76,8 +76,9 @@ void SubMdiWindowsImage::createZI(QRectF rect)
     frame->layout()->addWidget(buttonCancel);
     m_handle->createZI(rect)->showParameters( dialog );
     dialog->layout()->addWidget(frame);
-
+    buttonConfirm->setDefault(true);
     dialog->setBaseSize(200, 400);
     dialog->setWindowTitle("Creation d'une nouvelle Zone d'interet");
+
     dialog->show();
 }

@@ -33,12 +33,11 @@ ZI::ZI(QRectF rect)
     m_listParameters[DELETE] = HandleParameters::build_checkbox("", QStringList("Supprimer"));
 
     m_listParameters[NAME] =  HandleParameters::build_inputtext("Nom", "ZI");
-    /* m_listParameters[NAME]->setActionOnChangeValue([this]( QVariant Value, HandleParameters * hp )
+    m_listParameters[NAME]->setActionOnChangeValue([this]( QVariant Value, HandleParameters * hp )
                                                     {
                                                             hp->acceptChanges(Value);
                                                             changeAffName( hp->toString() );
-                                                            hideParameters();
-                                                    });*/
+                                                    });
 
 
 
