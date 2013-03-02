@@ -17,7 +17,7 @@ VirtualHandle::VirtualHandle(const QString affName, const std::string & name)
       m_spoiler( new Spoiler() )
 {
     if( name != "noname" && m_listHandle.find(name) != m_listHandle.end() )
-        throw Exception::buildException(name + " est un nom de traitement déjà pris",
+        throw Exception::buildException(name + " est un nom de traitement déj�  pris",
                                         "VirtualHandle",
                                         "VirtualHandle",
                                         EP);;
@@ -92,6 +92,7 @@ void VirtualHandle::changeSource(unsigned int idParameters, SourceParameters * s
 
 void VirtualHandle::showParameters(QWidget * parent, const std::string & name)
 {
+    std::cout << name << std::endl;
     if( name == "noname" || m_listHandle.find(name) == m_listHandle.end() )
         throw Exception::buildException(name + " n'est pas un nom de traitement valide",
                                         "VirtualHandle",
