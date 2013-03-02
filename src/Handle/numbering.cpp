@@ -81,14 +81,14 @@ QString Numbering::G_none(unsigned int)
 Numbering::Numbering( std::initializer_list<std::function<QString (unsigned int)> > generators )
     : m_config( new ShadowConfig(generators) ),
     m_depth(0),
-    m_number(1)
+    m_number(0)
 {
 }
 
 Numbering::Numbering(void)
     : m_config( new ShadowConfig(m_defaultConfig) ),
       m_depth(0),
-      m_number(1)
+      m_number(0)
 {
 
 }
@@ -97,10 +97,10 @@ Numbering::Numbering(Numbering & other)
     : m_config( other.m_config),
       m_text( other.m_text),
       m_depth( other.m_depth + 1 > m_config->size() ? other.m_depth : other.m_depth + 1),
-      m_number(1)
+      m_number(0)
 {
-    ++other.m_depth;
-    m_text += (*m_config)[m_depth](m_number);
+    ++other.m_number;
+    m_text += (*m_config)[m_depth](other.m_number);
     if( m_text != "" && m_text[m_text.size() - 1] != '.' )
         m_text += ".";
 }

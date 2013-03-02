@@ -62,6 +62,7 @@ void Spoiler::setParam(const VirtualHandle::ListParameters &listParameters, std:
     for(auto param : listParameters)
         param->showParameters(m_frame );
     viewParam->showParameters(m_frame );
+
     for(auto mobile : dependancies)
         mobile->showParameters( m_frame , num );
     parent->layout()->addWidget(m_title);
