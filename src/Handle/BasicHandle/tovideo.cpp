@@ -7,7 +7,7 @@
 
 ToVideo::ToVideo(const std::string &path, const QString & affName,const std::string &name)
     :VirtualHandle(affName,name),
-      m_path(path),
+      m_Path(new InputText("Path",QString(path.c_str()),InputText::SaveFile)),
       m_progress( new ProgressBar("progression") ),
       m_checkBox( new CheckBox("Video", QStringList({"Actif"}) ) ),
       m_isActif(false)
@@ -23,6 +23,9 @@ ToVideo::ToVideo(const std::string &path, const QString & affName,const std::str
 
     m_listParameters[Prise] = std::shared_ptr<HandleParameters>( new HandleParameters() );
     m_listParameters[Prise]->changeSources( m_checkBox );
+
+    m_listParameters[PathV] = std::shared_ptr<HandleParameters>( new HandleParameters() );
+    m_listParameters[PathV]->changeSources(m_Path);
 
     auto lambdaMax = [this](QVariant Value, HandleParameters * hp) {
             m_progress->setMaximum( Value.toInt() );
@@ -45,7 +48,8 @@ ToVideo::ToVideo(const std::string &path, const QString & affName,const std::str
 void ToVideo::init(const ImageDataPtr src1)
 {
     int FPS = m_listParameters[FrameRate]->toInt();
-    m_writer = cvCreateAVIWriter(m_path.c_str(),CV_FOURCC('M','J','P','G'),FPS,cvGetSize(src1->getImage()),1);
+    std::string videoPath = m_listParameters[PathV]->toString().toStdString (); // + "/TIFF_Image_" + QDateTime::currentDateTime().toString("yyyy-MM-dd-hh'h'mm'm'ss's'zzz").toStdString() + ".avi";
+    m_writer = cvCreateAVIWriter(videoPath.c_str(),CV_FOURCC('M','J','P','G'),FPS,cvGetSize(src1->getImage()),1);
     m_progress->setMaximum( m_listParameters[Duree]->toInt() );
 }
 

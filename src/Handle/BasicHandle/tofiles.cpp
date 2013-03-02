@@ -6,7 +6,7 @@
 
 ToFiles::ToFiles(const std::string & path, unsigned int, const QString & affName,const std::string &name)
     : VirtualHandle(affName, name),
-      m_path(path),
+      m_Path(new InputText("Path",QString(path.c_str()),InputText::Directory)),
       m_compteur(0)
 {
     QDir d(path.c_str() );
@@ -17,6 +17,8 @@ ToFiles::ToFiles(const std::string & path, unsigned int, const QString & affName
 
 
     m_listParameters[Frequence] = std::shared_ptr<HandleParameters>( new HandleParameters() );
+    m_listParameters[Path] = std::shared_ptr<HandleParameters>( new HandleParameters() );
+    m_listParameters[Path]->changeSources(m_Path);
 }
 
 
@@ -29,7 +31,7 @@ ImageDataPtr ToFiles::startHandle(const ImageDataPtr src1, const ImageDataPtr)
 
     if( ++m_compteur >= nbFrame)
     {
-        std::string imgPath = m_path + "/TIFF_Image_" + QDateTime::currentDateTime().toString("yyyy-MM-dd-hh'h'mm'm'ss's'zzz").toStdString() + ".tiff";
+        std::string imgPath = m_listParameters[Path]->toString().toStdString () + "/TIFF_Image_" + QDateTime::currentDateTime().toString("yyyy-MM-dd-hh'h'mm'm'ss's'zzz").toStdString() + ".tiff";
 
         cvSaveImage( imgPath.c_str() , src1->getImage() );
 
