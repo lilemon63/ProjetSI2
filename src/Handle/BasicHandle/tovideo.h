@@ -1,7 +1,7 @@
 #ifndef TOVIDEO_H
 #define TOVIDEO_H
 
-#include<QTimer>
+#include<QTime>
 #include "../virtualhandle.h"
 #include <QObject>
 #include "../Parameters/progressbar.h"
@@ -12,19 +12,22 @@ class ToVideo : public QObject, public VirtualHandle
 
 private:
     const std::string m_path;
-    QTimer m_timer;
-    bool prise;
-    CvVideoWriter *writer;
+    QTime m_timer;
+    CvVideoWriter * m_writer;
     enum{FrameRate, Duree, Progress, Prise, Max};
     ProgressBar * m_progress;
-    int max;
-public slots:
-    void incrementeTemps();
+    CheckBox * m_checkBox;
+    bool m_isActif;
 public:
     ToVideo(const std::string &path, const QString & affName,const std::string &name);
     ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr);
-    void fin();
+private :
+    void onEnding();
     void init(const ImageDataPtr);
+signals :
+    void newFrame( ImageDataPtr );
+private slots :
+    void saveFrame( ImageDataPtr );
 };
 
 #endif // TOVIDEO_H

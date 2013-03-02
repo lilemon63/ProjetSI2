@@ -10,6 +10,7 @@ ProgressBar::ProgressBar(const QString &label)
     m_progressbar->setOrientation(Qt::Horizontal);
     m_progressbar->setMinimum(0);
     connect( m_progressbar, SIGNAL(valueChanged(int)), this, SLOT(changeValue(int)));
+    connect( this, SIGNAL(m_changeValue(int)), m_progressbar, SLOT(setValue(int)));
     m_progressbar->setValue(0);
 }
 
@@ -40,12 +41,12 @@ void ProgressBar::changeValue(int  value)
 
 void ProgressBar::setValue(int number)
 {
-    m_progressbar->setValue(number);
+    emit m_changeValue(number);
 }
 
 void ProgressBar::addValue(int number)
 {
-    m_progressbar->setValue(number + m_progressbar->value() );
+    emit m_changeValue(number + m_progressbar->value() );
 }
 
 void ProgressBar::setMaximum(int max)

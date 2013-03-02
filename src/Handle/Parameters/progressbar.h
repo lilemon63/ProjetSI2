@@ -26,7 +26,7 @@ private slots :
     void changeValue(int);
 
 signals:
-
+    void m_changeValue(int); //do not use it
 public slots:
     virtual void setValue(int number);
     virtual void addValue(int number);
