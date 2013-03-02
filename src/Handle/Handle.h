@@ -12,5 +12,6 @@
 #include "BasicHandle/rotation.h"
 #include "BasicHandle/tofiles.h"
 #include "BasicHandle/nohandle.h"
+#include "BasicHandle/tovideo.h"
 
 #endif // HANDLE_H
