@@ -13,10 +13,6 @@ ProgressBar::ProgressBar(const QString &label)
     m_progressbar->setValue(0);
 }
 
-void ProgressBar::valueChanged(int value) {
-    m_progressbar->setValue(value);
-}
-
 void ProgressBar::showParameters(QWidget * parent)
 {
     setParentLayout(parent, m_progressbar);
@@ -40,11 +36,16 @@ void ProgressBar::changeValue(int  value)
     {
         hp->setValue( (int)value);
     }
- }
+}
 
-void ProgressBar::setValue(int percent)
+void ProgressBar::setValue(int number)
 {
-    m_progressbar->setValue(percent);
+    m_progressbar->setValue(number);
+}
+
+void ProgressBar::addValue(int number)
+{
+    m_progressbar->setValue(number + m_progressbar->value() );
 }
 
 void ProgressBar::setMaximum(int max)

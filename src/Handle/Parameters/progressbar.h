@@ -18,8 +18,6 @@ public:
 
     virtual ~ProgressBar();
 
-    virtual void setValue(int percent);
-
     virtual void setMaximum(int max);
 
 private :
@@ -30,7 +28,8 @@ private slots :
 signals:
 
 public slots:
-    void valueChanged(int);
+    virtual void setValue(int number);
+    virtual void addValue(int number);
 
 };
 

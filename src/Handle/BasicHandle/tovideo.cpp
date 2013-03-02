@@ -6,7 +6,10 @@
 #include "../Parameters/checkbox.h"
 
 ToVideo::ToVideo(const std::string &path, const QString & affName,const std::string &name)
-    :VirtualHandle(affName,name),m_path(path),max(0)
+    :VirtualHandle(affName,name),
+      m_path(path),
+      max(0),
+      m_progress( new ProgressBar("progression") )
 {
     m_timer.setInterval(1000);
     m_timer.setSingleShot(false);
@@ -17,9 +20,8 @@ ToVideo::ToVideo(const std::string &path, const QString & affName,const std::str
     m_listParameters[Duree]->changeSources( new SpinBox("Durée max") );
     m_listParameters[Duree]->setValue(0);
 
-    progress = new ProgressBar("progression");
-    m_listParameters[Progress] = std::shared_ptr<HandleParameters>(new HandleProgressBar(progress) );
-    m_listParameters[Progress]->changeSources(progress);
+    m_listParameters[Progress] = std::shared_ptr<HandleParameters>( new HandleParameters() );
+    m_listParameters[Progress]->changeSources( m_progress );
 
     m_listParameters[Prise] = std::shared_ptr<HandleParameters>( new HandleParameters() );
     m_listParameters[Prise]->changeSources(new CheckBox("Video", QStringList({"Activé"})));
@@ -33,7 +35,7 @@ void ToVideo::init(const ImageDataPtr src1)
     connect(&m_timer,SIGNAL(timeout()),this,SLOT(incrementeTemps()));
     int FPS = m_listParameters[FrameRate]->toInt();
     writer=cvCreateAVIWriter(m_path.c_str(),CV_FOURCC('M','J','P','G'),FPS,cvGetSize(src1->getImage()),1);
-    progress->setMaximum(m_listParameters[Duree]->toInt());
+    m_progress->setMaximum(m_listParameters[Duree]->toInt());
     m_timer.start();
     prise = true;
     max=0;
@@ -46,7 +48,6 @@ ImageDataPtr ToVideo::startHandle(const ImageDataPtr src1, const ImageDataPtr)
     std::cout << "Valeur m_listParameters[Prise]->toBool():" << m_listParameters[Prise]->toBool() << std::endl; //actualisation ? reste a false
     if(m_listParameters[Prise]->toBool() && max < m_listParameters[Duree]->toInt())
     {
-        emit progress->valueChanged(max);
         if(!prise)
         {
             init(src1);
@@ -74,7 +75,7 @@ void ToVideo::incrementeTemps() {
 void ToVideo::fin() {
     if(prise) { //en vu pour le set setActionOnChangeValue
         std::cout << "FIN VIDEO" << std::endl;
-        progress->setValue(max);
+        m_progress->setValue(max);
         cvReleaseVideoWriter(&writer);
         m_timer.stop();
         prise=false;

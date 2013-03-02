@@ -40,7 +40,6 @@ SOURCES += \
     Handle/Parameters/inputstexts.cpp \
     Handle/Parameters/spoiler.cpp \
     Handle/numbering.cpp \
-    Handle/Parameters/handleprogressbar.cpp \
     Handle/Parameters/progressbar.cpp
 
 HEADERS += \
@@ -80,7 +79,6 @@ HEADERS += \
     Handle/Parameters/inputstexts.h \
     Handle/Parameters/spoiler.h \
     Handle/numbering.h \
-    Handle/Parameters/handleprogressbar.h \
     Handle/Parameters/progressbar.h
 
 LIBS += -lopencv_core \

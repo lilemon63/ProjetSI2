@@ -7,7 +7,6 @@
 #include "Parameters/inputtext.h"
 #include "Parameters/checkbox.h"
 #include "Parameters/progressbar.h"
-#include "Parameters/handleprogressbar.h"
 
 PutYourCodeHere::PutYourCodeHere()
     : VirtualHandle("PutYourCodeHere","PutYourCodeHere") //handle's name

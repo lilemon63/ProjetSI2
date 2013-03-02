@@ -4,7 +4,7 @@
 #include<QTimer>
 #include "../virtualhandle.h"
 #include <QObject>
-#include "../Parameters/handleprogressbar.h"
+#include "../Parameters/progressbar.h"
 
 class ToVideo : public QObject, public VirtualHandle
 {
@@ -15,8 +15,8 @@ private:
     QTimer m_timer;
     bool prise;
     CvVideoWriter *writer;
-    enum{FrameRate,Duree,Progress,Prise,Max};
-    ProgressBar * progress;
+    enum{FrameRate, Duree, Progress, Prise, Max};
+    ProgressBar * m_progress;
     int max;
 public slots:
     void incrementeTemps();
