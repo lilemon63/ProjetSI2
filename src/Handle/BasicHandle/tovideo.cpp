@@ -32,7 +32,7 @@ void ToVideo::init(const ImageDataPtr src1)
     std::cout << "init" << std::endl;
     connect(&m_timer,SIGNAL(timeout()),this,SLOT(incrementeTemps()));
     int FPS = m_listParameters[FrameRate]->toInt();
-    writer=cvCreateAVIWriter(m_path.c_str(),CV_FOURCC('M','J','P','G'),FPS,cvGetSize(src1->getImage()),1); //m_path non initialisé (Rien compris a son initialisation)
+    writer=cvCreateAVIWriter(m_path.c_str(),CV_FOURCC('M','J','P','G'),FPS,cvGetSize(src1->getImage()),1);
     progress->setMaximum(m_listParameters[Duree]->toInt());
     m_timer.start();
     prise = true;
@@ -43,7 +43,7 @@ ImageDataPtr ToVideo::startHandle(const ImageDataPtr src1, const ImageDataPtr)
 {
     if( ! src1)
         throw Exception::buildException("La source est vide", "ToVideo", "startHandle", EPC);
-    std::cout << m_listParameters[Prise]->toBool() << std::endl; //actualisation ? reste a false
+    std::cout << "Valeur m_listParameters[Prise]->toBool():" << m_listParameters[Prise]->toBool() << std::endl; //actualisation ? reste a false
     if(m_listParameters[Prise]->toBool() && max < m_listParameters[Duree]->toInt())
     {
         emit progress->valueChanged(max);
@@ -72,9 +72,12 @@ void ToVideo::incrementeTemps() {
 }
 
 void ToVideo::fin() {
+    if(prise) { //en vu pour le set setActionOnChangeValue
         std::cout << "FIN VIDEO" << std::endl;
         progress->setValue(max);
         cvReleaseVideoWriter(&writer);
         m_timer.stop();
+        prise=false;
         m_listParameters[Prise]->setValue(false);
+    }
 }
