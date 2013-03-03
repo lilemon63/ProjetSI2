@@ -4,7 +4,7 @@
 #include <string>
 
 #include "../virtualhandle.h"
-
+#include "../Parameters/inputtext.h"
 class ToFiles : public VirtualHandle
 {
 public:
@@ -17,11 +17,10 @@ protected :
     ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr src2);
 private :
     /** @brief existant folder where we put the image */
-    const std::string m_path;
-
+    InputText * m_Path;
     unsigned int m_compteur;
 
-    enum{ Frequence , Max};
+    enum{ Frequence ,Path, Max};
 };
 
 #endif // TOFILES_H
