@@ -102,7 +102,7 @@
           <x>0</x>
           <y>0</y>
           <width>198</width>
-          <height>380</height>
+          <height>371</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -158,79 +158,17 @@
        <item>
         <widget class="QPushButton" name="buttonPlay">
          <property name="text">
-          <string>Lancer</string>
+          <string>Lancer les flux</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="buttonStop">
+        <widget class="QPushButton" name="buttonactiveHandle">
          <property name="text">
-          <string>Arrêt</string>
+          <string>Arreter les traitements</string>
          </property>
         </widget>
        </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QSpinBox" name="spinBoxMaxFrame"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="labelTempsMax">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>s</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSlider" name="sliderDureeMax">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
-       <property name="spacing">
-        <number>0</number>
-       </property>
        <item>
         <widget class="QPushButton" name="buttonPrevious">
          <property name="text">
@@ -284,6 +222,34 @@
         <widget class="QSlider" name="sliderCurseur">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Configurer la source 1</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>Configurer la source 2</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="text">
+          <string>Configurer la fin de traitement</string>
          </property>
         </widget>
        </item>
@@ -374,22 +340,5 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>sliderDureeMax</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>labelTempsMax</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>103</x>
-     <y>561</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>71</x>
-     <y>565</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

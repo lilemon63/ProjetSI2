@@ -7,7 +7,9 @@
 
 VideoExtractor::VideoExtractor(bool dual, VideoReader * source1, VideoReader * source2 )
     : m_stopped(true), m_dual(dual), m_videoStream{ source1 , source2 },
-    m_currentParent(nullptr)
+    m_currentParent(nullptr),
+    m_autoPlay(false),
+    m_isHandleActived(true)
 {
     auto lambda = [this]( QVariant Value, HandleParameters * hp )
     {
@@ -45,53 +47,33 @@ void VideoExtractor::start(qint64 timeMax, qint64 nbMaxImage)
 
 void VideoExtractor::run(void)
 {
-    bool stoppedByUser = true;
     QElapsedTimer timer;
     //qint64 endOfCapture;
     //qint64 endOfHandle;
     qint64 begin;
-    IplImage * src1, * src2;
     timer.start();
     while( ! m_stopped )
     {
+        m_mutex.lock();
+        while( ! m_autoPlay )
+            m_cond.wait(&m_mutex);
+
         begin = timer.nsecsElapsed();
 
         m_videoStream[0]->grab(); // a for for that ... I'm too lazy
         m_videoStream[1]->grab();
 
         if( m_timeMax && m_timeMax > begin)
-        {
-            stoppedByUser = false;
-            break;
-        }
+            m_autoPlay = false;
 
-        src1 = m_videoStream[0]->getImage();
-        src2 = m_videoStream[1]->getImage();
+        processFrame();
 
-        ImageDataPtr source1 = nullptr, source2 = nullptr;
 
-        if(src1)
-            source1 = ImageDataPtr(new ImageData(*src1));
-        if(src2)
-            source2 = ImageDataPtr(new ImageData(*src2));
-        else if(! src1)
-            break;
-
-        //endOfCapture = timer.nsecsElapsed();
-        ImageDataPtr result = VirtualHandle::executeHandle(m_paramHandle.toString().toStdString(), source1, source2);
-        //endOfHandle = timer.nsecsElapsed();
-        if( ! result)
-        {
-            throw Exception::buildException("Votre traitement ne retourne pas de résultat!", "VideoExtractor", "run", EPC);
-        }
-
-        m_nbImageHandled++;
-        emit imageHandled(result, source1, source2);
         if( m_nbMaxImage && m_nbImageHandled == m_nbMaxImage )
-        {
-            stoppedByUser = false;
-            break;
-        }
+            m_autoPlay = false;
+
+        m_mutex.unlock();
+
         qint64 waitTime = ( m_paramPeriod.toInt() - timer.nsecsElapsed() + begin )/1000;
         if(waitTime < 0)
         {
@@ -103,7 +85,7 @@ void VideoExtractor::run(void)
             QThread::usleep( waitTime );
     }
 
-    emit finished(stoppedByUser);
+    emit finished();
     deleteLater();
 }
 
@@ -129,4 +111,95 @@ void VideoExtractor::changePeriodeParameters( SourceParameters *source, QWidget 
 {
     m_paramPeriod.changeSources(source);
     m_paramPeriod.showParameters( area );
+}
+
+
+void VideoExtractor::processFrame(void)
+{
+    IplImage * src1, * src2;
+
+    src1 = m_videoStream[0]->getImage();
+    src2 = m_videoStream[1]->getImage();
+
+    ImageDataPtr source1 = nullptr, source2 = nullptr;
+
+    if(src1)
+        source1 = ImageDataPtr(new ImageData(*src1));
+    if(src2)
+        source2 = ImageDataPtr(new ImageData(*src2));
+    else if(! src1)
+        throw Exception::buildException("Aucune source valable", "VideoExtractor",
+                                        "run", EPC);
+
+    ImageDataPtr result;
+    //endOfCapture = timer.nsecsElapsed();
+    if( m_isHandleActived )
+        result = VirtualHandle::executeHandle(m_paramHandle.toString().toStdString(), source1, source2);
+    else
+        result = source1;
+    //endOfHandle = timer.nsecsElapsed();
+    if( ! result)
+    {
+        throw Exception::buildException("Votre traitement ne retourne pas de résultat!", "VideoExtractor",
+                                        "run", EPC);
+    }
+
+    m_nbImageHandled++;
+    emit imageHandled(result, source1, source2);
+}
+
+
+void VideoExtractor::next(void)
+{
+    m_mutex.lock();
+
+    m_autoPlay = false;
+    m_videoStream[0]->grab();
+    m_videoStream[1]->grab();
+
+    processFrame();
+
+    m_mutex.unlock();
+}
+
+void VideoExtractor::previous(void)
+{
+    m_mutex.lock();
+
+    m_autoPlay = false;
+    m_videoStream[0]->r_grab();
+    m_videoStream[1]->r_grab();
+
+    processFrame();
+
+    m_mutex.unlock();
+}
+
+void VideoExtractor::slid(void)
+{
+    m_mutex.lock();
+
+    m_autoPlay = false;
+
+    //TODO
+
+    processFrame();
+
+    m_mutex.unlock();
+}
+
+void VideoExtractor::play(void)
+{
+    m_autoPlay = true;
+    m_cond.wakeAll();
+}
+
+void VideoExtractor::pause(void)
+{
+    m_autoPlay = false;
+}
+
+void VideoExtractor::activeHandle(bool newValue)
+{
+    m_isHandleActived = newValue;
 }

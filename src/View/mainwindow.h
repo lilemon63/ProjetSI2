@@ -30,6 +30,9 @@ private:
     SubMdiWindowsImage * m_subImageSource2;
     SubMdiWindowsResults * m_subResults;
     Mode m_areaMode;
+
+    bool isPlay;
+    bool isHandleActived;
 public slots :
     virtual void setImage(const ImageDataPtr result, const ImageDataPtr src1 , const ImageDataPtr src2);
     void changeMdiMode(int index);
@@ -45,6 +48,9 @@ public slots :
     void saveDataFileName(void);
     void windowStateChanged(Qt::WindowStates,Qt::WindowStates);
     void attachDetach(void);
+
+    void playPause(void);
+    void activeHandle(void);
 };
 
 #endif // MAINWINDOW_H

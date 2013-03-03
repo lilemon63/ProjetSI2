@@ -14,7 +14,9 @@ MainWindow::MainWindow(QWidget *parent) :
     m_subImageSource1(nullptr),
     m_subImageSource2(nullptr),
     m_subResults(nullptr),
-    m_areaMode( Default )
+    m_areaMode( Default ),
+    isPlay(false),
+    isHandleActived(true)
 {
 
 
@@ -32,6 +34,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionAfficher_Cacher_le_contr_le_de_flux, SIGNAL(triggered(bool)), this, SLOT(showHideDockStreamControl()));
     connect(ui->actionPlein_cran, SIGNAL(triggered()), this, SLOT(fullscreen()));
     connect(ui->actionAttacher_D_tacher_une_fen_tre, SIGNAL(triggered()), this, SLOT(attachDetach()));
+
+
+    connect(ui->buttonPrevious, SIGNAL(clicked()), m_extractor, SLOT(previous()));
+    connect(ui->buttonNext, SIGNAL(clicked()), m_extractor, SLOT(next()));
+    connect(ui->buttonPlay, SIGNAL(clicked()), this, SLOT(playPause() ) );
+    connect(ui->buttonactiveHandle, SIGNAL(clicked()), this, SLOT(activeHandle() ) );
 
     ui->mdiAreaMode->addItem("Default", Default);
     ui->mdiAreaMode->addItem("Tabulation", Tabulation);
@@ -233,4 +241,30 @@ void MainWindow::attachDetach(void)
         else
             subWind->attach();
     }
+}
+
+void MainWindow::playPause(void)
+{
+    isPlay = ! isPlay;
+    if( isPlay )
+    {
+        m_extractor->play();
+        ui->buttonPlay->setText("Stopper les flux");
+    }
+    else
+    {
+        m_extractor->pause();
+        ui->buttonPlay->setText("Lancer les flux");
+    }
+}
+
+void MainWindow::activeHandle()
+{
+    isHandleActived = ! isHandleActived;
+    m_extractor->activeHandle(isHandleActived);
+
+    if( isHandleActived )
+        ui->buttonactiveHandle->setText("Arreter les traitements");
+    else
+        ui->buttonactiveHandle->setText("Lancer les traitements");
 }

@@ -33,8 +33,6 @@ public:
 
     void r_grab(void);
 
-    void remplissage(const std::string nom, QDateTime date, QString s);
-
     /** @brief Return true if the reading cursor can be moved
         @brief bool : true if the reading cursor can be moved else false */
     bool acceptSeek(void);

@@ -4,6 +4,8 @@
 #include <QThread>
 #include <opencv2/opencv.hpp>
 #include <QSharedPointer>
+#include <QMutex>
+#include <QWaitCondition>
 #include "videoreader.h"
 #include "imagedata.h"
 #include "Parameters/handleparameters.h"
@@ -77,6 +79,11 @@ private :
     /** @brief video stream to handled */
     VideoReader * m_videoStream[2];
 
+    bool m_autoPlay;
+
+    QMutex m_mutex;
+    QWaitCondition m_cond; // We lock and unlock the mutex in different thread
+
     /** @brief start the VideoExtractor's thread */
     void run(void);
 
@@ -86,6 +93,10 @@ private :
     HandleParameters m_paramHandle;
 
     QWidget * m_currentParent;
+
+    bool m_isHandleActived;
+
+    void processFrame(void);
 
 signals :
     /** @brief emitted when the handle of the current image is finish
@@ -97,8 +108,15 @@ signals :
     /** @brief emitted when the handle is finished.
         @param bool : true if the handle has been stopped by the user */
 signals :
-    void finished(bool);
+    void finished(void);
+public slots :
+    void previous(void);
+    void next(void);
+    void slid(void);
+    void pause(void);
+    void play(void);
 
+    void activeHandle(bool);
 };
 
 bool VideoExtractor::isStopped(void)

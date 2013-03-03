@@ -18,6 +18,8 @@ public:
         with more accuracy. */
     virtual inline void grab(void); // N.B. the "inline" as no effect when we call grab on a pointer or a references.
 
+    virtual inline void r_grab(void);
+
     /** @brief get the last image grabbed
         @return IplImage * : last image grabbed */
     virtual IplImage * getImage(void);
@@ -35,6 +37,10 @@ void VideoReader::grab(void)
 {
     if(m_video)
        cvGrabFrame(m_video);
+}
+
+void VideoReader::r_grab(void)
+{
 }
 
 #endif // VIDEOREADER_H
