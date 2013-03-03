@@ -59,6 +59,11 @@ public :
     void changePeriodeParameters( SourceParameters * source, QWidget * area = nullptr);
 
     void changeHandleParameters( SourceParameters *source, QWidget * area = nullptr);
+
+
+    bool acceptSeek(void);
+
+    int numberOfFrame(void);
 private :
 
     /** @brief true if the handle is stopped else return false */
@@ -112,7 +117,7 @@ signals :
 public slots :
     void previous(void);
     void next(void);
-    void slid(void);
+    void slid(int);
     void pause(void);
     void play(void);
 

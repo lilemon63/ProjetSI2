@@ -8,6 +8,8 @@
 #include "submdiwindowsimage.h"
 #include "submdiwindowsresults.h"
 
+//TODO : séparer en sous-classes
+
 namespace Ui {
 class MainWindow;
 }
@@ -31,8 +33,10 @@ private:
     SubMdiWindowsResults * m_subResults;
     Mode m_areaMode;
 
-    bool isPlay;
-    bool isHandleActived;
+    bool m_isPlay;
+    bool m_isHandleActived;
+
+    void updateSeek(void);
 public slots :
     virtual void setImage(const ImageDataPtr result, const ImageDataPtr src1 , const ImageDataPtr src2);
     void changeMdiMode(int index);
@@ -51,6 +55,9 @@ public slots :
 
     void playPause(void);
     void activeHandle(void);
+    void nextFrame(void);
+    void previousFrame(void);
+    void sliderMoved(int);
 };
 
 #endif // MAINWINDOW_H

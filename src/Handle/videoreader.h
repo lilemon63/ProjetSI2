@@ -27,7 +27,8 @@ public:
     /** @brief Return true if the reading cursor can be moved
         @brief bool : true if the reading cursor can be moved else false */
     virtual bool acceptSeek(void);
-
+    virtual int nbFrame(void);
+    virtual void slid(int);
 private :
     /** @brief video stream */
     CvCapture * m_video;

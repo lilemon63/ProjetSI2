@@ -39,6 +39,10 @@ public:
 
     IplImage * getImage(void);
 
+    int nbFrame(void);
+
+    void slid(int);
+
 private :
     typedef std::map<QDateTime, QString> ListPath;
     /** @brief iterator on the current image */

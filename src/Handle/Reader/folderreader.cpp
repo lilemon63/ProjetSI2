@@ -87,3 +87,16 @@ void FolderReader::r_grab()
     else
         --m_iterator;
 }
+
+int FolderReader::nbFrame(void)
+{
+    return m_listePath.size();
+}
+
+void FolderReader::slid(int value)
+{
+    auto it = m_listePath.begin();
+    for( int i = 0; value != i + 1; ++i)
+        it++;
+    m_iterator = it;
+}

@@ -7,8 +7,8 @@
 
 VideoExtractor::VideoExtractor(bool dual, VideoReader * source1, VideoReader * source2 )
     : m_stopped(true), m_dual(dual), m_videoStream{ source1 , source2 },
-    m_currentParent(nullptr),
     m_autoPlay(false),
+    m_currentParent(nullptr),
     m_isHandleActived(true)
 {
     auto lambda = [this]( QVariant Value, HandleParameters * hp )
@@ -175,13 +175,14 @@ void VideoExtractor::previous(void)
     m_mutex.unlock();
 }
 
-void VideoExtractor::slid(void)
+void VideoExtractor::slid(int value)
 {
     m_mutex.lock();
 
     m_autoPlay = false;
 
-    //TODO
+    m_videoStream[0]->slid(value);
+    m_videoStream[1]->slid(value);
 
     processFrame();
 
@@ -202,4 +203,21 @@ void VideoExtractor::pause(void)
 void VideoExtractor::activeHandle(bool newValue)
 {
     m_isHandleActived = newValue;
+}
+
+bool VideoExtractor::acceptSeek(void)
+{
+    if( m_videoStream[0]->acceptSeek() )
+        return true;
+    if( m_videoStream[1]->acceptSeek() )
+        return true;
+    return false;
+}
+
+
+int VideoExtractor::numberOfFrame(void)
+{
+    int nFrame1 = m_videoStream[0]->nbFrame();
+    int nFrame2 = m_videoStream[1]->nbFrame();
+    return nFrame1 > nFrame2 ? nFrame1 : nFrame2;
 }

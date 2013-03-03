@@ -15,8 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_subImageSource2(nullptr),
     m_subResults(nullptr),
     m_areaMode( Default ),
-    isPlay(false),
-    isHandleActived(true)
+    m_isPlay(false),
+    m_isHandleActived(true)
 {
 
 
@@ -40,6 +40,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonNext, SIGNAL(clicked()), m_extractor, SLOT(next()));
     connect(ui->buttonPlay, SIGNAL(clicked()), this, SLOT(playPause() ) );
     connect(ui->buttonactiveHandle, SIGNAL(clicked()), this, SLOT(activeHandle() ) );
+
+    connect(ui->buttonNext, SIGNAL(clicked()), this, SLOT(nextFrame()));
+    connect(ui->buttonPrevious, SIGNAL(clicked()), this, SLOT(previousFrame()));
+    connect(ui->sliderCurseur, SIGNAL(sliderMoved(int)), this, SLOT(sliderMoved(int)));
 
     ui->mdiAreaMode->addItem("Default", Default);
     ui->mdiAreaMode->addItem("Tabulation", Tabulation);
@@ -69,6 +73,8 @@ MainWindow::MainWindow(QWidget *parent) :
     VirtualHandle::setView(ui->mdiArea);
 
     m_extractor->start();
+
+    updateSeek();
 }
 
 MainWindow::~MainWindow()
@@ -93,6 +99,10 @@ void MainWindow::setImage(const ImageDataPtr result, const ImageDataPtr source1,
     }
     if( m_subResults )
         m_subResults->extractInformationFromImage(result);
+
+    int value = ui->sliderCurseur->value() + 1;
+    ui->sliderCurseur->setValue( value );
+    ui->labelCurseur->setText( QString::number( value ) );
 }
 
 void MainWindow::changeMdiMode(int index)
@@ -245,8 +255,8 @@ void MainWindow::attachDetach(void)
 
 void MainWindow::playPause(void)
 {
-    isPlay = ! isPlay;
-    if( isPlay )
+    m_isPlay = ! m_isPlay;
+    if( m_isPlay )
     {
         m_extractor->play();
         ui->buttonPlay->setText("Stopper les flux");
@@ -260,11 +270,42 @@ void MainWindow::playPause(void)
 
 void MainWindow::activeHandle()
 {
-    isHandleActived = ! isHandleActived;
-    m_extractor->activeHandle(isHandleActived);
+    m_isHandleActived = ! m_isHandleActived;
+    m_extractor->activeHandle(m_isHandleActived);
 
-    if( isHandleActived )
+    if( m_isHandleActived )
         ui->buttonactiveHandle->setText("Arreter les traitements");
     else
         ui->buttonactiveHandle->setText("Lancer les traitements");
+}
+
+void MainWindow::nextFrame(void)
+{
+    m_isPlay = false;
+    ui->buttonPlay->setText("Lancer les flux");
+    m_extractor->next();
+}
+
+void MainWindow::previousFrame(void)
+{
+    m_isPlay = false;
+    ui->buttonPlay->setText("Lancer les flux");
+    m_extractor->previous();
+}
+
+void MainWindow::updateSeek()
+{
+    bool enable = m_extractor->acceptSeek();
+    ui->buttonNext->setEnabled(enable);
+    ui->buttonPrevious->setEnabled(enable);
+    ui->sliderCurseur->setEnabled(enable);
+    ui->sliderCurseur->setValue(0);
+    ui->labelCurseur->setText("0");
+    ui->sliderCurseur->setMaximum( m_extractor->numberOfFrame() );
+}
+
+void MainWindow::sliderMoved(int value)
+{
+    m_extractor->slid(value);
+    ui->labelCurseur->setText( QString::number( value ) );
 }

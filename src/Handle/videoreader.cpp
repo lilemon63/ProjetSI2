@@ -28,3 +28,13 @@ bool VideoReader::acceptSeek(void)
 {
     return false;
 }
+
+int VideoReader::nbFrame(void)
+{
+    return 0;
+}
+
+void VideoReader::slid(int)
+{
+
+}
