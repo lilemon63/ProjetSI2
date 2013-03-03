@@ -13,10 +13,14 @@ InputText::InputText(const QString &label, const QString & defaultValue, Helper 
 {
     m_frame->setLayout( new QHBoxLayout() );
     m_frame->layout()->addWidget(m_inputText);
+    m_frame->layout()->setContentsMargins(0,0,0,0);
+    m_frame->layout()->setMargin(0);
+    m_frame->layout()->setSpacing(0);
 
     if( helper != None)
     {
         QPushButton * button = new QPushButton("...");
+        button->setMaximumWidth(50);
         m_frame->layout()->addWidget( button );
         connect(button, SIGNAL(clicked(bool)), this, SLOT(openPopUp()));
     }

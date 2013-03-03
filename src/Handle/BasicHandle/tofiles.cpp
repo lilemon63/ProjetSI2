@@ -6,7 +6,6 @@
 
 ToFiles::ToFiles(const std::string & path, unsigned int, const QString & affName,const std::string &name)
     : VirtualHandle(affName, name),
-      m_Path(new InputText("Path",QString(path.c_str()),InputText::Directory)),
       m_compteur(0)
 {
     QDir d(path.c_str() );
@@ -18,7 +17,7 @@ ToFiles::ToFiles(const std::string & path, unsigned int, const QString & affName
 
     m_listParameters[Frequence] = std::shared_ptr<HandleParameters>( new HandleParameters() );
     m_listParameters[Path] = std::shared_ptr<HandleParameters>( new HandleParameters() );
-    m_listParameters[Path]->changeSources(m_Path);
+    m_listParameters[Path]->changeSources( new InputText("Path",QString(path.c_str()),InputText::Directory) );
 }
 
 

@@ -16,8 +16,6 @@ public:
 protected :
     ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr src2);
 private :
-    /** @brief existant folder where we put the image */
-    InputText * m_Path;
     unsigned int m_compteur;
 
     enum{ Frequence ,Path, Max};

@@ -12,10 +12,9 @@ class ToVideo : public QObject, public VirtualHandle
     Q_OBJECT
 
 private:
-    InputText * m_Path;
     QTime m_timer;
     CvVideoWriter * m_writer;
-    enum{FrameRate, Duree, Progress, Prise,PathV, Max};
+    enum{FrameRate, Duree, PathV, Progress, Prise, Max};
     ProgressBar * m_progress;
     CheckBox * m_checkBox;
     bool m_isActif;

@@ -7,7 +7,6 @@
 
 ToVideo::ToVideo(const std::string &path, const QString & affName,const std::string &name)
     :VirtualHandle(affName,name),
-      m_Path(new InputText("Path",QString(path.c_str()),InputText::SaveFile)),
       m_progress( new ProgressBar("progression") ),
       m_checkBox( new CheckBox("Video", QStringList({"Actif"}) ) ),
       m_isActif(false)
@@ -25,7 +24,7 @@ ToVideo::ToVideo(const std::string &path, const QString & affName,const std::str
     m_listParameters[Prise]->changeSources( m_checkBox );
 
     m_listParameters[PathV] = std::shared_ptr<HandleParameters>( new HandleParameters() );
-    m_listParameters[PathV]->changeSources(m_Path);
+    m_listParameters[PathV]->changeSources( new InputText("Path",QString(path.c_str()),InputText::SaveFile) );
 
     auto lambdaMax = [this](QVariant Value, HandleParameters * hp) {
             m_progress->setMaximum( Value.toInt() );
