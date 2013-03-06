@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include "submdiwindowsimage.h"
 #include "../Handle/zi.h"
+#include "viewzi.h"
 
 SubMdiWindowsImage::SubMdiWindowsImage(const QString &titre, Mdi *area, QWidget *parent) :
     SubMdiWindows(titre, area, parent),
@@ -74,11 +75,13 @@ void SubMdiWindowsImage::createZI(QRectF rect)
     QPushButton * buttonCancel = new QPushButton("Annuler");
     frame->layout()->addWidget(buttonConfirm);
     frame->layout()->addWidget(buttonCancel);
-    m_handle->createZI(rect)->showParameters( dialog );
+    ZI * zi = m_handle->createZI(rect);
+    zi->showParameters( dialog );
     dialog->layout()->addWidget(frame);
     buttonConfirm->setDefault(true);
     dialog->setBaseSize(200, 400);
     dialog->setWindowTitle("Creation d'une nouvelle Zone d'interet");
 
+    m_scene.addItem( zi->view() );
     dialog->show();
 }

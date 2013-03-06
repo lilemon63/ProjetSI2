@@ -46,6 +46,8 @@ public:
     * @param parent : Widget on which they'll be show
     */
     void showAll();
+
+    void changeAffName( const QString & affname, Numbering & num);
 public slots:
     void whenClicked();
 private:

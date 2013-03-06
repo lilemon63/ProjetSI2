@@ -119,3 +119,11 @@ const QString & Numbering::text(void)
 {
     return m_text;
 }
+
+void Numbering::clone( const Numbering & other)
+{
+    m_config = other.m_config;
+    m_text = other.m_text;
+    m_depth = other.m_depth;
+    m_number = other.m_number;
+}

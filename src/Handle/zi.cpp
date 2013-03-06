@@ -4,15 +4,32 @@
 #include "Parameters/inputtext.h"
 #include "Parameters/combobox.h"
 #include "Parameters/inputstexts.h"
+#include "../View/viewzi.h"
 #include <QString>
 
-ZI::ZI(QRectF rect)
-    : m_x(rect.x()),
+//TODO affichage rectange
+
+//TODO modification rectangle avec truc
+
+//TODO modification rectangle avec clic
+
+//TODO join
+
+//TODO détruire
+
+//TODO finir
+
+ZI::ZI(QRectF rect, Numbering num)
+    : VirtualHandle("ZI"),
+      m_x(rect.x()),
       m_y(rect.y()),
       m_width(rect.width()),
-      m_height(rect.height())
+      m_height(rect.height()),
+      m_view( new ViewZI(this, rect) )
 
 {
+    m_numbering.clone(num);
+
     m_listParameters.resize(MAX);
     m_listParameters[AREA] = std::shared_ptr<HandleParameters>( new HandleParameters() );
     m_listParameters[AREA]->changeSources( new InputsTexts("Coordonnees", 4, QStringList( { QString::number(m_x),
@@ -39,6 +56,12 @@ ZI::ZI(QRectF rect)
                                                             changeAffName( hp->toString() );
                                                     });
 
+    auto lambda = [this](QVariant Value, HandleParameters * hp)
+    {
+            hp->acceptChanges(Value);
+            changeAffName(Value.toString() );
+    };
+    m_listParameters[NAME]->setActionOnChangeValue(lambda);
 
 
     m_listParameters[HANDLE] = std::shared_ptr<HandleParameters>( new HandleParameters() );
@@ -63,4 +86,9 @@ ImageDataPtr ZI::executeHandle(ImageDataPtr src1, const ImageDataPtr src2)
 
     //TODO merge ZI
     return src1;
+}
+
+ViewZI * ZI::view(void)
+{
+    return m_view;
 }

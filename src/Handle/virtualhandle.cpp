@@ -1,4 +1,5 @@
 #include <QVariant>
+#include <iostream>
 #include "virtualhandle.h"
 #include "../exception.h"
 #include "Parameters/checkbox.h"
@@ -61,13 +62,13 @@ ImageDataPtr VirtualHandle::executeHandle(const ImageDataPtr src1, const ImageDa
 
 void VirtualHandle::showParameters(QWidget * parent, Numbering num )
 {
+    m_numbering.clone(num);
     m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, num);
 }
 
 void VirtualHandle::showParameters(QWidget * parent)
 {
-    Numbering num;
-    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, num);
+    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, m_numbering);
 }
 
 void VirtualHandle::hideParameters(const std::string & name)
@@ -158,12 +159,15 @@ void VirtualHandle::viewClosed(void)
 
 ZI * VirtualHandle::createZI(QRectF rect)
 {
-    ZI * zi = new ZI(rect);
+    ZI * zi = new ZI(rect, m_numbering);
     m_listZI.push_back(zi);
     return zi;
 }
 
 void VirtualHandle::changeAffName(const QString & name)
 {
-    m_affName = name;            //changeName (spoiler + fenêtre)
+    if( m_windows )
+        m_windows->setWindowTitle(name);
+    m_spoiler->changeAffName( name, m_numbering );
+    m_affName = name;
 }

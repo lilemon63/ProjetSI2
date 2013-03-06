@@ -72,6 +72,11 @@ void Spoiler::setParam(const VirtualHandle::ListParameters &listParameters, std:
 
 }
 
+void Spoiler::changeAffName( const QString & affname, Numbering & num)
+{
+    m_button->setText( num.text() + " " + affname );
+}
+
 void Spoiler::whenClicked()
 {
     if(m_hiden){

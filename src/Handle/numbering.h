@@ -15,6 +15,8 @@ public:
 
     Numbering(Numbering &);
 
+    void clone( const Numbering & );
+
     virtual ~Numbering();
 
     static void setDefaultNumbering( std::initializer_list<std::function<QString (unsigned int)> > generators );
