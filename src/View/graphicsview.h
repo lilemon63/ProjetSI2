@@ -27,6 +27,7 @@ public:
     void mouseReleaseEvent(QMouseEvent *event);
 
     void mousePressEvent(QMouseEvent *event);
+    void feetInScene(QPointF & point);
 signals:
     void createZI(QRect);
 public slots:

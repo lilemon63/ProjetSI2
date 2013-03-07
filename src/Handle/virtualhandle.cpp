@@ -174,3 +174,8 @@ void VirtualHandle::changeAffName(const QString & name)
     m_spoiler->changeAffName( name, m_numbering );
     m_affName = name;
 }
+
+QWidget * VirtualHandle::widget(void)
+{
+    return m_spoiler->widget();
+}

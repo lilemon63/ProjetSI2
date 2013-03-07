@@ -125,6 +125,7 @@ private:
     Spoiler * m_spoiler;
 protected :
     Numbering m_numbering;
+    QWidget * widget(void);
 public :
     static void setView(Mdi *m_view);
     void viewClosed(void);

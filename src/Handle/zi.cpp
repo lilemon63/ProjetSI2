@@ -10,7 +10,7 @@
 
 //TODO join
 
-//TODO finir
+//TODO aff sous-traitement
 
 ZI::ZI(QRect rect, QWidget *parent, Numbering num)
     : VirtualHandle("ZI"),
@@ -89,17 +89,30 @@ ZI::ZI(QRect rect, QWidget *parent, Numbering num)
                                                             changeAffName( hp->toString() );
                                                     });
 
-    auto lambdaName = [this](QVariant Value, HandleParameters * hp)
+    auto lambdaName = [this](QVariant value, HandleParameters * hp)
     {
-            hp->acceptChanges(Value);
-            changeAffName(Value.toString() );
+            hp->acceptChanges(value);
+            changeAffName(value.toString() );
     };
     m_listParameters[NAME]->setActionOnChangeValue(lambdaName);
 
 
     m_listParameters[HANDLE] = std::shared_ptr<HandleParameters>( new HandleParameters() );
     m_listParameters[HANDLE]->changeSources( new ComboBox("Traitement", getAllHandleName(), "NOHANDLE" ));
+    auto lambdaHandle = [this](QVariant value, HandleParameters * hp)
+    {
+            hideParameters(hp->toString().toStdString());
 
+            hp->acceptChanges(value);
+            QString handle = value.toString();
+            if(handle != "NOHANDLE")
+            {
+                this->getHandleForDependancies(handle.toStdString() )->showParameters( this->widget(),
+                                                                                       m_numbering );
+            }
+    };
+
+    m_listParameters[HANDLE]->setActionOnChangeValue(lambdaHandle);
 
 
 }
