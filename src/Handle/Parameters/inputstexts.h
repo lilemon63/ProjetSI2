@@ -19,6 +19,7 @@ public:
     virtual void hideParameters(void);
     virtual void addSuscriber(HandleParameters * target);
     virtual ~InputsTexts();
+    virtual void changeValue( const QString & newValue, int id );
 
 private slots :
     void valueChanged(void);

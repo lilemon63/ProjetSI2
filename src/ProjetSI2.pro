@@ -1,4 +1,7 @@
 Qt += system
+QT += widgets
+
+greaterThan(QT_MAJOR_VERSION, 4)
 
 QMAKE_CXXFLAGS += -std=c++0x
 CXXFLAGS="-std=c++11"

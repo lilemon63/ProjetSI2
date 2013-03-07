@@ -89,8 +89,7 @@ void SubMdiWindows::m_attach(QWidget * widget)
 void SubMdiWindows::m_detach(QWidget * widget)
 {
     setWidget(nullptr);
-    //widget->setParent(nullptr);
-    //widget->show();
+
     QDialog * dialog = new QDialog();
     dialog->setLayout( new QVBoxLayout() );
     dialog->layout()->addWidget(widget );

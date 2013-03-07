@@ -6,6 +6,7 @@
 #include "../View/submdiwindowsimage.h"
 #include "zi.h"
 #include "Parameters/spoiler.h"
+#include "../View/viewzi.h"
 
 Mdi* VirtualHandle::m_view = nullptr;
 
@@ -18,7 +19,7 @@ VirtualHandle::VirtualHandle(const QString affName, const std::string & name)
       m_spoiler( new Spoiler() )
 {
     if( name != "noname" && m_listHandle.find(name) != m_listHandle.end() )
-        throw Exception::buildException(name + " est un nom de traitement dÃ©jÃ  pris",
+        throw Exception::buildException(name + " est un nom de traitement déjà  pris",
                                         "VirtualHandle",
                                         "VirtualHandle",
                                         EP);;
@@ -139,6 +140,8 @@ void VirtualHandle::showView(bool visible)
             m_windows->move(0,0);
             m_windows->resize(300,300);
             m_windows->linkHandle(this);
+            for( ZI * zi : m_listZI)
+                m_windows->draw( zi->view() );
         }
         m_windows->show();
     }

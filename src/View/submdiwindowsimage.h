@@ -14,6 +14,7 @@ public:
     void updateImageAsc(const ImageDataPtr );
     virtual void attach(void);
     virtual void detach(void);
+    void draw(QGraphicsItem * item);
 signals:
     void handleSignalUpdateImage(const ImageDataPtr );
 public slots:

@@ -85,3 +85,8 @@ void SubMdiWindowsImage::createZI(QRectF rect)
     m_scene.addItem( zi->view() );
     dialog->show();
 }
+
+void SubMdiWindowsImage::draw(QGraphicsItem * item)
+{
+    m_scene.addItem(item);
+}

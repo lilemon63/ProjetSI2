@@ -54,3 +54,9 @@ InputsTexts::~InputsTexts()
 {
     delete [] m_inputText;
 }
+
+void InputsTexts::changeValue( const QString & newValue, int id )
+{
+    if( m_values[id] != newValue)
+        m_inputText[id]->setText(newValue);
+}
