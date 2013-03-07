@@ -48,6 +48,8 @@ public:
     void showAll();
 
     void changeAffName( const QString & affname, Numbering & num);
+
+    QWidget * widget(void);
 public slots:
     void whenClicked();
 private:

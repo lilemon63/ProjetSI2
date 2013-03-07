@@ -10,11 +10,9 @@
 
 //TODO join
 
-//TODO détruire
-
 //TODO finir
 
-ZI::ZI(QRectF rect, Numbering num)
+ZI::ZI(QRect rect, QWidget *parent, Numbering num)
     : VirtualHandle("ZI"),
       m_view( new ViewZI(this, rect) ),
       m_size(new InputsTexts("Taille", 2, QStringList( {QString::number( (long long int)rect.height() ),
@@ -25,7 +23,8 @@ ZI::ZI(QRectF rect, Numbering num)
                                                             QString::number( (long long int)(rect.x() + rect.height() ) ),
                                                             QString::number( (long long int)(rect.y() + rect.width() ) )
                                                               } ) ) ),
-      m_rect( rect )
+      m_rect( rect ),
+      m_parent(parent)
 {
     m_numbering.clone(num);
 
@@ -41,6 +40,7 @@ ZI::ZI(QRectF rect, Numbering num)
 
             m_rect.setX( list[X].toInt() );
             m_rect.setY( list[Y].toInt() );
+
             m_rect.setWidth( list[WIDTH].toInt() - m_rect.x() );
             m_rect.setHeight( list[HEIGHT].toInt() - m_rect.y() );
 
@@ -81,8 +81,6 @@ ZI::ZI(QRectF rect, Numbering num)
 
     m_listParameters[ACTIVATION] = std::shared_ptr<HandleParameters>( new HandleParameters() );
     m_listParameters[ACTIVATION]->changeSources( new CheckBox("", QStringList("Activation") ));
-
-    m_listParameters[DELETE] = HandleParameters::build_checkbox("", QStringList("Supprimer"));
 
     m_listParameters[NAME] =  HandleParameters::build_inputtext("Nom", "ZI");
     m_listParameters[NAME]->setActionOnChangeValue([this]( QVariant Value, HandleParameters * hp )
@@ -138,4 +136,10 @@ ViewZI * ZI::view(void)
 void ZI::resize( Direction direction, int value)
 {
     m_area->changeValue( QString::number(value), direction);
+}
+
+
+void ZI::showParameters(void)
+{
+    showParameters(m_parent);
 }

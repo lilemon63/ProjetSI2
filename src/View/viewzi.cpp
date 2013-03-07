@@ -51,3 +51,8 @@ void ViewZI::resize( int direction, int x, int y )
     else if( direction & GraphicsView::RIGHT )
         m_zi->resize(ZI::WIDTH , x );
 }
+
+void ViewZI::finelize(void)
+{
+    m_zi->showParameters();
+}

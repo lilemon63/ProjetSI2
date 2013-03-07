@@ -28,7 +28,7 @@ public:
         @return QPixmap : QPixmap created */
     QPixmap toPixmap(void);
 
-    ImageDataPtr getSubRegion(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
+    ImageDataPtr getSubRegion(int x, int y, int width, int height);
 private :
     ImageData(void){}
     /** @brief Image */

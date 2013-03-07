@@ -12,14 +12,18 @@ class ZI : public VirtualHandle
 public:
     enum Direction{ X, Y, WIDTH, HEIGHT};
 
-    ZI(QRectF rect, Numbering num = Numbering() );
+    ZI(QRect rect, QWidget *parent, Numbering num = Numbering());
     virtual ImageDataPtr executeHandle(ImageDataPtr src1, const ImageDataPtr src2);
     ViewZI * view(void);
     void resize( Direction direction, int value);
+
+     using VirtualHandle::showParameters;
+
+    void showParameters(void);
 protected:
     virtual ImageDataPtr startHandle(ImageDataPtr src1, const ImageDataPtr src2);
 private :
-    enum Params{NAME, HANDLE, AREA, SIZE, COLOR, ACTIVATION, DELETE, MAX};
+    enum Params{NAME, HANDLE, AREA, SIZE, COLOR, ACTIVATION, MAX};
     unsigned int m_x;
     unsigned int m_y;
     unsigned int m_width;
@@ -29,7 +33,9 @@ private :
     InputsTexts * m_size;
     InputsTexts * m_area;
 
-    QRectF m_rect;
+    QRect m_rect;
+
+    QWidget * m_parent;
 };
 
 #endif // ZI_H

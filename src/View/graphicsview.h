@@ -28,7 +28,7 @@ public:
 
     void mousePressEvent(QMouseEvent *event);
 signals:
-    void createZI(QRectF);
+    void createZI(QRect);
 public slots:
 private :
     int m_originClicX, m_originClicY;

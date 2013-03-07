@@ -44,7 +44,8 @@ SOURCES += \
     Handle/Parameters/spoiler.cpp \
     Handle/numbering.cpp \
     Handle/Parameters/progressbar.cpp \
-    View/viewzi.cpp
+    View/viewzi.cpp \
+    View/zidialog.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -84,7 +85,8 @@ HEADERS += \
     Handle/Parameters/spoiler.h \
     Handle/numbering.h \
     Handle/Parameters/progressbar.h \
-    View/viewzi.h
+    View/viewzi.h \
+    View/zidialog.h
 
 LIBS += -lopencv_core \
         -lopencv_video \

@@ -9,8 +9,9 @@
 
 class ZI;
 
-class ViewZI : public QGraphicsRectItem
+class ViewZI : public QObject, public QGraphicsRectItem
 {
+    Q_OBJECT
 public:
     ViewZI(ZI * zi, const QRectF & rect);
     void changeColor( const QColor & color );
@@ -19,6 +20,8 @@ public:
     int type(void) const;
     virtual ~ViewZI(void);
     void resize( int direction, int x, int y );
+public slots :
+    void finelize(void);
 private :
     ZI * m_zi;
     QColor m_color;

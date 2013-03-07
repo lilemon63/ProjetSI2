@@ -7,6 +7,7 @@
 #include "submdiwindowsimage.h"
 #include "../Handle/zi.h"
 #include "viewzi.h"
+#include "zidialog.h"
 
 SubMdiWindowsImage::SubMdiWindowsImage(const QString &titre, Mdi *area, QWidget *parent) :
     SubMdiWindows(titre, area, parent),
@@ -17,7 +18,7 @@ SubMdiWindowsImage::SubMdiWindowsImage(const QString &titre, Mdi *area, QWidget 
     setWidget(m_graphicsView);
     m_image->setZValue(0);
     connect(this, SIGNAL(handleSignalUpdateImage(ImageDataPtr)), this, SLOT(handleSlotUpdateImage(ImageDataPtr)));
-    connect(m_graphicsView, SIGNAL(createZI(QRectF)), this, SLOT(createZI(QRectF)));
+    connect(m_graphicsView, SIGNAL(createZI(QRect)), this, SLOT(createZI(QRect)));
 }
 
 
@@ -57,7 +58,7 @@ void SubMdiWindowsImage::detach(void)
     m_detach( m_graphicsView );
 }
 
-void SubMdiWindowsImage::createZI(QRectF rect)
+void SubMdiWindowsImage::createZI(QRect rect)
 {
     if( ! m_handle )
     {
@@ -65,16 +66,14 @@ void SubMdiWindowsImage::createZI(QRectF rect)
         return;
     }
 
-    QDialog * dialog = new QDialog();
+    ZIDialog * dialog = new ZIDialog();
     dialog->setLayout( new QVBoxLayout() );
     dialog->layout()->setSpacing(0);
     QFrame * frame = new QFrame();
     frame->setLayout( new QHBoxLayout() );
 
     QPushButton * buttonConfirm = new QPushButton("Creer");
-    QPushButton * buttonCancel = new QPushButton("Annuler");
     frame->layout()->addWidget(buttonConfirm);
-    frame->layout()->addWidget(buttonCancel);
     ZI * zi = m_handle->createZI(rect);
     zi->showParameters( dialog );
     dialog->layout()->addWidget(frame);
@@ -83,6 +82,12 @@ void SubMdiWindowsImage::createZI(QRectF rect)
     dialog->setWindowTitle("Creation d'une nouvelle Zone d'interet");
 
     m_scene.addItem( zi->view() );
+
+    connect( dialog, SIGNAL(onClose()),zi->view(), SLOT(finelize()));
+    connect( buttonConfirm, SIGNAL(clicked()), zi->view(), SLOT(finelize()));
+    connect( buttonConfirm, SIGNAL(clicked()), dialog, SLOT(deleteLater()));
+    connect( dialog, SIGNAL(onClose()), dialog, SLOT(deleteLater()));
+
     dialog->show();
 }
 

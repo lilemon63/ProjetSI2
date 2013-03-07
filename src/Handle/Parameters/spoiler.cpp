@@ -90,3 +90,9 @@ void Spoiler::whenClicked()
     m_hiden = !m_hiden;
 
 }
+
+
+QWidget * Spoiler::widget(void)
+{
+    return m_frame;
+}

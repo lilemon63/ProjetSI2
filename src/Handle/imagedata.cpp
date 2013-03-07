@@ -50,10 +50,21 @@ ImageData::~ImageData()
     cvReleaseImage(&m_image);
 }
 
-ImageDataPtr ImageData::getSubRegion(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+ImageDataPtr ImageData::getSubRegion(int x, int y, int width, int height)
 {
     ImageData * retour = new ImageData();
     CvRect cvrect = cvRect(x,y,width, height);
+    if( width < 0 )
+    {
+        cvrect.x = x + width;
+        cvrect.width = -width;
+    }
+    if( height < 0 )
+    {
+        cvrect.y = y + height;
+        cvrect.height = -height;
+    }
+
     retour->m_image = cvCreateImage( cvSize(cvrect.width,cvrect.height),m_image->depth,m_image->nChannels);
 
     // définit la région d'intérêt

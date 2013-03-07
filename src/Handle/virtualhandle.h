@@ -73,7 +73,7 @@ public:
 
     static QStringList getAllHandleName(void);
 
-    ZI * createZI(QRectF rect);
+    ZI * createZI(QRect rect);
 
     typedef std::vector<std::shared_ptr<HandleParameters> > ListParameters;
     typedef std::vector<VirtualHandle *> ListDependancies;

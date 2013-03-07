@@ -67,8 +67,10 @@ void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
                             event->y() );
         if( topLeft != bottomRight )
         {
-            QRectF rectInScene( mapToScene(topLeft),
-                                mapToScene(bottomRight)
+            QPointF tl = mapToScene(topLeft);
+            QPointF br = mapToScene(bottomRight);
+            QRect rectInScene( tl.x(), tl.y(),
+                               br.x() - tl.x(), br.y() - tl.y()
                                 );
             emit createZI(rectInScene);
         }

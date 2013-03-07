@@ -160,9 +160,9 @@ void VirtualHandle::viewClosed(void)
 }
 
 
-ZI * VirtualHandle::createZI(QRectF rect)
+ZI * VirtualHandle::createZI(QRect rect)
 {
-    ZI * zi = new ZI(rect, m_numbering);
+    ZI * zi = new ZI(rect, m_spoiler->widget(), m_numbering);
     m_listZI.push_back(zi);
     return zi;
 }

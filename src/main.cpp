@@ -7,6 +7,16 @@
 #include "Handle/Handle.h"
 #include "Handle/handletools.h"
 
+
+//finir ZI
+//voir commit
+
+//mettre const, déclaration anticipée, ordonner les inclusions, mettres commentaires
+
+//rédiger wiki/utilisation
+
+//rédiger diagrammes
+
 int main(int argc, char *argv[])
 {
 
