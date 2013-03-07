@@ -7,6 +7,8 @@
 class ViewZI;
 class InputsTexts;
 
+// be carefull don't use parent's handle
+
 class ZI : public VirtualHandle
 {
 public:

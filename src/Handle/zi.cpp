@@ -109,6 +109,7 @@ ZI::ZI(QRect rect, QWidget *parent, Numbering num)
             {
                 this->getHandleForDependancies(handle.toStdString() )->showParameters( this->widget(),
                                                                                        m_numbering );
+                --m_numbering;
             }
     };
 

@@ -19,6 +19,8 @@ public:
 
     virtual ~Numbering();
 
+    Numbering & operator--();
+
     static void setDefaultNumbering( std::initializer_list<std::function<QString (unsigned int)> > generators );
 
 

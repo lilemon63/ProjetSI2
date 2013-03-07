@@ -17,7 +17,7 @@ QString Numbering::G_alphabet(unsigned int nb)
     {
         char c = nb % 26;
         nb -= c;
-        c += 'a';
+        c += 'a' - 1;
         result += c;
     }
     return result;
@@ -30,7 +30,7 @@ QString Numbering::G_alphabetMaj(unsigned int nb)
     {
         char c = nb % 26;
         nb -= c;
-        c += 'A';
+        c += 'A' - 1;
         result += c;
     }
     return result;}
@@ -126,4 +126,10 @@ void Numbering::clone( const Numbering & other)
     m_text = other.m_text;
     m_depth = other.m_depth;
     m_number = other.m_number;
+}
+
+Numbering & Numbering::operator--()
+{
+    m_number--;
+    return *this;
 }
