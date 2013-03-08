@@ -14,6 +14,7 @@ private :
     ToFiles tofiles;
     ToVideo v;
     NoHandle noHandle;
+    CountPixel cp;
     PutYourCodeHere p;
 };
 #endif // HANDLETOOLS_H

@@ -5,6 +5,9 @@
 #include <memory>
 #include <QPixmap>
 #include <QMetaType>
+#include <QMap>
+#include <QVariant>
+#include <QString>
 
 class ImageData;
 
@@ -31,10 +34,16 @@ public:
     ImageDataPtr getSubRegion(int x, int y, int width, int height);
 
     void merge( ImageDataPtr image, int x = 0, int y = 0);
+
+    void addResults( const QString &, const QVariant &);
+
+    QVariant operator[](const QString &);
 private :
     ImageData(void){}
     /** @brief Image */
     IplImage * m_image;
+
+    QMap<QString, QVariant> m_results ;
 };
 
 IplImage * ImageData::getImage(void)

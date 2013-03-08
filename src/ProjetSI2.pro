@@ -1,5 +1,6 @@
 Qt += system
 QT += widgets
+QT += script
 
 greaterThan(QT_MAJOR_VERSION, 4)
 
@@ -45,7 +46,8 @@ SOURCES += \
     Handle/numbering.cpp \
     Handle/Parameters/progressbar.cpp \
     View/viewzi.cpp \
-    View/zidialog.cpp
+    View/zidialog.cpp \
+    Handle/BasicHandle/countpixel.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -86,7 +88,8 @@ HEADERS += \
     Handle/numbering.h \
     Handle/Parameters/progressbar.h \
     View/viewzi.h \
-    View/zidialog.h
+    View/zidialog.h \
+    Handle/BasicHandle/countpixel.h
 
 LIBS += -lopencv_core \
         -lopencv_video \

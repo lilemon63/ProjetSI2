@@ -86,7 +86,7 @@ void ImageData::merge( ImageDataPtr image, int x, int y)
         Exception::buildException("Erreur, nombre de cannaux différents", "ImageData", "merge", EPC);
 
 
-    char * begin = dst->imageData + m_image->widthStep*y + x*3;
+    char * begin = dst->imageData + m_image->widthStep*y + x*dst->nChannels;
 
     char * lineSrc = src->imageData;
     char * lineDst = begin;
@@ -106,4 +106,14 @@ void ImageData::merge( ImageDataPtr image, int x, int y)
         lineSrc += src->widthStep;
         lineDst += dst->widthStep;
     }
+}
+
+void ImageData::addResults( const QString & name, const QVariant & value)
+{
+    m_results[name] = value;
+}
+
+QVariant ImageData::operator[](const QString & name)
+{
+    return m_results[name];
 }

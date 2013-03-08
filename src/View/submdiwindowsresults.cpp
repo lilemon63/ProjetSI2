@@ -23,9 +23,9 @@ void SubMdiWindowsResults::changeText(const QString & text)
     m_textEdit->verticalScrollBar()->setValue( m_textEdit->verticalScrollBar()->maximum() );
 }
 
-void SubMdiWindowsResults::extractInformationFromImage(ImageDataPtr)
+void SubMdiWindowsResults::extractInformationFromImage(ImageDataPtr img)
 {
-    addText("kikoo\n");
+    addText( "Nombre de pixels compte :" + QString::number((*img)["CountPixel"].toInt() ) + "\n" );
     //extract what you want
 }
 

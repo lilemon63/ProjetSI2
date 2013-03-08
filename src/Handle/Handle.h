@@ -13,5 +13,6 @@
 #include "BasicHandle/tofiles.h"
 #include "BasicHandle/nohandle.h"
 #include "BasicHandle/tovideo.h"
+#include "BasicHandle/countpixel.h"
 
 #endif // HANDLE_H

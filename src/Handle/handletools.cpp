@@ -4,6 +4,7 @@ HandleTools::HandleTools()
     : rotation(15, "Rotation", "Rotation"),
       tofiles(".", 0,"ToFiles", "ToFiles"),
       v("./test.avi" , "ToVideo", "ToVideo"),
+      cp("CountPixel", "CountPixel"),
       noHandle("Rien", "NOHANDLE")
 {
 }

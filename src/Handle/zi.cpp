@@ -8,8 +8,6 @@
 #include <QString>
 #include <QVariant>
 
-//TODO join
-
 ZI::ZI(QRect rect, QWidget *parent, Numbering num)
     : VirtualHandle("ZI"),
       m_view( new ViewZI(this, rect) ),
