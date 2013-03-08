@@ -77,30 +77,33 @@ ImageDataPtr ImageData::getSubRegion(int x, int y, int width, int height)
 
 void ImageData::merge( ImageDataPtr image, int x, int y)
 {
-    IplImage *src = image->m_image;
+    IplImage * dst = m_image;
+    IplImage * src = image->m_image;
 
-    std::cerr << x << ":" << y << std::endl;
-    std::cerr << src->width << "x"<< src->height << std::endl;
+    if(m_image->depth != IPL_DEPTH_8U || image->m_image->depth != IPL_DEPTH_8U)
+      Exception::buildException("Erreur, profondeur non-supportée", "ImageData", "merge", EPC);
+    if( m_image->nChannels != image->m_image->nChannels )
+        Exception::buildException("Erreur, nombre de cannaux différents", "ImageData", "merge", EPC);
 
-    CvRect cvrect = cvRect(x,y, src->width,src->height);
-    IplImage *dest = m_image;
 
-    // définit la région d'intérêt
-    cvSetImageROI(dest,cvrect);
+    char * begin = dst->imageData + m_image->widthStep*y + x*3;
 
-    std::cerr << "d" << dest->width << ":" << dest->height << std::endl;
+    char * lineSrc = src->imageData;
+    char * lineDst = begin;
+    while( lineSrc < src->imageData + src->imageSize)
+    {
 
-    // copier le bout sélectionné dans dest
+        char * pSrc = lineSrc;
+        char * pDst = lineDst;
+        while( pSrc - lineSrc < src->width * src->nChannels )
+        {
+            *pDst = *pSrc;
 
-    std::cerr << src->nChannels << "-" << dest->nChannels << std::endl;
-    cv::Mat source(src, true);
-    cv::Mat destination(dest, true);
+            ++pSrc;
+            ++pDst;
+        }
 
-    cv::copyMakeBorder(source, destination, x, y, dest->width - src->width - x,
-                       dest->height - src->height - y, cv::BORDER_DEFAULT);
-
-    //m_image = new IplImage(destination);
-    //TODO
-    cvCopy(src,dest,0);
-
+        lineSrc += src->widthStep;
+        lineDst += dst->widthStep;
+    }
 }
