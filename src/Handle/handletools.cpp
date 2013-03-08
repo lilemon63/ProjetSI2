@@ -5,6 +5,7 @@ HandleTools::HandleTools()
       tofiles(".", 0,"ToFiles", "ToFiles"),
       v("./test.avi" , "ToVideo", "ToVideo"),
       noHandle("Rien", "NOHANDLE"),
-      cp("CountPixel", "CountPixel")
+      cp("CountPixel", "CountPixel"),
+      ec("EditChannel", "EditChannel")
 {
 }

@@ -1,3 +1,4 @@
+#include<QtScript>
 #include "countpixel.h"
 #include "../Parameters/inputtext.h"
 
@@ -30,26 +31,6 @@ ImageDataPtr CountPixel::startHandle(ImageDataPtr src1, const ImageDataPtr)
         total += value.toBool();
     };
     src1->forEachPixel( lambda);
-    /* IplImage * source = src1->getImage();
-    for( char * line = source->imageData;
-         line < source->imageData + source->imageSize;
-         line += source->widthStep)
-    {
-        for( char * p = line;
-             p - line < source->width * source->nChannels;
-             p += source->nChannels )
-        {
-            query.replace("Gr", QString::number(0.33*p[0] + 0.56*p[1] + 0.11*p[2]) );
-            query.replace("B", QString::number(p[0]) );
-            query.replace("G", QString::number(p[1]) );
-            query.replace("R", QString::number(p[2]) );
-            if( ! engine.canEvaluate(query) )
-                total = -1;
-            QScriptValue value = engine.evaluate(query);
-
-            total += value.toBool();
-        }
-    } */
 
     src1->addResults( m_listParameters[NAME]->toString(), total);
 

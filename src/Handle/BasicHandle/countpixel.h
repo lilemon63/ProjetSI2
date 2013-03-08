@@ -1,7 +1,6 @@
 #ifndef COUNTPIXEL_H
 #define COUNTPIXEL_H
 
-#include<QtScript>
 #include "../virtualhandle.h"
 
 class CountPixel : public VirtualHandle

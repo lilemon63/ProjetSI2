@@ -47,7 +47,8 @@ SOURCES += \
     Handle/Parameters/progressbar.cpp \
     View/viewzi.cpp \
     View/zidialog.cpp \
-    Handle/BasicHandle/countpixel.cpp
+    Handle/BasicHandle/countpixel.cpp \
+    Handle/BasicHandle/editchannel.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -89,7 +90,8 @@ HEADERS += \
     Handle/Parameters/progressbar.h \
     View/viewzi.h \
     View/zidialog.h \
-    Handle/BasicHandle/countpixel.h
+    Handle/BasicHandle/countpixel.h \
+    Handle/BasicHandle/editchannel.h
 
 LIBS += -lopencv_core \
         -lopencv_video \

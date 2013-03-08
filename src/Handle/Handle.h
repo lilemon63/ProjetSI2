@@ -14,5 +14,6 @@
 #include "BasicHandle/nohandle.h"
 #include "BasicHandle/tovideo.h"
 #include "BasicHandle/countpixel.h"
+#include "BasicHandle/editchannel.h"
 
 #endif // HANDLE_H

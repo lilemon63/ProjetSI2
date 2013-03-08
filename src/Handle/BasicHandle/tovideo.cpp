@@ -82,7 +82,6 @@ ImageDataPtr ToVideo::startHandle(const ImageDataPtr src1, const ImageDataPtr)
         {
             saveFrame( src1 );//ImageDataPtr(new ImageData(*src1) ) );
         }
-        std::cerr << m_timer.elapsed()/1000 << std::endl;
         m_progress->setValue( m_timer.elapsed()/1000 );
     }
     return src1;

@@ -94,7 +94,6 @@ void VirtualHandle::changeSource(unsigned int idParameters, SourceParameters * s
 
 void VirtualHandle::showParameters(QWidget * parent, const std::string & name)
 {
-    std::cout << name << std::endl;
     if( name == "noname" || m_listHandle.find(name) == m_listHandle.end() )
         throw Exception::buildException(name + " n'est pas un nom de traitement valide",
                                         "VirtualHandle",
