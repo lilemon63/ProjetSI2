@@ -6,7 +6,7 @@ CountPixel::CountPixel(const QString & affName, const std::string & name)
 {
     m_listParameters.resize(MAX);
     m_listParameters[SCRIPT] = HandleParameters::build_inputtext("Condition");
-    m_listParameters[NAME] = HandleParameters::build_inputtext("Resultat name");
+    m_listParameters[NAME] = HandleParameters::build_inputtext("Resultat name", "CountPixel");
 }
 
 ImageDataPtr CountPixel::startHandle(ImageDataPtr src1, const ImageDataPtr)
@@ -16,21 +16,28 @@ ImageDataPtr CountPixel::startHandle(ImageDataPtr src1, const ImageDataPtr)
 
     unsigned long long int total = 0;
 
-    //debut
+    IplImage * source = src1->getImage();
+    for( char * line = source->imageData;
+         line < source->imageData + source->imageSize;
+         line += source->widthStep)
+    {
+        for( char * p = line;
+             p - line < source->width * source->nChannels;
+             p += source->nChannels )
+        {
+            query.replace("Gr", QString::number(0.33*p[0] + 0.56*p[1] + 0.11*p[2]) );
+            query.replace("B", QString::number(p[0]) );
+            query.replace("G", QString::number(p[1]) );
+            query.replace("R", QString::number(p[2]) );
+            if( ! engine.canEvaluate(query) )
+                total = -1;
+            QScriptValue value = engine.evaluate(query);
 
-    query.replace("Gr","45");
-    query.replace("B", "4");
-    query.replace("G", "3");
-    query.replace("R", "5");
-    if( ! engine.canEvaluate(query) )
-        std::cerr << "can't evaluate" << std::endl;
-    QScriptValue value = engine.evaluate(query);
+            total += value.toBool();
+        }
+    }
 
-    total += value.toBool();
-
-    //fin
-
-    //TODO
+    src1->addResults( m_listParameters[NAME]->toString(), total);
 
     return src1;
 }
