@@ -117,3 +117,22 @@ QVariant ImageData::operator[](const QString & name)
 {
     return m_results[name];
 }
+
+
+void ImageData::forEachPixel( std::function< void(unsigned char & r, unsigned char & g, unsigned char & b) > function)
+{
+    IplImage * source = m_image;
+    for( char * line = source->imageData;
+         line < source->imageData + source->imageSize;
+         line += source->widthStep)
+    {
+        for( char * p = line;
+             p - line < source->width * source->nChannels;
+             p += source->nChannels )
+        {
+            function( *(unsigned char *)(p+2),
+                      *(unsigned char *)(p+1),
+                      *(unsigned char *)(p+0) );
+        }
+    }
+}

@@ -35,6 +35,8 @@ public:
 
     void merge( ImageDataPtr image, int x = 0, int y = 0);
 
+    void forEachPixel( std::function< void(unsigned char & r, unsigned char & g, unsigned char & b) > );
+
     void addResults( const QString &, const QVariant &);
 
     QVariant operator[](const QString &);

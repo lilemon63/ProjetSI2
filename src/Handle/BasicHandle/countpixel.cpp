@@ -12,11 +12,25 @@ CountPixel::CountPixel(const QString & affName, const std::string & name)
 ImageDataPtr CountPixel::startHandle(ImageDataPtr src1, const ImageDataPtr)
 {
     QScriptEngine engine;
-    QString query = m_listParameters[SCRIPT]->toString();
+    QString originalQuery = m_listParameters[SCRIPT]->toString();
 
     unsigned long long int total = 0;
 
-    IplImage * source = src1->getImage();
+    auto lambda = [&total, &originalQuery, &engine](unsigned char & r, unsigned char & b, unsigned char & g)
+    {
+        QString query = originalQuery;
+        query.replace("Gr", QString::number(0.33*b + 0.56*g + 0.11*r) );
+        query.replace("B", QString::number(b) );
+        query.replace("G", QString::number(g) );
+        query.replace("R", QString::number(r) );
+        if( ! engine.canEvaluate(query) )
+            total = -1;
+        QScriptValue value = engine.evaluate(query);
+
+        total += value.toBool();
+    };
+    src1->forEachPixel( lambda);
+    /* IplImage * source = src1->getImage();
     for( char * line = source->imageData;
          line < source->imageData + source->imageSize;
          line += source->widthStep)
@@ -35,7 +49,7 @@ ImageDataPtr CountPixel::startHandle(ImageDataPtr src1, const ImageDataPtr)
 
             total += value.toBool();
         }
-    }
+    } */
 
     src1->addResults( m_listParameters[NAME]->toString(), total);
 
