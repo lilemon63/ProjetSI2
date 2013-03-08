@@ -10,8 +10,6 @@
 
 //TODO join
 
-//TODO aff sous-traitement
-
 ZI::ZI(QRect rect, QWidget *parent, Numbering num)
     : VirtualHandle("ZI"),
       m_view( new ViewZI(this, rect) ),
@@ -134,11 +132,11 @@ ImageDataPtr ZI::executeHandle(ImageDataPtr src1, const ImageDataPtr src2)
     ImageDataPtr srcZi = src1->getSubRegion(x, y, w, h);
     ImageDataPtr srcZi2 = src2->getSubRegion(x, y, w, h);
 
-    ImageDataPtr result = src1;
     if( m_listParameters[ACTIVATION]->toMap()["Activation"].toBool() )
-        VirtualHandle::executeHandle(srcZi,srcZi2);
-
-    //TODO merge ZI
+    {
+        ImageDataPtr result = VirtualHandle::executeHandle(srcZi,srcZi2);
+        src1->merge(result, x, y);
+    }
     return src1;
 }
 

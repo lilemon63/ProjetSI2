@@ -74,3 +74,33 @@ ImageDataPtr ImageData::getSubRegion(int x, int y, int width, int height)
 
     return ImageDataPtr( retour );
 }
+
+void ImageData::merge( ImageDataPtr image, int x, int y)
+{
+    IplImage *src = image->m_image;
+
+    std::cerr << x << ":" << y << std::endl;
+    std::cerr << src->width << "x"<< src->height << std::endl;
+
+    CvRect cvrect = cvRect(x,y, src->width,src->height);
+    IplImage *dest = m_image;
+
+    // définit la région d'intérêt
+    cvSetImageROI(dest,cvrect);
+
+    std::cerr << "d" << dest->width << ":" << dest->height << std::endl;
+
+    // copier le bout sélectionné dans dest
+
+    std::cerr << src->nChannels << "-" << dest->nChannels << std::endl;
+    cv::Mat source(src, true);
+    cv::Mat destination(dest, true);
+
+    cv::copyMakeBorder(source, destination, x, y, dest->width - src->width - x,
+                       dest->height - src->height - y, cv::BORDER_DEFAULT);
+
+    //m_image = new IplImage(destination);
+    //TODO
+    cvCopy(src,dest,0);
+
+}

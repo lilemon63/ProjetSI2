@@ -29,6 +29,8 @@ public:
     QPixmap toPixmap(void);
 
     ImageDataPtr getSubRegion(int x, int y, int width, int height);
+
+    void merge( ImageDataPtr image, int x = 0, int y = 0);
 private :
     ImageData(void){}
     /** @brief Image */
