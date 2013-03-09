@@ -8,6 +8,8 @@
 
 #include "sourceparameters.h"
 
+class QCheckBox;
+
 class CheckBox : public QObject, public SourceParameters
 {
 public:
