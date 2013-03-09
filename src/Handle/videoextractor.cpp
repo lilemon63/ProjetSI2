@@ -48,9 +48,10 @@ void VideoExtractor::changeHandleParameters( SourceParameters * source, QWidget 
 }
 
 
-void VideoExtractor::changePeriodeParameters( SourceParameters *source, QWidget * area)
+void VideoExtractor::changePeriodeParameters( SourceParameters *source, QWidget *area)
 {
     m_paramPeriod.changeSources(source);
+    m_paramHandle.showParameters( area );
 }
 
 

@@ -110,7 +110,7 @@ void VirtualHandle::setView(Mdi * view)
 
 void VirtualHandle::showParameters(QWidget * parent, Numbering num )
 {
-    m_numbering.clone(num);
+    m_numbering.cloneFrom(num);
     m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, num);
 }
 

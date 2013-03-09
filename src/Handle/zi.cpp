@@ -24,7 +24,7 @@ ZI::ZI(QRect rect, QWidget *parent, Numbering num)
                                                         } ) ) ),
       m_view( new ViewZI(this, rect) )
 {
-    m_numbering.clone(num);
+    m_numbering.cloneFrom(num);
     m_listParameters.resize(MAX);
 
     m_listParameters[AREA] = std::shared_ptr<HandleParameters>( new HandleParameters() );
