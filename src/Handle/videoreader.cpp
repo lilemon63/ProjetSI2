@@ -7,14 +7,39 @@ VideoReader::VideoReader()
 }
 
 
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC-----------------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+bool VideoReader::acceptSeek(void)
+{
+    return false;
+}
+
+
 IplImage * VideoReader::getImage(void)
 {
     return cvQueryFrame(m_video);
-    /*
-    if (webcam)
-        cvFlip(frame, frame, 1);
-        */
 }
+
+
+void VideoReader::grab(void)
+{
+    if(m_video)
+       cvGrabFrame(m_video);
+}
+
+
+int VideoReader::nbFrame(void)
+{
+    return 0;
+}
+
+
+void VideoReader::r_grab(void)
+{
+}
+
 
 void VideoReader::useCamera(int idCamera)
 {
@@ -24,15 +49,6 @@ void VideoReader::useCamera(int idCamera)
     m_video = tmp;
 }
 
-bool VideoReader::acceptSeek(void)
-{
-    return false;
-}
-
-int VideoReader::nbFrame(void)
-{
-    return 0;
-}
 
 void VideoReader::slid(int)
 {
