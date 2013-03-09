@@ -1,11 +1,11 @@
 #include "handletools.h"
 
 HandleTools::HandleTools()
-    : rotation(15, "Rotation", "Rotation"),
-      tofiles(".", 0,"ToFiles", "ToFiles"),
-      v("./test.avi" , "ToVideo", "ToVideo"),
-      noHandle("Rien", "NOHANDLE"),
-      cp("CountPixel", "CountPixel"),
-      ec("EditChannel", "EditChannel")
+    :   video("./test.avi" , "ToVideo", "ToVideo"),
+        tofiles(".", 0,"ToFiles", "ToFiles"),
+        noHandle("Rien", "NOHANDLE"),
+        rotation(15, "Rotation", "Rotation"),
+        countPixel("CountPixel", "CountPixel"),
+        editChannel("EditChannel", "EditChannel")
 {
 }

@@ -9,13 +9,13 @@ class HandleTools
 public :
     HandleTools();
 private :
-    ModelHandle m;
-    Rotation rotation;
+    ToVideo video;
     ToFiles tofiles;
-    ToVideo v;
     NoHandle noHandle;
-    CountPixel cp;
-    EditChannel ec;
-    PutYourCodeHere p;
+    Rotation rotation;
+    ModelHandle model;
+    CountPixel countPixel;
+    EditChannel editChannel;
+    PutYourCodeHere putYourCodeHere;
 };
 #endif // HANDLETOOLS_H
