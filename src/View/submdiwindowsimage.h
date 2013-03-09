@@ -1,32 +1,37 @@
 #ifndef SUBMDIWINDOWSIMAGE_H
 #define SUBMDIWINDOWSIMAGE_H
 
+#include <QGraphicsScene>
+
 #include "submdiwindows.h"
-#include "graphicsview.h"
+
+class GraphicsView;
+class QGraphicsItem;
+class QGraphicsPixmapItem;
 
 class SubMdiWindowsImage : public SubMdiWindows
 {
     Q_OBJECT
 public:
-    explicit SubMdiWindowsImage(const QString &titre = QString(), Mdi *area = nullptr, QWidget *parent = nullptr);
-    void updateImage(const QPixmap &);
-    void resizeEvent(QResizeEvent *resizeEvent);
-    void updateImageAsc(const ImageDataPtr );
+    explicit SubMdiWindowsImage(const QString &titre = QString(), Mdi *area = nullptr,
+                                QWidget *parent = nullptr);
+    virtual ~SubMdiWindowsImage(){}
+
     virtual void attach(void);
     virtual void detach(void);
     void draw(QGraphicsItem * item);
+    void resizeEvent(QResizeEvent *resizeEvent);
+    void updateImage(const QPixmap &);
+    void updateImageAsc(const ImageDataPtr );
 signals:
     void handleSignalUpdateImage(const ImageDataPtr );
-public slots:
 private slots :
-    void handleSlotUpdateImage(const ImageDataPtr );
     void createZI(QRect);
+    void handleSlotUpdateImage(const ImageDataPtr );
 private :
-    QGraphicsScene m_scene;
-    QGraphicsPixmapItem * m_image;
     GraphicsView * m_graphicsView;
-
-
+    QGraphicsPixmapItem * m_image;
+    QGraphicsScene m_scene;
 };
 
 #endif // SUBMDIWINDOWSIMAGE_H
