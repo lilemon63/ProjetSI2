@@ -11,7 +11,6 @@ SOURCES += \
     main.cpp \
     Handle/virtualhandle.cpp \
     Handle/modelhandle.cpp \
-    Handle/videoview.cpp \
     Handle/videoextractor.cpp \
     Handle/videoreader.cpp \
     Handle/imagedata.cpp \
@@ -54,7 +53,6 @@ HEADERS += \
     Handle/Handle.h \
     Handle/virtualhandle.h \
     Handle/modelhandle.h \
-    Handle/videoview.h \
     Handle/videoextractor.h \
     Handle/videoreader.h \
     Handle/imagedata.h \

@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include <QMdiArea>
 #include "../Handle/videoextractor.h"
-#include "../Handle/videoview.h"
 #include "submdiwindowsimage.h"
 #include "submdiwindowsresults.h"
 
