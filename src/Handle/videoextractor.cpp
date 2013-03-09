@@ -1,37 +1,80 @@
-#include "videoextractor.h"
-
 #include <QElapsedTimer>
 
 #include "../exception.h"
+#include "videoextractor.h"
 #include "Handle.h"
 
 VideoExtractor::VideoExtractor(bool dual, VideoReader * source1, VideoReader * source2 )
-    : m_stopped(true), m_dual(dual), m_videoStream{ source1 , source2 },
-    m_autoPlay(false),
-    m_currentParent(nullptr),
-    m_isHandleActived(true)
+    : m_autoPlay(false),
+      m_currentParent(nullptr),
+      m_dual(dual),
+      m_isHandleActived(true),
+      m_stopped(true),
+      m_videoStream{ source1 , source2 }
 {
-    auto lambda = [this]( QVariant Value, HandleParameters * hp )
-    {
-            hideParameters();
-            hp->acceptChanges(Value);
-            if( m_currentParent )
-                showParameters(m_currentParent);
-    };
-    m_paramHandle.setActionOnChangeValue( lambda );
+    m_paramHandle.setActionOnChangeValue( [this]( QVariant Value, HandleParameters * hp )
+                                            {
+                                                    hideParameters();
+                                                    hp->acceptChanges(Value);
+                                                    if( m_currentParent )
+                                                        showParameters(m_currentParent);
+                                            } );
 }
 
-void VideoExtractor::showParameters(QWidget *parent)
+
+VideoExtractor::~VideoExtractor()
 {
-        m_currentParent = parent;
-        VirtualHandle::showParameters(parent, m_paramHandle.toString().toStdString());
+    delete m_videoStream[0];
+    delete m_videoStream[1];
 }
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC-----------------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+bool VideoExtractor::acceptSeek(void)
+{
+    if( m_videoStream[0]->acceptSeek() )
+        return true;
+    if( m_dual && m_videoStream[1]->acceptSeek() )
+        return true;
+    return false;
+}
+
+
+void VideoExtractor::changeHandleParameters( SourceParameters * source, QWidget * area)
+{
+    m_paramHandle.changeSources(source);
+    m_paramHandle.showParameters( area );
+}
+
+
+void VideoExtractor::changePeriodeParameters( SourceParameters *source, QWidget * area)
+{
+    m_paramPeriod.changeSources(source);
+}
+
 
 void VideoExtractor::hideParameters(void)
 {
     if( m_paramHandle.toString() != "" )
         VirtualHandle::hideParameters(m_paramHandle.toString().toStdString());
 }
+
+
+int VideoExtractor::numberOfFrame(void)
+{
+    int nFrame1 = m_videoStream[0]->nbFrame();
+    int nFrame2 = m_dual ? m_videoStream[1]->nbFrame() : 0;
+    return nFrame1 > nFrame2 ? nFrame1 : nFrame2;
+}
+
+
+void VideoExtractor::showParameters(QWidget *parent)
+{
+        m_currentParent = parent;
+        VirtualHandle::showParameters( parent, m_paramHandle.toString().toStdString() );
+}
+
 
 void VideoExtractor::start(qint64 timeMax, qint64 nbMaxImage)
 {
@@ -43,6 +86,82 @@ void VideoExtractor::start(qint64 timeMax, qint64 nbMaxImage)
     m_nbImageHandled = 0;
     QThread::start();
 }
+
+
+void VideoExtractor::useSource(VideoReader * source, int channel)
+{
+    delete m_videoStream[channel];
+    m_videoStream[channel] = source;
+}
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC SLOTS-----------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+void VideoExtractor::activeHandle(bool newValue)
+{
+    m_isHandleActived = newValue;
+}
+
+
+void VideoExtractor::next(void)
+{
+    m_mutex.lock();
+
+    m_autoPlay = false;
+    m_videoStream[0]->grab();
+    m_videoStream[1]->grab();
+
+    processFrame();
+
+    m_mutex.unlock();
+}
+
+
+void VideoExtractor::pause(void)
+{
+    m_autoPlay = false;
+}
+
+
+void VideoExtractor::play(void)
+{
+    m_autoPlay = true;
+    m_cond.wakeAll();
+}
+
+
+void VideoExtractor::previous(void)
+{
+    m_mutex.lock();
+
+    m_autoPlay = false;
+    m_videoStream[0]->r_grab();
+    m_videoStream[1]->r_grab();
+
+    processFrame();
+
+    m_mutex.unlock();
+}
+
+
+void VideoExtractor::slid(int value)
+{
+    m_mutex.lock();
+
+    m_autoPlay = false;
+
+    m_videoStream[0]->slid(value);
+    m_videoStream[1]->slid(value);
+
+    processFrame();
+
+    m_mutex.unlock();
+}
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PROTECTED--------------------------------------------
+---------------------------------------------------------------------------------------------------*/
 
 
 void VideoExtractor::run(void)
@@ -68,7 +187,6 @@ void VideoExtractor::run(void)
 
         processFrame();
 
-
         if( m_nbMaxImage && m_nbImageHandled == m_nbMaxImage )
             m_autoPlay = false;
 
@@ -89,43 +207,20 @@ void VideoExtractor::run(void)
     deleteLater();
 }
 
-void VideoExtractor::useSource(VideoReader * source, int channel)
-{
-    delete m_videoStream[channel];
-    m_videoStream[channel] = source;
-}
-
-VideoExtractor::~VideoExtractor()
-{
-    delete m_videoStream[0];
-    delete m_videoStream[1];
-}
-
-void VideoExtractor::changeHandleParameters( SourceParameters * source, QWidget * area)
-{
-    m_paramHandle.changeSources(source);
-    m_paramHandle.showParameters( area );
-}
-
-void VideoExtractor::changePeriodeParameters( SourceParameters *source, QWidget * area)
-{
-    m_paramPeriod.changeSources(source);
-    m_paramPeriod.showParameters( area );
-}
-
 
 void VideoExtractor::processFrame(void)
 {
     IplImage * src1, * src2;
 
     src1 = m_videoStream[0]->getImage();
-    src2 = m_videoStream[1]->getImage();
+    if(m_dual)
+        src2 = m_videoStream[1]->getImage();
 
     ImageDataPtr source1 = nullptr, source2 = nullptr;
 
     if(src1)
         source1 = ImageDataPtr(new ImageData(*src1));
-    if(src2)
+    if( m_dual && src2 )
         source2 = ImageDataPtr(new ImageData(*src2));
     else if(! src1)
         throw Exception::buildException("Aucune source valable", "VideoExtractor",
@@ -146,78 +241,4 @@ void VideoExtractor::processFrame(void)
 
     m_nbImageHandled++;
     emit imageHandled(result, source1, source2);
-}
-
-
-void VideoExtractor::next(void)
-{
-    m_mutex.lock();
-
-    m_autoPlay = false;
-    m_videoStream[0]->grab();
-    m_videoStream[1]->grab();
-
-    processFrame();
-
-    m_mutex.unlock();
-}
-
-void VideoExtractor::previous(void)
-{
-    m_mutex.lock();
-
-    m_autoPlay = false;
-    m_videoStream[0]->r_grab();
-    m_videoStream[1]->r_grab();
-
-    processFrame();
-
-    m_mutex.unlock();
-}
-
-void VideoExtractor::slid(int value)
-{
-    m_mutex.lock();
-
-    m_autoPlay = false;
-
-    m_videoStream[0]->slid(value);
-    m_videoStream[1]->slid(value);
-
-    processFrame();
-
-    m_mutex.unlock();
-}
-
-void VideoExtractor::play(void)
-{
-    m_autoPlay = true;
-    m_cond.wakeAll();
-}
-
-void VideoExtractor::pause(void)
-{
-    m_autoPlay = false;
-}
-
-void VideoExtractor::activeHandle(bool newValue)
-{
-    m_isHandleActived = newValue;
-}
-
-bool VideoExtractor::acceptSeek(void)
-{
-    if( m_videoStream[0]->acceptSeek() )
-        return true;
-    if( m_videoStream[1]->acceptSeek() )
-        return true;
-    return false;
-}
-
-
-int VideoExtractor::numberOfFrame(void)
-{
-    int nFrame1 = m_videoStream[0]->nbFrame();
-    int nFrame2 = m_videoStream[1]->nbFrame();
-    return nFrame1 > nFrame2 ? nFrame1 : nFrame2;
 }
