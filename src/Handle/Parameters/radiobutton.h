@@ -2,11 +2,12 @@
 #define RADIOBUTTON_H
 
 #include <QObject>
-#include <QGroupBox>
-#include <QRadioButton>
-#include <QFormLayout>
 
 #include "sourceparameters.h"
+
+class QFrame;
+class QRadioButton;
+class QButtonGroup;
 
 class RadioButton : public QObject, public SourceParameters
 {
@@ -14,21 +15,18 @@ public:
     Q_OBJECT;
 public:
     RadioButton(const QString & label, const QStringList & boxes, const QString & defaultValue = "");
-
-    virtual void showParameters(QWidget * parent);
-
-    virtual void hideParameters(void);
-
-    virtual void addSuscriber(HandleParameters * target);
-
     virtual ~RadioButton(){}
 
-private :
-    QList<QRadioButton *> m_radiobuttons;
-    QButtonGroup * m_group;
-    QFrame * m_frame;
+
+    virtual void addSuscriber(HandleParameters * target);
+    virtual void hideParameters(void);
+    virtual void showParameters(QWidget * parent);
 private slots :
     void changeValue();
+private :
+    QFrame * m_frame;
+    QButtonGroup * m_group;
+    QList<QRadioButton *> m_radiobuttons;
 };
 
 #endif // RADIOBUTTON_H
