@@ -2,61 +2,63 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMdiArea>
-#include "../Handle/videoextractor.h"
-#include "submdiwindowsimage.h"
-#include "submdiwindowsresults.h"
 
-//TODO : séparer en sous-classes
+#include "../Handle/imagedata.h"
+
+class VideoExtractor;
+class SubMdiWindowsImage;
+class SubMdiWindowsResults;
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+//TODO : séparer en sous-classes
+//TODO saveDataFileName
+class MainWindow : public QMainWindow //final
 {
-    Q_OBJECT
-    
+    Q_OBJECT 
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    
+    MainWindow( const MainWindow & ) = delete;
+    MainWindow & operator=( const MainWindow & ) = delete;
+public slots :
+    void activeHandle(void);
+    void attachDetach(void);
+    void changeMdiMode(int index);
+    void enterInDefaultMode(void);
+    void enterInFreeMode(void);
+    void enterInTabulationMode(void);
+    void fullscreen(void);
+    void nextFrame(void);
+    void onCloseMainSubWindows(void);
+    void playPause(void);
+    void previousFrame(void);
+    void quitDefaultMode(void);
+    void resizeMdi(void);
+    void saveDataFileName(void);
+    void setImage(const ImageDataPtr result, const ImageDataPtr src1 , const ImageDataPtr src2);
+    void showHideDockParameters(void);
+    void showHideDockStreamControl(void);
+    void sliderMoved(int);
+    void windowStateChanged(Qt::WindowStates,Qt::WindowStates);
+private slots:
+    void on_actionPlein_cran_triggered();
+
 private:
     enum Mode{Default, Tabulation, Free};
-
-    Ui::MainWindow *ui;
+    void updateSeek(void);
+private :
+    Mode m_areaMode;
     VideoExtractor * m_extractor;
+    bool m_isHandleActived;
+    bool m_isPlay;
     SubMdiWindowsImage * m_subImage;
     SubMdiWindowsImage * m_subImageSource1;
     SubMdiWindowsImage * m_subImageSource2;
     SubMdiWindowsResults * m_subResults;
-    Mode m_areaMode;
-
-    bool m_isPlay;
-    bool m_isHandleActived;
-
-    void updateSeek(void);
-public slots :
-    virtual void setImage(const ImageDataPtr result, const ImageDataPtr src1 , const ImageDataPtr src2);
-    void changeMdiMode(int index);
-    void onCloseMainSubWindows(void);
-    void resizeMdi(void);
-    void quitDefaultMode(void);
-    void showHideDockParameters(void);
-    void showHideDockStreamControl(void);
-    void enterInDefaultMode(void);
-    void enterInTabulationMode(void);
-    void enterInFreeMode(void);
-    void fullscreen(void);
-    void saveDataFileName(void);
-    void windowStateChanged(Qt::WindowStates,Qt::WindowStates);
-    void attachDetach(void);
-
-    void playPause(void);
-    void activeHandle(void);
-    void nextFrame(void);
-    void previousFrame(void);
-    void sliderMoved(int);
+    Ui::MainWindow *ui;
 };
 
 #endif // MAINWINDOW_H

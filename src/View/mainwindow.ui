@@ -102,7 +102,7 @@
           <x>0</x>
           <y>0</y>
           <width>198</width>
-          <height>371</height>
+          <height>411</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -337,8 +337,252 @@
    <extends>QFrame</extends>
    <header>View/mdi.h</header>
    <container>1</container>
+   <slots>
+    <signal>onResize()</signal>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonNext</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>nextFrame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>699</x>
+     <y>499</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>543</x>
+     <y>-22</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mdiAreaMode</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changeMdiMode(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>101</x>
+     <y>505</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>476</x>
+     <y>-8</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonPrevious</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>previousFrame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>526</x>
+     <y>502</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>166</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sliderCurseur</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>sliderMoved(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>359</x>
+     <y>532</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>-13</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonactiveHandle</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>activeHandle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>387</x>
+     <y>507</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>447</x>
+     <y>-16</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonPlay</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>playPause()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>497</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>821</x>
+     <y>-4</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPlein_cran</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>fullscreen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mdiArea</sender>
+   <signal>onResize()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>resizeMdi()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>62</x>
+     <y>71</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-6</x>
+     <y>34</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionAfficher_les_param_tres</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showHideDockParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionVue_par_d_faut</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>enterInDefaultMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionVue_Tabulation</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>enterInTabulationMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionVue_Libre</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>enterInFreeMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionAfficher_Cacher_le_contr_le_de_flux</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showHideDockStreamControl()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionAttacher_D_tacher_une_fen_tre</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>attachDetach()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>nextFrame()</slot>
+  <slot>fullscreen()</slot>
+  <slot>changeMdiMode(int)</slot>
+  <slot>previousFrame()</slot>
+  <slot>sliderMoved(int)</slot>
+  <slot>activeHandle()</slot>
+  <slot>playPause()</slot>
+  <slot>resizeMdi()</slot>
+  <slot>showHideDockParameters()</slot>
+  <slot>enterInDefaultMode()</slot>
+  <slot>enterInTabulationMode()</slot>
+  <slot>enterInFreeMode()</slot>
+  <slot>showHideDockStreamControl()</slot>
+  <slot>attachDetach()</slot>
+ </slots>
 </ui>
