@@ -1,4 +1,5 @@
 #include<QtScript>
+
 #include "countpixel.h"
 #include "../Parameters/inputtext.h"
 

@@ -7,8 +7,7 @@ Rotation::Rotation(int angle, const QString & affName, const std::string & name)
     : VirtualHandle(affName, name)
 {
     m_listParameters.resize(Max);
-    m_listParameters[AngleRotation] = std::shared_ptr<HandleParameters>(new HandleParameters() );
-    m_listParameters[AngleRotation]->changeSources( new Dial("Rotation", angle) );
+    m_listParameters[AngleRotation] = HandleParameters::build_dial("Rotation", angle);
 }
 
 

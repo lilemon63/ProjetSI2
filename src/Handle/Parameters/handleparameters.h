@@ -7,6 +7,8 @@
 #include <functional>
 #include <QColor>
 
+#include "inputtext.h"
+
 class SourceParameters;
 
 /** @brief Parameters for VirtualHandle */
@@ -52,7 +54,7 @@ public:
     static std::shared_ptr<HandleParameters> build_spinbox(const QString & label = QString() );
     static std::shared_ptr<HandleParameters> build_radiobutton(const QString & label, const QStringList & boxes = QStringList() );
     static std::shared_ptr<HandleParameters> build_colorselection(const QString & label, const QColor& = QColor(255,0,0));
-    static std::shared_ptr<HandleParameters> build_inputtext(const QString & label = QString(), const QString &defaultValue = QString());
+    static std::shared_ptr<HandleParameters> build_inputtext(const QString & label = QString(), const QString &defaultValue = QString(), InputText::Helper helper = InputText::None);
     static std::shared_ptr<HandleParameters> build_checkbox(const QString & label, const QStringList & boxes = QStringList() );
     static std::shared_ptr<HandleParameters> build_comboBox(const QString & label, const QStringList & choices = QStringList(), const QString & defaultValue = QString() );
 private :

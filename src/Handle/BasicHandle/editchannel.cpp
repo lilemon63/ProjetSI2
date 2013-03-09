@@ -1,5 +1,5 @@
 #include<QtScript>
-#include "../Parameters/inputtext.h"
+
 #include "editchannel.h"
 
 EditChannel::EditChannel(const QString & affName, const std::string & name)
@@ -39,7 +39,8 @@ ImageDataPtr EditChannel::startHandle(ImageDataPtr src1, const ImageDataPtr)
         if( engine.canEvaluate(queries[2]) )
             b = engine.evaluate(queries[2]).toInteger();
     };
-    src1->forEachPixel( lambda);
+
+    src1->forEachPixel( lambda );
 
     return src1;
 }

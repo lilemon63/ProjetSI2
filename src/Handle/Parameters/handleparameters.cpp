@@ -5,7 +5,6 @@
 #include "spinbox.h"
 #include "radiobutton.h"
 #include "colorselection.h"
-#include "inputtext.h"
 #include "checkbox.h"
 #include "combobox.h"
 
@@ -89,10 +88,10 @@ std::shared_ptr<HandleParameters> HandleParameters::build_colorselection(const Q
     return newParam;
 }
 
-std::shared_ptr<HandleParameters> HandleParameters::build_inputtext(const QString & label, const QString &defaultValue)
+std::shared_ptr<HandleParameters> HandleParameters::build_inputtext(const QString & label, const QString &defaultValue, InputText::Helper helper)
 {
     std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
-    newParam->changeSources(new InputText(label, defaultValue));
+    newParam->changeSources(new InputText(label, defaultValue, helper));
     return newParam;
 }
 

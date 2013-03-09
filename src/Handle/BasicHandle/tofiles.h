@@ -4,9 +4,10 @@
 #include <string>
 
 #include "../virtualhandle.h"
-#include "../Parameters/inputtext.h"
+
 class ToFiles : public VirtualHandle
 {
+   enum{ Frequence ,Path, Max};
 public:
     /** @brief Build a ToFile handle
         @param const std::string & path : existant folder where we put the image
@@ -17,8 +18,6 @@ protected :
     ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr src2);
 private :
     unsigned int m_compteur;
-
-    enum{ Frequence ,Path, Max};
 };
 
 #endif // TOFILES_H

@@ -9,7 +9,6 @@ class CountPixel : public VirtualHandle
 public:
     CountPixel(const QString & affName = "Untilted", const std::string & = "noname");
 protected :
-
     ImageDataPtr startHandle(ImageDataPtr src1, const ImageDataPtr src2);
 };
 

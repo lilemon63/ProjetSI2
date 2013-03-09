@@ -62,20 +62,20 @@ int FolderReader::nbFrame(void)
 }
 
 
-QDateTime FolderReader::parseFileName(const QString & fileName)
+QDateTime FolderReader::parseFileName(const QString & file)
 {
     QRegExp reg;
-    QDateTime time;
-
-    QStringList dataList;
     reg.setPattern("._(\\d+)-(\\d+)-(\\d+)-(\\d+)h(\\d+)m(\\d+)s(\\d+).*");
     //QDateTime seems don't be able to accept regex for his format (?)
+
+    QString fileName = file;
     fileName.replace(reg,"\\0\n\\1\n\\2\n\\3\n\\4\n\\5\n\\6\n\\7");
-    dataList = fileName.split('\n');
+    QStringList dataList = fileName.split('\n');
 
     if(dataList.size() != 8)
         throw ParseException::buildParseException("The file's name " + fileName.toStdString() + "is incorrect.",
                                                   "FolderReader", "parseFileName",EP);
+    QDateTime time;
     time.setDate( QDate(dataList[1].toInt(),
                         dataList[2].toInt(),
                         dataList[3].toInt()

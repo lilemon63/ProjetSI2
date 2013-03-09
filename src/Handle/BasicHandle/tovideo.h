@@ -2,32 +2,28 @@
 #define TOVIDEO_H
 
 #include<QTime>
+
 #include "../virtualhandle.h"
-#include <QObject>
-#include "../Parameters/progressbar.h"
 #include "../Parameters/inputtext.h"
+#include "../Parameters/progressbar.h"
 
-class ToVideo : public QObject, public VirtualHandle
+class ToVideo : public VirtualHandle
 {
-    Q_OBJECT
-
 private:
-    QTime m_timer;
-    CvVideoWriter * m_writer;
     enum{FrameRate, Duree, PathV, Progress, Prise, Max};
-    ProgressBar * m_progress;
-    CheckBox * m_checkBox;
-    bool m_isActif;
 public:
     ToVideo(const std::string &path, const QString & affName,const std::string &name);
     ImageDataPtr startHandle(const ImageDataPtr src1, const ImageDataPtr);
 private :
     void onEnding();
     void init(const ImageDataPtr);
-signals :
-    void newFrame( ImageDataPtr );
-private slots :
     void saveFrame( ImageDataPtr );
+
+    CheckBox * m_checkBox;
+    bool m_isActif;
+    ProgressBar * m_progress;
+    QTime m_timer;
+    CvVideoWriter * m_writer;
 };
 
 #endif // TOVIDEO_H

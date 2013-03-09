@@ -1,7 +1,6 @@
 #ifndef EDITCHANNEL_H
 #define EDITCHANNEL_H
 
-
 #include "../virtualhandle.h"
 
 class EditChannel : public VirtualHandle
@@ -10,7 +9,6 @@ class EditChannel : public VirtualHandle
 public:
     EditChannel(const QString & affName = "Untilted", const std::string & = "noname");
 protected :
-
     ImageDataPtr startHandle(ImageDataPtr src1, const ImageDataPtr src2);
 };
 
