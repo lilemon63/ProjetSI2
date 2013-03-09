@@ -12,7 +12,6 @@ class QCheckBox;
 
 class CheckBox : public QObject, public SourceParameters
 {
-public:
     Q_OBJECT;
 public:
     CheckBox(const QString & label, const QStringList & boxes,

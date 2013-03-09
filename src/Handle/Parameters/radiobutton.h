@@ -11,7 +11,6 @@ class QButtonGroup;
 
 class RadioButton : public QObject, public SourceParameters
 {
-public:
     Q_OBJECT;
 public:
     RadioButton(const QString & label, const QStringList & boxes, const QString & defaultValue = "");
