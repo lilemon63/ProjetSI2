@@ -1,8 +1,10 @@
-#include "folderreader.h"
-#include "../parseexception.h"
+#include <QDir>
 #include <QRegExp>
 #include <QStringList>
-#include <QDir>
+
+#include "folderreader.h"
+#include "../parseexception.h"
+
 
 FolderReader::FolderReader(const std::string & path)
     : m_path(path)
@@ -17,13 +19,51 @@ FolderReader::FolderReader(const std::string & path)
 
     for(auto info : liste)
     {
-        m_listePath[parseFileName(info.fileName())] = info.fileName();
+        m_listePath[ parseFileName( info.fileName() ) ] = info.fileName();
     }
     m_iterator = m_listePath.end();
 }
 
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC-----------------------------------------------
+---------------------------------------------------------------------------------------------------*/
 
-QDateTime FolderReader::parseFileName(QString fileName){
+
+bool FolderReader::acceptSeek(void)
+{
+    return true;
+}
+
+
+IplImage * FolderReader::getImage(void)
+{
+    static IplImage * data = nullptr;
+    if( data )
+        cvReleaseImage(&data);
+
+    if( m_iterator != m_listePath.end() )
+        data = cvLoadImage( (m_path + m_iterator->second.toStdString() ).c_str() );
+    return data;
+}
+
+
+void FolderReader::grab()
+{
+    if( m_iterator == m_listePath.end() )
+        m_iterator = m_listePath.begin();
+    else
+        ++m_iterator;
+}
+
+
+int FolderReader::nbFrame(void)
+{
+    return m_listePath.size();
+}
+
+
+QDateTime FolderReader::parseFileName(const QString & fileName)
+{
     QRegExp reg;
     QDateTime time;
 
@@ -36,7 +76,6 @@ QDateTime FolderReader::parseFileName(QString fileName){
     if(dataList.size() != 8)
         throw ParseException::buildParseException("The file's name " + fileName.toStdString() + "is incorrect.",
                                                   "FolderReader", "parseFileName",EP);
-
     time.setDate( QDate(dataList[1].toInt(),
                         dataList[2].toInt(),
                         dataList[3].toInt()
@@ -47,56 +86,24 @@ QDateTime FolderReader::parseFileName(QString fileName){
                         dataList[6].toInt(),
                         dataList[7].toInt()
                         ) );
-
     return time;
 }
 
-void FolderReader::grab()
-{
-    if( m_iterator == m_listePath.end() )
-        m_iterator = m_listePath.begin();
-    else
-        ++m_iterator;
-}
-
-
-bool FolderReader::acceptSeek(void)
-{
-    return true;
-}
-
-
-IplImage * FolderReader::getImage(void)
-{
-    static IplImage * data = NULL;
-    if( data )
-    {
-        cvReleaseImage(&data);
-    }
-    if( m_iterator != m_listePath.end() )
-        data = cvLoadImage( (m_path + m_iterator->second.toStdString() ).c_str() );
-    return data;
-}
 
 void FolderReader::r_grab()
 {
     if( m_iterator == m_listePath.end() )
         m_iterator = m_listePath.begin();
-    else if(m_iterator == m_listePath.begin() )
-        m_iterator = m_listePath.end()--; //does it work ?
-    else
+    else if(m_iterator != m_listePath.begin() )
         --m_iterator;
 }
 
-int FolderReader::nbFrame(void)
-{
-    return m_listePath.size();
-}
 
 void FolderReader::slid(int value)
 {
     auto it = m_listePath.begin();
-    for( int i = 0; value != i + 1; ++i)
+    value--;
+    for( int i = 0; value != i; ++i)
         it++;
     m_iterator = it;
 }
