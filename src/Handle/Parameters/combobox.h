@@ -2,29 +2,28 @@
 #define COMBOBOX_H
 
 #include <QObject>
-#include <QComboBox>
 
 #include "sourceparameters.h"
+
+class QComboBox;
 
 class ComboBox : public QObject, public SourceParameters
 {
 public:
     Q_OBJECT;
 public:
-    ComboBox(const QString & label, const QStringList & choices, const QString & defaultValue = QString());
-
-    virtual void showParameters(QWidget * parent);
-
-    virtual void hideParameters(void);
-
-    virtual void addSuscriber(HandleParameters * target);
-
+    ComboBox( const QString & label, const QStringList & choices, const QString & defaultValue = QString() );
     virtual ~ComboBox(){}
 
-private :
-    QComboBox * m_combobox;
+    virtual void addSuscriber(HandleParameters * target);
+    virtual void hideParameters(void);
+    virtual void showParameters(QWidget * parent);
+
 private slots :
     void changeValue(QString newValue);
+private :
+    QComboBox * m_combobox;
+
 };
 
 

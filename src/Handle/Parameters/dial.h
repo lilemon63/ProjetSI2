@@ -2,12 +2,13 @@
 #define DIAL_H
 
 #include <QObject>
-#include <QDial>
-#include <QLabel>
-#include <QFrame>
-#include <QLineEdit>
 
 #include "sourceparameters.h"
+
+class QDial;
+class QFrame;
+class QLabel;
+class QLineEdit;
 
 class Dial : public QObject, public SourceParameters
 {
@@ -16,23 +17,19 @@ public:
     Q_OBJECT;
 public:
     Dial(const QString & label, int defaultAngle = 0, int min = 0, int max = 360, Helper = EnterValue);
-
-    virtual void showParameters(QWidget * parent);
-
-    virtual void hideParameters(void);
-
-    virtual void addSuscriber(HandleParameters * target);
-
     virtual ~Dial(){}
 
+    virtual void addSuscriber(HandleParameters * target);
+    virtual void hideParameters(void);
+    virtual void showParameters(QWidget * parent);
+private slots :
+    void changeValue(void);
+    void changeValue(int);
 private :
     QDial * m_dial;
+    QLineEdit * m_inputText;
     QFrame * m_frame;
     QLabel * m_label;
-    QLineEdit * m_inputText;
-private slots :
-    void changeValue(int);
-    void changeValue(void);
 };
 
 #endif // DIAL_H

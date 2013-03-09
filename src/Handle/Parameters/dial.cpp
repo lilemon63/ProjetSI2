@@ -1,18 +1,22 @@
+#include <QDial>
+#include <QLabel>
+#include <QFrame>
+#include <QLineEdit>
+#include <QVBoxLayout>
+
 #include "dial.h"
 #include "handleparameters.h"
-#include <iostream>
-#include <QVBoxLayout>
 
 Dial::Dial(const QString & label, int angle, int min, int max, Helper helper)
     : SourceParameters(label),
       m_dial( new QDial() ),
+      m_inputText(nullptr),
       m_frame( new QFrame() ),
-      m_label(nullptr),
-      m_inputText(nullptr)
+      m_label(nullptr)
 {
     m_frame->setLayout( new QVBoxLayout() );
-
     m_frame->layout()->addWidget(m_dial);
+
     if( helper == PrintValue )
     {
         m_label = new QLabel();
@@ -32,17 +36,9 @@ Dial::Dial(const QString & label, int angle, int min, int max, Helper helper)
     m_dial->setValue(angle);
 }
 
-
-void Dial::showParameters(QWidget * parent)
-{
-    setParentLayout(parent, m_frame);
-}
-
-void Dial::hideParameters(void)
-{
-    SourceParameters::hideParameters();
-    m_frame->hide();
-}
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC-----------------------------------------------
+---------------------------------------------------------------------------------------------------*/
 
 void Dial::addSuscriber(HandleParameters * target)
 {
@@ -50,6 +46,28 @@ void Dial::addSuscriber(HandleParameters * target)
     target->setValue(m_dial->value() );
 }
 
+
+void Dial::hideParameters(void)
+{
+    SourceParameters::hideParameters();
+    m_frame->hide();
+}
+
+
+void Dial::showParameters(QWidget * parent)
+{
+    setParentLayout(parent, m_frame);
+}
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PRIVATE SLOT-----------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+
+void Dial::changeValue(void)
+{
+    m_dial->setValue( m_inputText->text().toInt() );
+}
 
 void Dial::changeValue(int  value)
 {
@@ -59,9 +77,4 @@ void Dial::changeValue(int  value)
         m_inputText->setText( QString::number(value ) );
     for(HandleParameters * hp : m_suscribers )
         hp->setValue( (int)value);
-}
-
-void Dial::changeValue(void)
-{
-    m_dial->setValue(m_inputText->text().toInt());
 }

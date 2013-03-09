@@ -1,7 +1,8 @@
+#include <QLayout>
+#include <QComboBox>
+
 #include "combobox.h"
 #include "handleparameters.h"
-#include <iostream>
-#include <QLayout>
 
 ComboBox::ComboBox(const QString & label, const QStringList & choices, const QString & defaultValue)
     : SourceParameters(label),
@@ -17,17 +18,9 @@ ComboBox::ComboBox(const QString & label, const QStringList & choices, const QSt
     }
 }
 
-
-void ComboBox::showParameters(QWidget * parent)
-{
-    setParentLayout(parent, m_combobox);
-}
-
-void ComboBox::hideParameters(void)
-{
-    SourceParameters::hideParameters();
-    m_combobox->hide();
-}
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC-----------------------------------------------
+---------------------------------------------------------------------------------------------------*/
 
 void ComboBox::addSuscriber(HandleParameters * target)
 {
@@ -35,6 +28,22 @@ void ComboBox::addSuscriber(HandleParameters * target)
     target->setValue(m_combobox->currentText() );
 }
 
+
+void ComboBox::hideParameters(void)
+{
+    SourceParameters::hideParameters();
+    m_combobox->hide();
+}
+
+
+void ComboBox::showParameters(QWidget * parent)
+{
+    setParentLayout(parent, m_combobox);
+}
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PRIVATE SLOT-----------------------------------------
+---------------------------------------------------------------------------------------------------*/
 
 void ComboBox::changeValue(QString newValue)
 {
