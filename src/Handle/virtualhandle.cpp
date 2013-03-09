@@ -1,52 +1,53 @@
 #include <QVariant>
-#include <iostream>
-#include "virtualhandle.h"
-#include "../exception.h"
-#include "Parameters/checkbox.h"
-#include "../View/submdiwindowsimage.h"
-#include "zi.h"
-#include "Parameters/spoiler.h"
-#include "../View/viewzi.h"
 
+#include "zi.h"
+#include "virtualhandle.h"
+
+
+#include "../exception.h"
+#include "../View/viewzi.h"
+#include "../View/submdiwindowsimage.h"
+#include "Parameters/spoiler.h"
+#include "Parameters/checkbox.h"
+
+
+VirtualHandle::ListHandle VirtualHandle::m_listHandle;
 Mdi* VirtualHandle::m_view = nullptr;
 
 VirtualHandle::VirtualHandle(const QString affName, const std::string & name)
     : m_listParameters(0),
-      m_name(name),
       m_affName(affName),
-      m_viewParameters(new HandleParameters() ),
-      m_windows(nullptr),
-      m_spoiler( new Spoiler() )
+      m_name(name),
+      m_spoiler( new Spoiler() ),
+      m_viewParameters( new HandleParameters() ),
+      m_visibleCheckBox( new CheckBox( "", QStringList({"Vue active"} ) ) ),
+      m_windows(nullptr)
 {
     if( name != "noname" && m_listHandle.find(name) != m_listHandle.end() )
         throw Exception::buildException(name + " est un nom de traitement déjà  pris",
                                         "VirtualHandle",
                                         "VirtualHandle",
-                                        EP);;
+                                        EP);
 
-    m_visibleCheckBox = new CheckBox("", QStringList("Vue active"));
     m_viewParameters->changeSources( m_visibleCheckBox );
-    auto lambda = [this]( QVariant Value, HandleParameters * hp )
-    {
-            hp->acceptChanges(Value);
-            showView(hp->toMap()["Vue active"].toBool() );
-    };
-    m_viewParameters->setActionOnChangeValue( lambda );
-
+    m_viewParameters->setActionOnChangeValue( [this]( QVariant Value, HandleParameters * hp )
+                                                {
+                                                        hp->acceptChanges(Value);
+                                                        showView(hp->toMap()["Vue active"].toBool() );
+                                                } );
     if(name != "noname")
         m_listHandle[name] = this;
 }
 
-VirtualHandle::ListHandle VirtualHandle::m_listHandle;
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC-----------------------------------------------
+---------------------------------------------------------------------------------------------------*/
 
-ImageDataPtr VirtualHandle::executeHandle(const std::string & name, ImageDataPtr src1, const ImageDataPtr src2)
+ZI * VirtualHandle::createZI(QRect rect)
 {
-    if( name == "noname" || m_listHandle.find(name) == m_listHandle.end() )
-        throw Exception::buildException(name + " n'est pas un nom de traitement valide",
-                                        "VirtualHandle",
-                                        "executeHandle",
-                                        EP);
-    return m_listHandle[name]->executeHandle(src1, src2);
+    ZI * zi = new ZI(rect, m_spoiler->widget(), m_numbering);
+    m_listZI.push_back(zi);
+    return zi;
 }
 
 
@@ -61,16 +62,34 @@ ImageDataPtr VirtualHandle::executeHandle(const ImageDataPtr src1, const ImageDa
     return image;
 }
 
-void VirtualHandle::showParameters(QWidget * parent, Numbering num )
+
+ImageDataPtr VirtualHandle::executeHandle(const std::string & name, ImageDataPtr src1, const ImageDataPtr src2)
 {
-    m_numbering.clone(num);
-    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, num);
+    if( name == "noname" || m_listHandle.find(name) == m_listHandle.end() )
+        throw Exception::buildException(name + " n'est pas un nom de traitement valide",
+                                        "VirtualHandle",
+                                        "executeHandle",
+                                        EP);
+    return m_listHandle[name]->executeHandle(src1, src2);
 }
 
-void VirtualHandle::showParameters(QWidget * parent)
+
+QStringList VirtualHandle::getAllHandleName(void)
 {
-    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, m_numbering);
+    QStringList temp;
+
+    for( auto nom : m_listHandle)
+        temp.append( nom.first.c_str() );
+
+    return temp;
 }
+
+
+void VirtualHandle::hideParameters(void)
+{
+    m_spoiler->hideAll();
+}
+
 
 void VirtualHandle::hideParameters(const std::string & name)
 {
@@ -82,15 +101,25 @@ void VirtualHandle::hideParameters(const std::string & name)
     m_listHandle[name]->hideParameters();
 }
 
-void VirtualHandle::hideParameters(void)
+
+void VirtualHandle::setView(Mdi * view)
 {
-    m_spoiler->hideAll();
+    m_view = view;
 }
 
-void VirtualHandle::changeSource(unsigned int idParameters, SourceParameters * source)
+
+void VirtualHandle::showParameters(QWidget * parent, Numbering num )
 {
-    m_listParameters[idParameters]->changeSources(source);
+    m_numbering.clone(num);
+    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, num);
 }
+
+
+void VirtualHandle::showParameters(QWidget * parent)
+{
+    m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, m_numbering);
+}
+
 
 void VirtualHandle::showParameters(QWidget * parent, const std::string & name)
 {
@@ -102,6 +131,32 @@ void VirtualHandle::showParameters(QWidget * parent, const std::string & name)
     m_listHandle[name]->showParameters(parent);
 }
 
+
+void VirtualHandle::viewClosed(void)
+{
+    m_visibleCheckBox->changeValue("Vue active", false);
+    m_windows = nullptr;
+}
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PROTECTED--------------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+void VirtualHandle::changeAffName(const QString & name)
+{
+    if( m_windows )
+        m_windows->setWindowTitle(name);
+    m_spoiler->changeAffName( name, m_numbering );
+    m_affName = name;
+}
+
+
+void VirtualHandle::changeSource(unsigned int idParameters, SourceParameters * source)
+{
+    m_listParameters[idParameters]->changeSources(source);
+}
+
+
 VirtualHandle * VirtualHandle::getHandleForDependancies(const std::string & name)
 {
     if( name == "noname" || m_listHandle.find(name) == m_listHandle.end() )
@@ -112,15 +167,15 @@ VirtualHandle * VirtualHandle::getHandleForDependancies(const std::string & name
     return m_listHandle[name];
 }
 
-QStringList VirtualHandle::getAllHandleName(void)
+
+QWidget * VirtualHandle::widget(void)
 {
-    QStringList temp;
-
-    for( auto nom : m_listHandle)
-        temp.append( nom.first.c_str() );
-
-    return temp;
+    return m_spoiler->widget();
 }
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PRIVATE----------------------------------------------
+---------------------------------------------------------------------------------------------------*/
 
 void VirtualHandle::showView(bool visible)
 {
@@ -144,37 +199,4 @@ void VirtualHandle::showView(bool visible)
         }
         m_windows->show();
     }
-}
-
-void VirtualHandle::setView(Mdi * view)
-{
-    m_view = view;
-}
-
-
-void VirtualHandle::viewClosed(void)
-{
-    m_visibleCheckBox->changeValue("Vue active", false);
-    m_windows = nullptr;
-}
-
-
-ZI * VirtualHandle::createZI(QRect rect)
-{
-    ZI * zi = new ZI(rect, m_spoiler->widget(), m_numbering);
-    m_listZI.push_back(zi);
-    return zi;
-}
-
-void VirtualHandle::changeAffName(const QString & name)
-{
-    if( m_windows )
-        m_windows->setWindowTitle(name);
-    m_spoiler->changeAffName( name, m_numbering );
-    m_affName = name;
-}
-
-QWidget * VirtualHandle::widget(void)
-{
-    return m_spoiler->widget();
 }

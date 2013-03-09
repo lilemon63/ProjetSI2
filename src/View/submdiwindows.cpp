@@ -1,4 +1,5 @@
 #include "submdiwindows.h"
+#include "mdi.h"
 #include <iostream>
 #include <QDialog>
 #include <QVBoxLayout>

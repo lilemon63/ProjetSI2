@@ -1,21 +1,20 @@
 #ifndef VIRTUALHANDLE_H
 #define VIRTUALHANDLE_H
 
-#include <string>
 #include <map>
 #include <QRect>
-#include <opencv2/opencv.hpp>
-#include "imagedata.h"
-#include "Parameters/handleparameters.h"
-#include "Parameters/checkbox.h"
-#include "../View/mdi.h"
+#include <string>
+
 #include "imagedata.h"
 #include "numbering.h"
+#include "Parameters/handleparameters.h"
 
 
 class ZI;
-class SubMdiWindowsImage;
+class Mdi;
 class Spoiler;
+class CheckBox;
+class SubMdiWindowsImage;
 
 /** @brief
     Class which handle two IplImage and return an IplImage.<br/>
@@ -32,11 +31,17 @@ public:
       @param const std::string & name  = "noname": handle's name. */
     VirtualHandle(const QString affName = "untiltled", const std::string & name  = "noname");
 
-    ~VirtualHandle(void){};
+    virtual ~VirtualHandle(void){};
 
-    /** @brief Get the handle's name.
-      @return const std::string & : handle's name */
-    inline const std::string & getName(void);
+    VirtualHandle(const VirtualHandle &) = delete;
+    VirtualHandle & operator=(const VirtualHandle &) = delete;
+
+    typedef std::vector<std::shared_ptr<HandleParameters> > ListParameters;
+    typedef std::vector<VirtualHandle *> ListDependancies;
+
+    ZI * createZI(QRect rect);
+
+    virtual ImageDataPtr executeHandle(const ImageDataPtr src1, const ImageDataPtr src2);
 
     /** @brief execute the handle's startHandle() of the handle which name is given in parameters.
     @param const std::string & name : handle's name
@@ -45,19 +50,18 @@ public:
     @return ImageDataPtr : handle's result. */
     static ImageDataPtr executeHandle(const std::string & name, const ImageDataPtr src1, const ImageDataPtr src2);
 
-    virtual ImageDataPtr executeHandle(const ImageDataPtr src1, const ImageDataPtr src2);
 
 
-    /** @brief Show all the Parameters on the parameters' area
-        @param QWidget * parent : parent */
-    virtual void showParameters(QWidget * parent, Numbering );
+    /** @brief Change the source for a paramters
+        @param unsigned int idParameters : paramenters' identifiant, see the class documentation for more details.
+        @param std::shared_ptr<SourceParameters> source : new sources
+      */
 
-    virtual void showParameters(QWidget * parent);
+    static QStringList getAllHandleName(void);
 
-    /** @brief Show all the Parameters on the parameters' area
-        @param QWidget * parent : parent
-        @param const std::string & name : Handle name which will be shown */
-    static void showParameters(QWidget * parent, const std::string & name);
+    /** @brief Get the handle's name.
+      @return const std::string & : handle's name */
+    inline const std::string & getName(void) const;
 
     /** @brief Hide all the Parameters on the parameters' area<br/>
                 N.B. the parameters values will be conserved for the next use. */
@@ -65,19 +69,30 @@ public:
 
     static void hideParameters(const std::string & name);
 
-    /** @brief Change the source for a paramters
-        @param unsigned int idParameters : paramenters' identifiant, see the class documentation for more details.
-        @param std::shared_ptr<SourceParameters> source : new sources
-      */
+    static void setView(Mdi *m_view);
+
+    virtual void showParameters(QWidget * parent);
+
+    /** @brief Show all the Parameters on the parameters' area
+        @param QWidget * parent : parent */
+    virtual void showParameters(QWidget * parent, Numbering );
+
+
+
+    /** @brief Show all the Parameters on the parameters' area
+        @param QWidget * parent : parent
+        @param const std::string & name : Handle name which will be shown */
+    static void showParameters(QWidget * parent, const std::string & name);
+
+    void viewClosed(void);
+
+protected :
+
+    void changeAffName(const QString & name);
+
     virtual void changeSource(unsigned int idParameters, SourceParameters *source);
 
-    static QStringList getAllHandleName(void);
-
-    ZI * createZI(QRect rect);
-
-    typedef std::vector<std::shared_ptr<HandleParameters> > ListParameters;
-    typedef std::vector<VirtualHandle *> ListDependancies;
-protected :
+    static VirtualHandle * getHandleForDependancies(const std::string &);
     /** @brief Handle one or two IplImage
         @param ImageDataPtr src1  : first image
         @param ImageDataPtr src2 : second image, NULL if unused
@@ -85,53 +100,49 @@ protected :
       */
     virtual ImageDataPtr startHandle(ImageDataPtr src1, const ImageDataPtr src2) = 0;
 
-    /** @brief List of all handle parameters */
-    ListParameters m_listParameters;
+    QWidget * widget(void);
+private :
+    typedef std::map< std::string, VirtualHandle * > ListHandle;
+    typedef std::list<ZI *> M_ListZI;
 
+    void showView(bool visible);
+
+protected :
     /** @brief All dependancies for this handle (for show parameters) */
     ListDependancies m_dependancies;
 
-    VirtualHandle * getHandleForDependancies(const std::string &);
-
-    void changeAffName(const QString & name);
+    /** @brief List of all handle parameters */
+    ListParameters m_listParameters;
+    Numbering m_numbering;
 
 private:
-    /** @brief Handle's name<br/>
-        Thanks this, you can get this handle only with his name. */
-    const std::string m_name;
-
     QString m_affName;
-
-    typedef std::map< std::string, VirtualHandle * > ListHandle;
 
     /** @brief Every handle will be registred in this.<br/>
     So we can call any handle process only with his name.*/
     static ListHandle m_listHandle;
 
-    typedef std::list<ZI *> M_ListZI;
     M_ListZI m_listZI;
 
-    // Outside the m_listParameters to allow inherited class having enum
-    std::shared_ptr<HandleParameters> m_viewParameters;
-    CheckBox * m_visibleCheckBox;
+    /** @brief Handle's name<br/>
+        Thanks this, you can get this handle only with his name. */
+    const std::string m_name;
 
-    void showView(bool visible);
+    Spoiler * m_spoiler;
 
     // videoCréée à l'occasion
     // setImage
     static Mdi * m_view;
-    SubMdiWindowsImage * m_windows;
 
-    Spoiler * m_spoiler;
-protected :
-    Numbering m_numbering;
-    QWidget * widget(void);
-public :
-    static void setView(Mdi *m_view);
-    void viewClosed(void);
+    // Outside the m_listParameters to allow inherited class having enum
+    std::shared_ptr<HandleParameters> m_viewParameters;
+
+    CheckBox * m_visibleCheckBox;
+
+    SubMdiWindowsImage * m_windows;
 };
 
-const std::string & VirtualHandle::getName(void)
+const std::string & VirtualHandle::getName(void) const
 {
     return m_name;
 }
