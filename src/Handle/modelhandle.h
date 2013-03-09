@@ -5,7 +5,7 @@
 #include "Handle.h"
 
 /** @brief model for create a new handle. */
-class ModelHandle : public VirtualHandle //all handle must herit by VirtualHandle
+class ModelHandle : public VirtualHandle //all handle must herit from VirtualHandle
 {
 public:
     /** @brief Create a new ModelHandle<br>

@@ -1,13 +1,14 @@
 #ifndef IMAGEDATA_H
 #define IMAGEDATA_H
 
-#include <opencv2/opencv.hpp>
+
+#include <QMap>
 #include <memory>
 #include <QPixmap>
-#include <QMetaType>
-#include <QMap>
-#include <QVariant>
 #include <QString>
+#include <QVariant>
+#include <QMetaType>
+#include <opencv2/opencv.hpp>
 
 class ImageData;
 
@@ -21,25 +22,30 @@ public:
         @param const IplImage & image : image which will be stocked */
     ImageData(const IplImage & image);
 
+    ImageData( const ImageData & );
+    ImageData & operator=( const ImageData & );
+
     virtual ~ImageData();
+
+    void addResults( const QString &, const QVariant &);
+
+    //TODO to it in GPU (?) Multi-thread (?)
+    void forEachPixel( std::function< void(unsigned char & r, unsigned char & g, unsigned char & b) > );
 
     /** @brief Get the stocked Image
         @return IplImage * : pointer to the stocked image. */
     inline IplImage * getImage(void);
 
+    ImageDataPtr getSubRegion(int x, int y, int width, int height);
+
+    virtual void merge( ImageDataPtr image, int x = 0, int y = 0);
+
+
+    QVariant operator[](const QString &);
+
     /** @brief create a QPixmap from the image for an print in a Qt's widget
         @return QPixmap : QPixmap created */
     QPixmap toPixmap(void);
-
-    ImageDataPtr getSubRegion(int x, int y, int width, int height);
-
-    void merge( ImageDataPtr image, int x = 0, int y = 0);
-
-    void forEachPixel( std::function< void(unsigned char & r, unsigned char & g, unsigned char & b) > );
-
-    void addResults( const QString &, const QVariant &);
-
-    QVariant operator[](const QString &);
 private :
     ImageData(void){}
     /** @brief Image */
