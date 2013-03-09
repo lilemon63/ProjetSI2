@@ -7,20 +7,21 @@
 class MainWindow;
 class SubMdiWindows;
 
-class Mdi : public QMdiArea
+class Mdi : public QMdiArea //final
 {
     Q_OBJECT
 public:
     explicit Mdi(QWidget *parent = 0);
+    Mdi(const Mdi &) = delete;
+    Mdi & operator=(const Mdi &) = delete;
+
     void addSubWindow(QWidget *widget, Qt::WindowFlags flags = 0);
-    void setMainWindow(MainWindow * );
     void reductAllExcept( const std::set<SubMdiWindows *> &);
-protected :
-    void resizeEvent(QResizeEvent *resizeEvent);
+    void setMainWindow(MainWindow * );
 signals:
     void onResize(void);
-public slots:
-
+protected :
+    void resizeEvent(QResizeEvent *resizeEvent);
 private :
     MainWindow * m_mainWindow;
 };
