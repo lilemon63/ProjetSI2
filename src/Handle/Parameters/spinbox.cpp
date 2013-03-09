@@ -1,8 +1,8 @@
+#include <QLayout>
+#include <QSpinBox>
 
 #include "spinbox.h"
 #include "handleparameters.h"
-#include <iostream>
-#include <QLayout>
 
 SpinBox::SpinBox(const QString & label, int defaultValue, int min, int max)
     : SourceParameters(label),
@@ -14,17 +14,9 @@ SpinBox::SpinBox(const QString & label, int defaultValue, int min, int max)
     m_spinbox->setValue(defaultValue);
 }
 
-
-void SpinBox::showParameters(QWidget * parent)
-{
-    setParentLayout(parent, m_spinbox);
-}
-
-void SpinBox::hideParameters(void)
-{
-    SourceParameters::hideParameters();
-    m_spinbox->hide();
-}
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC-----------------------------------------------
+---------------------------------------------------------------------------------------------------*/
 
 void SpinBox::addSuscriber(HandleParameters * target)
 {
@@ -32,6 +24,22 @@ void SpinBox::addSuscriber(HandleParameters * target)
     target->setValue(m_spinbox->value() );
 }
 
+
+void SpinBox::hideParameters(void)
+{
+    SourceParameters::hideParameters();
+    m_spinbox->hide();
+}
+
+
+void SpinBox::showParameters(QWidget * parent)
+{
+    setParentLayout(parent, m_spinbox);
+}
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PRIVATE SLOT-----------------------------------------
+---------------------------------------------------------------------------------------------------*/
 
 void SpinBox::changeValue(int  value)
 {
