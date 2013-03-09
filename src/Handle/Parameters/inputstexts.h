@@ -8,7 +8,7 @@
 #include "sourceparameters.h"
 
 class QFrame;
-class QLineEdit:
+class QLineEdit;
 
 class InputsTexts : public QObject, public SourceParameters
 {

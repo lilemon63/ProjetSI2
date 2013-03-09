@@ -5,6 +5,9 @@
 
 #include "sourceparameters.h"
 
+class QLineEdit;
+class QProgressBar;
+
 // Rq : attention : fermer un spoiler alors qu'on a le curseur dans une zdt fait quitter le curseur => finishediting
 
 class InputText : public QObject, public SourceParameters
