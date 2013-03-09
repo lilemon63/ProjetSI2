@@ -8,6 +8,7 @@
     @see ModelHandle */
 class PutYourCodeHere : VirtualHandle
 {
+   enum{ COLOR, INPUT, CHECK, MAX }; // Parameter's identifiant
 public:
     PutYourCodeHere();
 protected :
