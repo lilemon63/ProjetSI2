@@ -5,6 +5,7 @@
 
 #include "sourceparameters.h"
 
+class QFrame;
 class QLineEdit;
 class QProgressBar;
 

@@ -9,7 +9,6 @@ class QComboBox;
 
 class ComboBox : public QObject, public SourceParameters
 {
-public:
     Q_OBJECT;
 public:
     ComboBox( const QString & label, const QStringList & choices, const QString & defaultValue = QString() );

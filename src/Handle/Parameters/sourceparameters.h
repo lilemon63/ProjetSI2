@@ -1,10 +1,11 @@
 #ifndef SOURCEPARAMETERS_H
 #define SOURCEPARAMETERS_H
 
-#include<QWidget>
 #include <set>
-#include <QLabel>
+#include <QString>
 
+class QLabel;
+class QWidget;
 class HandleParameters;
 
 /** @brief Virtual class for HandleParameters' source */
@@ -15,9 +16,17 @@ public:
         @param QString * label = QString() : label */
     SourceParameters(const QString & label = QString() );
 
+    SourceParameters( const SourceParameters & ) = delete;
+    SourceParameters & operator=( const SourceParameters & ) = delete;
+
+    virtual ~SourceParameters(){}
+
     /** @brief Add a SourceParamters' suscriber. The suscribers' value will be changed on events.
         @param HandleParameters * target : HandleParameters were the value will be changed by this SourceParameters */
     virtual void addSuscriber(HandleParameters * target);
+
+    /** @brief Hide the parameters */
+    virtual void hideParameters(void);
 
     /** @brief remove a SourceParamters' suscriber. The suscribers' value will be changed on events.
         @param HandleParameters * target : HandleParameters were the value will be changed by this SourceParameters */
@@ -27,20 +36,16 @@ public:
         @param QWidget * parent : parent widget */
     virtual void showParameters(QWidget * parent) = 0;
 
-    /** @brief Hide the parameters */
-    virtual void hideParameters(void);
-
-    virtual ~SourceParameters(){}
-
 protected :
     typedef std::set<HandleParameters *> M_ListSuscriber;
-    M_ListSuscriber m_suscribers;
 
     void setParentLayout(QWidget * parent, QWidget *);
 
     QString m_label;
 
     QLabel * m_labelView;
+
+    M_ListSuscriber m_suscribers;
 };
 
 #endif // SOURCEPARAMETERS_H

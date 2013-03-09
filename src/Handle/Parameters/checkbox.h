@@ -5,9 +5,11 @@
 #include <QString>
 #include <QObject>
 #include <QVariant>
+#include <QStringList>
 
 #include "sourceparameters.h"
 
+class QFrame;
 class QCheckBox;
 
 class CheckBox : public QObject, public SourceParameters

@@ -1,11 +1,12 @@
-#include "inputtext.h"
-#include "handleparameters.h"
-#include <iostream>
+#include <QFrame>
+#include <QLineEdit>
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QPushButton>
-#include <QLineEdit>
-#include <QFrame>
+
+#include "inputtext.h"
+#include "handleparameters.h"
+
 
 InputText::InputText(const QString &label, const QString & defaultValue, Helper helper) :
     SourceParameters(label),

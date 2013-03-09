@@ -1,7 +1,9 @@
+#include <QProgressBar>
+
 #include "progressbar.h"
 #include "handleparameters.h"
 
-#include <QProgressBar>
+
 
 ProgressBar::ProgressBar(const QString &label)
     : SourceParameters(label),

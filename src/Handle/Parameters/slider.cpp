@@ -1,7 +1,14 @@
-#include "slider.h"
-#include "handleparameters.h"
+#include <QFrame>
+#include <QLabel>
 #include <QString>
 #include <QSlider>
+#include <QLineEdit>
+#include <QHBoxLayout>
+
+
+#include "slider.h"
+#include "handleparameters.h"
+
 
 Slider::Slider(const QString &label, int defaultValue, int min, int max, Helper helper)
     : SourceParameters(label),
@@ -10,7 +17,7 @@ Slider::Slider(const QString &label, int defaultValue, int min, int max, Helper 
       m_label(nullptr),
       m_slider(new QSlider() )
 {
-    m_frame->setLayout( new QHBoxLayout);
+    m_frame->setLayout( new QHBoxLayout() );
 
     m_slider->setOrientation(Qt::Horizontal);
     m_slider->setMinimum(min);
