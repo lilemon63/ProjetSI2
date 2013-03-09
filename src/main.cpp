@@ -1,13 +1,11 @@
 /** @mainpage ... */
 
 #include <QApplication>
-#include <memory>
-#include "View/mainwindow.h"
+
 #include "exception.h"
 #include "Handle/Handle.h"
 #include "Handle/handletools.h"
-
-//voir commit
+#include "View/mainwindow.h"
 
 //mettre const, déclaration anticipée, ordonner les inclusions, mettres commentaires
 

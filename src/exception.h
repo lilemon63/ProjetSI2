@@ -1,10 +1,10 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-#include <stdexcept>
 #include <string>
-#include<typeinfo>
-#include<sstream>
+#include <sstream>
+#include <typeinfo>
+#include <stdexcept>
 
 #if defined(__GNUC__) || defined(__GNUG__)
     #define PRETTY __PRETTY_FUNCTION__

@@ -54,7 +54,7 @@ public:
     static std::shared_ptr<HandleParameters> build_colorselection(const QString & label, const QColor& = QColor(255,0,0));
     static std::shared_ptr<HandleParameters> build_inputtext(const QString & label = QString(), const QString &defaultValue = QString());
     static std::shared_ptr<HandleParameters> build_checkbox(const QString & label, const QStringList & boxes = QStringList() );
-    
+    static std::shared_ptr<HandleParameters> build_comboBox(const QString & label, const QStringList & choices = QStringList(), const QString & defaultValue = QString() );
 private :
     /** @brief HandleParameters' Source */
     SourceParameters * m_source;

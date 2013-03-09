@@ -7,6 +7,7 @@
 #include "colorselection.h"
 #include "inputtext.h"
 #include "checkbox.h"
+#include "combobox.h"
 
 HandleParameters::HandleParameters()
     : m_source(nullptr)
@@ -99,5 +100,12 @@ std::shared_ptr<HandleParameters> HandleParameters::build_checkbox(const QString
 {
     std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
     newParam->changeSources(new CheckBox(label, boxes));
+    return newParam;
+}
+
+std::shared_ptr<HandleParameters> HandleParameters::build_comboBox(const QString & label, const QStringList & choices, const QString & defaultValue )
+{
+    std::shared_ptr<HandleParameters> newParam = std::shared_ptr<HandleParameters>(new HandleParameters() );
+    newParam->changeSources(new ComboBox(label, choices, defaultValue));
     return newParam;
 }
