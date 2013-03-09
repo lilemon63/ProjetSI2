@@ -4,6 +4,8 @@
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QLineEdit>
+#include <QFrame>
 
 InputText::InputText(const QString &label, const QString & defaultValue, Helper helper) :
     SourceParameters(label),
@@ -13,6 +15,7 @@ InputText::InputText(const QString &label, const QString & defaultValue, Helper 
 {
     m_frame->setLayout( new QHBoxLayout() );
     m_frame->layout()->addWidget(m_inputText);
+
     m_frame->layout()->setContentsMargins(0,0,0,0);
     m_frame->layout()->setMargin(0);
     m_frame->layout()->setSpacing(0);
@@ -30,27 +33,22 @@ InputText::InputText(const QString &label, const QString & defaultValue, Helper 
 }
 
 
-void InputText::valueChanged(void)
-{
-    for(HandleParameters * hp : m_suscribers )
-        hp->setValue( (QString)m_inputText->text());
-}
-
-void InputText::showParameters(QWidget * parent)
-{
-    setParentLayout(parent, m_frame);
-}
-
-void InputText::hideParameters(void)
-{
-    m_frame->hide();
-}
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC-----------------------------------------------
+---------------------------------------------------------------------------------------------------*/
 
 void InputText::addSuscriber(HandleParameters * target)
 {
     SourceParameters::addSuscriber(target);
     target->setValue(m_inputText->text() );
 }
+
+
+void InputText::hideParameters(void)
+{
+    m_frame->hide();
+}
+
 
 void InputText::openPopUp(void)
 {
@@ -59,23 +57,35 @@ void InputText::openPopUp(void)
     {
         case None :
         break;
-
         case Directory :
             result = QFileDialog::getExistingDirectory();
         break;
-
         case SaveFile :
             result = QFileDialog::getSaveFileName();
         break;
-
         case OpenFile :
             result = QFileDialog::getOpenFileName();
         break;
     }
-
     if( result != "" )
     {
         m_inputText->setText(result);
         valueChanged();
     }
+}
+
+
+void InputText::showParameters(QWidget * parent)
+{
+    setParentLayout(parent, m_frame);
+}
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PRIVATE SLOT-----------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+void InputText::valueChanged(void)
+{
+    for(HandleParameters * hp : m_suscribers )
+        hp->setValue( (QString)m_inputText->text());
 }
