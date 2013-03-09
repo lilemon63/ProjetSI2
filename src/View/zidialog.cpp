@@ -1,5 +1,6 @@
-#include "zidialog.h"
 #include <QCloseEvent>
+
+#include "zidialog.h"
 
 ZIDialog::ZIDialog(QWidget *parent) :
     QDialog(parent)
