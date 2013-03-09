@@ -20,7 +20,7 @@ void ViewZI::changeColor( const QColor & color )
 
 int ViewZI::type(void) const
 {
-    return idViewZI;
+    return ID_VIEWZI;
 }
 
 void ViewZI::select(void)

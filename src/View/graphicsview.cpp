@@ -1,9 +1,8 @@
-#include "graphicsview.h"
-#include "viewzi.h"
-#include <QMouseEvent>
 #include <QRectF>
-#include <QGraphicsRectItem>
-#include <iostream>
+#include <QMouseEvent>
+
+#include "viewzi.h"
+#include "graphicsview.h"
 
 GraphicsView::GraphicsView(QWidget *parent) :
     QGraphicsView(parent),
@@ -11,6 +10,58 @@ GraphicsView::GraphicsView(QWidget *parent) :
     m_selectedZI(nullptr)
 {
 }
+
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC-----------------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+void GraphicsView::feetInScene(QPointF & point)
+{
+    QRectF rectScene = scene()->sceneRect();
+    if(point.x() < 0)
+        point.setX(0);
+    else if( point.x() >=  rectScene.width() )
+        point.setX( rectScene.width() );
+
+    if( point.y() < 0)
+        point.setY(0);
+    else if( point.y() >= rectScene.height() )
+        point.setY( rectScene.height() );
+}
+
+
+
+void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
+{
+    QPointF origin = mapToScene( m_originClicX,m_originClicY );
+    QPointF final = mapToScene( event->x(), event->y()  );
+
+    feetInScene( origin );
+    feetInScene( final );
+
+    if( event->button() ==  Qt::LeftButton)
+    {
+        if( origin != final )
+        {
+            QRect rectInScene( origin.x(), origin.y(),
+                               final.x() - origin.x(), final.y() - origin.y()
+                                );
+            emit createZI(rectInScene);
+        }
+    }
+    else if( event->button() == Qt::RightButton)
+    {
+        if( m_resizeDirection != NONE && m_selectedZI)
+            if( origin != final )
+                m_selectedZI->resize( m_resizeDirection, final.x(), final.y() );
+
+        if( m_selectedZI )
+            m_selectedZI->unselect();
+    }
+    event->accept();
+}
+
 
 void GraphicsView::mousePressEvent(QMouseEvent *event)
 {
@@ -23,12 +74,10 @@ void GraphicsView::mousePressEvent(QMouseEvent *event)
         QPointF p = mapToScene(event->x(), event->y() );
         int x = p.x();
         int y = p.y();
-
         QList<QGraphicsItem *> listItem = items();
         m_selectedZI = nullptr;
         for( QGraphicsItem * item : listItem)
-        {
-            if( item->type() == idViewZI )
+            if( item->type() == ID_VIEWZI )
             {
                 ViewZI * tmpItem = (ViewZI *)item;
                 int rx = tmpItem->rect().x();
@@ -53,54 +102,6 @@ void GraphicsView::mousePressEvent(QMouseEvent *event)
                     break;
                 }
             }
-        }
     }
     event->accept();
-}
-
-void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
-{
-    QPointF origin = mapToScene( m_originClicX,m_originClicY );
-    QPointF final = mapToScene( event->x(), event->y()  );
-
-    feetInScene( origin );
-    feetInScene( final );
-
-    if( event->button() ==  Qt::LeftButton)
-    {
-        if( origin != final )
-        {
-            QRect rectInScene( origin.x(), origin.y(),
-                               final.x() - origin.x(), final.y() - origin.y()
-                                );
-            emit createZI(rectInScene);
-        }
-    }
-    else if( event->button() == Qt::RightButton)
-    {
-        if( m_resizeDirection != NONE && m_selectedZI)
-        {
-            if( origin != final )
-            {
-                m_selectedZI->resize( m_resizeDirection, final.x(), final.y() );
-            }
-        }
-        if( m_selectedZI )
-            m_selectedZI->unselect();
-    }
-    event->accept();
-}
-
-void GraphicsView::feetInScene(QPointF & point)
-{
-    QRectF rectScene = scene()->sceneRect();
-    if(point.x() < 0)
-        point.setX(0);
-    else if( point.x() >=  rectScene.width() )
-        point.setX( rectScene.width() );
-
-    if( point.y() < 0)
-        point.setY(0);
-    else if( point.y() >= rectScene.height() )
-        point.setY( rectScene.height() );
 }

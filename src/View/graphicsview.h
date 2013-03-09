@@ -3,16 +3,12 @@
 
 #include <QGraphicsView>
 #include <QGraphicsItem>
-#include <QRectF>
 
-enum { idViewZI =  QGraphicsItem::UserType + 1 };
+enum { ID_VIEWZI =  QGraphicsItem::UserType + 1 };
 class ViewZI;
 
-class GraphicsView : public QGraphicsView
+class GraphicsView : public QGraphicsView //final
 {
-    int m_resizeDirection;
-    ViewZI * m_selectedZI;
-
     Q_OBJECT
 public:
     enum { NONE,
@@ -22,17 +18,20 @@ public:
            RIGHT = 1<<3};
 
     explicit GraphicsView(QWidget *parent = 0);
-    
+    GraphicsView( const GraphicsView & ) = delete;
+    GraphicsView & operator=( const GraphicsView & ) = delete;
 
+    void feetInScene(QPointF & point);
+    void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
 
-    void mousePressEvent(QMouseEvent *event);
-    void feetInScene(QPointF & point);
+
 signals:
     void createZI(QRect);
-public slots:
 private :
     int m_originClicX, m_originClicY;
+    int m_resizeDirection;
+    ViewZI * m_selectedZI;
 };
 
 #endif // GRAPHICSVIEW_H
