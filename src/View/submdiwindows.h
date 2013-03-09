@@ -2,40 +2,41 @@
 #define SUBMDIWINDOWS_H
 
 #include <QMdiSubWindow>
-#include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsView>
-#include <QPixmap>
-#include <QMdiArea>
-#include "../Handle/virtualhandle.h"
+
+#include "../Handle/imagedata.h"
+
+class Mdi;
+class VirtualHandle;
 
 class SubMdiWindows : public QMdiSubWindow
 {
     Q_OBJECT
 public:
     explicit SubMdiWindows(const QString &titre = QString(), Mdi *area = nullptr, QWidget *parent = nullptr);
+    SubMdiWindows( const SubMdiWindows &) = delete;
+    SubMdiWindows & operator=(const SubMdiWindows & ) = delete;
     virtual ~SubMdiWindows(){}
-    void systemResize(int x, int y);
-    void systemMove(int x, int y);
-    virtual void linkHandle( VirtualHandle * );
+
     virtual void detach(void);
-    bool isAttached(void);
-protected :
-    virtual void resizeEvent(QResizeEvent *resizeEvent);
-    virtual void closeEvent(QCloseEvent *closeEvent);
-    virtual void moveEvent(QMoveEvent *moveEvent);
-signals:
-    void onMove(void);
+    bool isAttached(void) const;
+    virtual void linkHandle( VirtualHandle * );
+    void systemMove(int x, int y);
+    void systemResize(int x, int y);
 public slots:
     virtual void attach(void);
-private :
-    int m_nbSystemResize;
-    bool m_attached;
-    Mdi * m_area;
+signals:
+    void onMove(void);
 protected :
+    virtual void closeEvent(QCloseEvent *closeEvent);
+    virtual void moveEvent(QMoveEvent *moveEvent);
     virtual void m_attach(QWidget *);
     virtual void m_detach(QWidget *);
+    virtual void resizeEvent(QResizeEvent *resizeEvent);
     VirtualHandle * m_handle;
+private :
+    Mdi * m_area;
+    bool m_attached;
+    int m_nbSystemResize;
 };
 
 #endif // SUBMDIWINDOWS_H

@@ -1,39 +1,70 @@
-#include "submdiwindows.h"
-#include "mdi.h"
-#include <iostream>
 #include <QDialog>
 #include <QVBoxLayout>
 
+#include "mdi.h"
+#include "submdiwindows.h"
+#include "../Handle/virtualhandle.h"
+
 SubMdiWindows::SubMdiWindows(const QString &titre, Mdi * area, QWidget *parent) :
     QMdiSubWindow(parent),
-    m_nbSystemResize(0),
-    m_attached(true),
     m_area(area),
-    m_handle(nullptr)
+    m_attached(true),
+    m_handle(nullptr),
+    m_nbSystemResize(0)
 {
-
     setWindowTitle(titre);
     if( area )
         area->addSubWindow(this);
 }
 
-void SubMdiWindows::resizeEvent(QResizeEvent *resizeEvent)
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC-----------------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+void SubMdiWindows::detach(void)
 {
-    QMdiSubWindow::resizeEvent(resizeEvent);
-    if( ! m_nbSystemResize )
-        emit onMove();
-    else
-        m_nbSystemResize--;
+    this->m_detach(nullptr);
 }
 
-void SubMdiWindows::moveEvent(QMoveEvent *moveEvent)
+
+bool SubMdiWindows::isAttached(void) const
 {
-    QMdiSubWindow::moveEvent(moveEvent);
-    if( ! m_nbSystemResize )
-        emit onMove();
-    else
-        m_nbSystemResize--;
+    return m_attached;
 }
+
+
+void SubMdiWindows::linkHandle( VirtualHandle * handle )
+{
+    m_handle = handle;
+}
+
+
+void SubMdiWindows::systemMove(int x, int y)
+{
+    m_nbSystemResize++;
+    move( QPoint(x,y) );
+}
+
+
+void SubMdiWindows::systemResize(int x, int y)
+{
+    m_nbSystemResize++;
+    resize( QSize(x, y) );
+}
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PUBLIC SLOT------------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+void SubMdiWindows::attach(void)
+{
+    m_attach(nullptr);
+}
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PROTECTED--------------------------------------------
+---------------------------------------------------------------------------------------------------*/
 
 void SubMdiWindows::closeEvent(QCloseEvent *closeEvent)
 {
@@ -44,37 +75,16 @@ void SubMdiWindows::closeEvent(QCloseEvent *closeEvent)
     mdiArea()->removeSubWindow(this);
 }
 
-void SubMdiWindows::systemResize(int x, int y)
+
+void SubMdiWindows::moveEvent(QMoveEvent *moveEvent)
 {
-    m_nbSystemResize++;
-    resize(QSize(x, y));
+    QMdiSubWindow::moveEvent(moveEvent);
+    if( ! m_nbSystemResize )
+        emit onMove();
+    else
+        m_nbSystemResize--;
 }
 
-void SubMdiWindows::systemMove(int x, int y)
-{
-    m_nbSystemResize++;
-    move(QPoint(x,y));
-}
-
-void SubMdiWindows::linkHandle( VirtualHandle * handle )
-{
-    m_handle = handle;
-}
-
-void SubMdiWindows::attach(void)
-{
-    m_attach(nullptr);
-}
-
-void SubMdiWindows::detach(void)
-{
-    this->m_detach(nullptr);
-}
-
-bool SubMdiWindows::isAttached(void)
-{
-    return m_attached;
-}
 
 void SubMdiWindows::m_attach(QWidget * widget)
 {
@@ -87,6 +97,7 @@ void SubMdiWindows::m_attach(QWidget * widget)
     setStyleSheet("");
 }
 
+
 void SubMdiWindows::m_detach(QWidget * widget)
 {
     setWidget(nullptr);
@@ -96,9 +107,19 @@ void SubMdiWindows::m_detach(QWidget * widget)
     dialog->layout()->addWidget(widget );
     dialog->layout()->setMargin(0);
     dialog->setWindowTitle( windowTitle() );
-    connect(dialog, SIGNAL(finished(int)), this, SLOT(attach()));
+    connect(dialog, SIGNAL( finished(int) ), this, SLOT( attach() ) );
     dialog->show();
 
     m_attached = false;
     setStyleSheet("background-color: black");
+}
+
+
+void SubMdiWindows::resizeEvent(QResizeEvent *resizeEvent)
+{
+    QMdiSubWindow::resizeEvent(resizeEvent);
+    if( ! m_nbSystemResize )
+        emit onMove();
+    else
+        m_nbSystemResize--;
 }
