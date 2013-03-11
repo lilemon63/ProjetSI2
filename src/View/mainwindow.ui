@@ -306,14 +306,6 @@
     <string>Ctrl+F</string>
    </property>
   </action>
-  <action name="actionPlein_cran">
-   <property name="text">
-    <string>Plein écran</string>
-   </property>
-   <property name="shortcut">
-    <string>F11</string>
-   </property>
-  </action>
   <action name="actionSauvegarder_les_donn_es_acquises">
    <property name="text">
     <string>Sauvegarder les données acquises</string>
@@ -328,6 +320,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actionPlein_cran">
+   <property name="text">
+    <string>Plein écran</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
    </property>
   </action>
  </widget>
@@ -441,22 +441,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionPlein_cran</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>fullscreen()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>mdiArea</sender>
    <signal>onResize()</signal>
    <receiver>MainWindow</receiver>
@@ -557,6 +541,22 @@
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>attachDetach()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPlein_cran</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>fullscreen()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

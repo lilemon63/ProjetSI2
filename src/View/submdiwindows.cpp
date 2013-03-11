@@ -7,9 +7,9 @@
 
 SubMdiWindows::SubMdiWindows(const QString &titre, Mdi * area, QWidget *parent) :
     QMdiSubWindow(parent),
+    m_handle(nullptr),
     m_area(area),
     m_attached(true),
-    m_handle(nullptr),
     m_nbSystemResize(0)
 {
     setWindowTitle(titre);

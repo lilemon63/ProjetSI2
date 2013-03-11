@@ -13,9 +13,9 @@
 
 SubMdiWindowsImage::SubMdiWindowsImage(const QString &titre, Mdi *area, QWidget *parent) :
     SubMdiWindows(titre, area, parent),
-    m_image( m_scene.addPixmap( QPixmap() ) ),
     m_graphicsView( new GraphicsView(this) )
 {
+    m_image = m_scene.addPixmap( QPixmap() );
     m_graphicsView->setScene(&m_scene);
     setWidget(m_graphicsView);
     m_image->setZValue(0);
@@ -76,7 +76,7 @@ void SubMdiWindowsImage::createZI(QRect rect)
     if( ! m_handle )
     {
         QMessageBox::information(nullptr, "Erreur lors de la creation d'une Zone d'Interet",
-                                 std::string("Vous ne pouvez pas creer une Zone d'Interet ici :\n")
+                                 QString("Vous ne pouvez pas creer une Zone d'Interet ici :\n")
                                  + "La vue n'est liee a aucun traitement");
         return;
     }

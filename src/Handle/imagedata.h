@@ -12,9 +12,16 @@
 
 class ImageData;
 
+/** @class ImageDataPtr
+** std::shared_ptr for an ImageData
+*/
 typedef std::shared_ptr<ImageData> ImageDataPtr;
 
-/** @brief Contains an Image and his data */
+/** @brief An Image.
+**
+** This class store an Image and somes "Results" which are in fact a QVariant with a name.
+** You can execute some basics proccess as execute a function for each pixel or obtain a subregion.
+*/
 class ImageData
 {
 public:
@@ -22,11 +29,39 @@ public:
         @param const IplImage & image : image which will be stocked */
     ImageData(const IplImage & image);
 
+
+    /** @brief Construct an ImageData from an existant ImageData
+    **
+    **  The image and the results will be copied.
+    **  @param const ImageData & : image which will be copied.
+    */
     ImageData( const ImageData & );
+
+
+    /** @brief Copy an existant ImageData into another ImageData
+    **
+    **  The image and the results will be replaced by the other ImageData's.
+    **  @param const ImageData & : image which will be copied.
+    */
     ImageData & operator=( const ImageData & );
 
+
+    /** @brief Destroy an ImageData
+    **
+    **  Realase the stored Image
+    */
     virtual ~ImageData();
 
+
+    /** @brief Add a result
+    **
+    **  Becarefull, if there is already a result which the same name, it will be replaced.
+    **  You should use the VirtualHandle's adress as part of the name.
+    **  @todo I think we should use a non-const version of the operator[] instead
+    **  @todo A function isResultExist() may be good.
+    **  @param const QString & : result's name
+    **  @param const QVariant & : result's value
+    */
     void addResults( const QString &, const QVariant &);
 
     //TODO to it in GPU (?) Multi-thread (?)

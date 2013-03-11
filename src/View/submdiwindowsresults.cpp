@@ -1,4 +1,5 @@
 #include <QFile>
+#include <QScrollBar>
 #include <QFileDialog>
 #include <QPlainTextEdit>
 

@@ -49,23 +49,32 @@
                                                 const std::string & pretty
 #define EXCEPTIONS_VALUES ClassName, MethodName, ptr, FileName, line, pretty
 
-/** @brief Exception class which give maximum information about the error, build it with buildException.<br/>
-        We use few MACRO :<br/>
-        - EXCEPTIONS_ARGS_CST : which is the paramters of the constructor <br/>
-        - EXCEPTIONS_ARGS_CST_IMPL : which is the paramters of the constructor in implementation <br/>
-        - EXCEPTIONS_ARGS : which is the parameters for static method except the errors messages <br/>
-        - EXCEPTIONS_ARGS_IMPL which is the parameters for static method except the errors messages in implemetation <br/>
-        - EXCEPTIONS_VALUES : you can use it when calling a method into a method which use EXCEPTION_ARGS* in its declaration, for exemple :<br>
-template<typename T> <br/>
-const std::string Exception::buildErrorMessage(const std::string  & MsgError, <br/>
-                                    EXCEPTIONS_ARGS_IMPL) <br/>
-{<br/>
-    std::stringstream flux;<br/>
-    flux << "Error : " << MsgError << "\n";<br/>
-    buildEndOfErrorText(flux, EXCEPTIONS_VALUES);<br/>
-    return flux.str();<br/>
-}
-@author Neckara for Last Dungeon */
+
+
+/** @example Exception
+  @code
+template<typename T>
+const std::string Exception::buildErrorMessage(const std::string  & MsgError,
+                                    EXCEPTIONS_ARGS_IMPL)
+{
+    std::stringstream flux;
+    flux << "Error : " << MsgError << "\n";
+    buildEndOfErrorText(flux, EXCEPTIONS_VALUES);
+    return flux.str();
+} @endcode */
+
+/** @brief Exception class which give maximum information about the error, build it with buildException.
+        We use few MACRO
+        @list
+        - EXCEPTIONS_ARGS_CST : which is the paramters of the constructor
+        - EXCEPTIONS_ARGS_CST_IMPL : which is the paramters of the constructor in implementation
+        - EXCEPTIONS_ARGS : which is the parameters for static method except the errors messages
+        - EXCEPTIONS_ARGS_IMPL which is the parameters for static method except the errors messages in implemetation
+        - EXCEPTIONS_VALUES : you can use it when calling a method into a method which use EXCEPTION_ARGS* in its declaration,
+        see the Exception example for more details.
+        @endlist
+        @author Neckara for Last Dungeon
+*/
 class Exception : public std::runtime_error
 {
 public:

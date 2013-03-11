@@ -43,9 +43,6 @@ public slots :
     void showHideDockStreamControl(void);
     void sliderMoved(int);
     void windowStateChanged(Qt::WindowStates,Qt::WindowStates);
-private slots:
-    void on_actionPlein_cran_triggered();
-
 private:
     enum Mode{Default, Tabulation, Free};
     void updateSeek(void);
