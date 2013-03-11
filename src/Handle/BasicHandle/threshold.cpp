@@ -18,9 +18,17 @@ ImageDataPtr Threshold::startHandle(ImageDataPtr src1, ImageDataPtr)
     int threshold_value = m_listParameters[0]->toInt();
     bool inversion = m_listParameters[1]->toMap()["inversion couleurs"].toBool();
 
-    IplImage * ThresholdImage = src1->getImage();
+    IplImage * thresholdImage = src1->getImage();
 
-    cvThreshold( ThresholdImage, ThresholdImage, threshold_value,255, inversion ? CV_THRESH_BINARY_INV : CV_THRESH_BINARY);
+    IplImage * tmp = cvCreateImage( cvSize(thresholdImage->width, thresholdImage->height), IPL_DEPTH_8U, 1);
+    cvCvtColor(thresholdImage, tmp ,CV_BGR2GRAY);
+
+
+    cvThreshold( tmp, tmp, threshold_value,255, inversion ? CV_THRESH_BINARY_INV : CV_THRESH_BINARY);
+
+
+    cvCvtColor(tmp, thresholdImage,CV_GRAY2BGR);
+    cvReleaseImage(&tmp);
 
     return src1;
 }

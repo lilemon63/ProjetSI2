@@ -64,6 +64,10 @@ public:
     */
     void addResults( const QString &, const QVariant &);
 
+
+    /**
+
+    */
     //TODO to it in GPU (?) Multi-thread (?)
     void forEachPixel( std::function< void(unsigned char & r, unsigned char & g, unsigned char & b) > );
 
