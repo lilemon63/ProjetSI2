@@ -117,6 +117,7 @@ void VirtualHandle::showParameters(QWidget * parent, Numbering num )
 
 void VirtualHandle::showParameters(QWidget * parent)
 {
+    m_numbering.cloneFrom( Numbering() );
     m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, m_numbering);
 }
 
