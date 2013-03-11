@@ -63,7 +63,7 @@ void SubMdiWindowsImage::updateImage(const QPixmap & img)
 
 void SubMdiWindowsImage::updateImageAsc(const ImageDataPtr image)
 {
-    ImageDataPtr img( new ImageData(*image->getImage()) );
+    ImageDataPtr img( new ImageData(*image) );
     emit handleSignalUpdateImage(img);
 }
 

@@ -41,14 +41,14 @@ public:
 
     ZI * createZI(QRect rect);
 
-    virtual ImageDataPtr executeHandle(const ImageDataPtr src1, const ImageDataPtr src2);
+    virtual ImageDataPtr executeHandle(ImageDataPtr src1, ImageDataPtr src2);
 
     /** @brief execute the handle's startHandle() of the handle which name is given in parameters.
     @param const std::string & name : handle's name
     @param ImageDataPtr src1  : first image
     @param ImageDataPtr src2 : second image, NULL if unused
     @return ImageDataPtr : handle's result. */
-    static ImageDataPtr executeHandle(const std::string & name, const ImageDataPtr src1, const ImageDataPtr src2);
+    static ImageDataPtr executeHandle(const std::string & name, ImageDataPtr src1, ImageDataPtr src2);
 
 
 

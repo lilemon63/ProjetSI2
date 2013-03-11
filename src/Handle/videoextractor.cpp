@@ -218,11 +218,18 @@ void VideoExtractor::processFrame(void)
         src2 = m_videoStream[1]->getImage();
 
     ImageDataPtr source1 = nullptr, source2 = nullptr;
+    ImageDataPtr copySrc1 = nullptr, copySrc2 = nullptr;
 
     if(src1)
-        source1 = ImageDataPtr(new ImageData(*src1));
+    {
+        source1 = ImageDataPtr(new ImageData(*src1) );
+        copySrc1 = ImageDataPtr(new ImageData(*source1) );
+    }
     if( m_dual && src2 )
+    {
         source2 = ImageDataPtr(new ImageData(*src2));
+        copySrc2 = ImageDataPtr(new ImageData(*source2) );
+    }
     else if(! src1)
         throw Exception::buildException("Aucune source valable", "VideoExtractor",
                                         "run", EPC);
@@ -230,7 +237,7 @@ void VideoExtractor::processFrame(void)
     ImageDataPtr result;
     //endOfCapture = timer.nsecsElapsed();
     if( m_isHandleActived )
-        result = VirtualHandle::executeHandle(m_paramHandle.toString().toStdString(), source1, source2);
+        result = VirtualHandle::executeHandle(m_paramHandle.toString().toStdString(), copySrc1, copySrc2);
     else
         result = source1;
     //endOfHandle = timer.nsecsElapsed();

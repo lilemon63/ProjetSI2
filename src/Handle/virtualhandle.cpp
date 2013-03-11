@@ -51,19 +51,19 @@ ZI * VirtualHandle::createZI(QRect rect)
 }
 
 
-ImageDataPtr VirtualHandle::executeHandle(const ImageDataPtr src1, const ImageDataPtr src2)
+ImageDataPtr VirtualHandle::executeHandle(ImageDataPtr src1, ImageDataPtr src2)
 {
     ImageDataPtr image = startHandle(src1, src2);
     if(m_windows)
         m_windows->updateImageAsc(image);
+
     for(ZI * zi : m_listZI)
         image = zi->executeHandle(image, src1);
-
     return image;
 }
 
 
-ImageDataPtr VirtualHandle::executeHandle(const std::string & name, ImageDataPtr src1, const ImageDataPtr src2)
+ImageDataPtr VirtualHandle::executeHandle(const std::string & name, ImageDataPtr src1, ImageDataPtr src2)
 {
     if( name == "noname" || m_listHandle.find(name) == m_listHandle.end() )
         throw Exception::buildException(name + " n'est pas un nom de traitement valide",

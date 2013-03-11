@@ -11,7 +11,7 @@ ImageData::ImageData(const IplImage & image)
 
 ImageData::ImageData( const ImageData & image)
     : m_image( cvCloneImage(image.m_image) ),
-      m_results(m_results)
+      m_results(image.m_results)
 {
 
 }
