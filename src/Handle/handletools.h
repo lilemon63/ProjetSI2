@@ -20,6 +20,8 @@ private :
     NoHandle noHandle;
     Rotation rotation;
     ModelHandle model;
+    Grayscale grayscale;
+    Threshold threshold;
     CountPixel countPixel;
     EditChannel editChannel;
     PutYourCodeHere putYourCodeHere;

@@ -47,7 +47,9 @@ SOURCES += \
     View/viewzi.cpp \
     View/zidialog.cpp \
     Handle/BasicHandle/countpixel.cpp \
-    Handle/BasicHandle/editchannel.cpp
+    Handle/BasicHandle/editchannel.cpp \
+    Handle/BasicHandle/grayscale.cpp \
+    Handle/BasicHandle/threshold.cpp
 
 HEADERS += \
     Handle/Handle.h \
@@ -89,7 +91,9 @@ HEADERS += \
     View/viewzi.h \
     View/zidialog.h \
     Handle/BasicHandle/countpixel.h \
-    Handle/BasicHandle/editchannel.h
+    Handle/BasicHandle/editchannel.h \
+    Handle/BasicHandle/grayscale.h \
+    Handle/BasicHandle/threshold.h
 
 LIBS += -lopencv_core \
         -lopencv_video \
