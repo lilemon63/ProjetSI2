@@ -48,6 +48,7 @@ void InputText::addSuscriber(HandleParameters * target)
 void InputText::hideParameters(void)
 {
     m_frame->hide();
+    SourceParameters::hideParameters();
 }
 
 

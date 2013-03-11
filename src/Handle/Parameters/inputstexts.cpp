@@ -63,6 +63,7 @@ void InputsTexts::showParameters(QWidget * parent)
 
 void InputsTexts::hideParameters(void)
 {
+    SourceParameters::hideParameters();
     m_frame->hide();
 }
 

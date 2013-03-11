@@ -16,6 +16,8 @@
 **  - Lilemon
 **  - Neckara
 **  - Majacquet3
+**
+**  Ce programme est sous Licence LGPL
 */
 
 #include <QApplication>

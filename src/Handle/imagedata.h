@@ -66,12 +66,20 @@ public:
 
 
     /**
-
+    ** @brief Execute a process given in parameters for each pixel
+    ** @todo This method is really long. We can :
+    ** @list
+    ** - do the process in the GPU
+    ** - used few thread instead using only one
+    ** @endlist
+    ** @param std::function< void(unsigned char & r, unsigned char & g, unsigned char & b) >  : function
+       or lambda which we will call for each pixel. You can get and set the red, green and blue composant
+    ** thanks to the parameters r, g and b.
     */
-    //TODO to it in GPU (?) Multi-thread (?)
     void forEachPixel( std::function< void(unsigned char & r, unsigned char & g, unsigned char & b) > );
 
-    /** @brief Get the stocked Image
+
+    /** @brief Get the stocked Image for avanced process.
         @return IplImage * : pointer to the stocked image. */
     inline IplImage * getImage(void);
 
