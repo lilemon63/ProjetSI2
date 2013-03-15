@@ -90,7 +90,7 @@ void SubMdiWindowsImage::createZI(QRect rect)
     QPushButton * buttonConfirm = new QPushButton("Creer");
     frame->layout()->addWidget(buttonConfirm);
     ZI * zi = m_handle->createZI(rect);
-    zi->showParameters( dialog );
+    zi->showParameters( dialog , false );
     dialog->layout()->addWidget(frame);
     buttonConfirm->setDefault(true);
     dialog->setBaseSize(200, 400);

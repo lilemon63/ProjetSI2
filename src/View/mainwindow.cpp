@@ -238,7 +238,7 @@ void MainWindow::saveDataFileName(void)
 }
 
 
-void MainWindow::setImage(const ImageDataPtr result, const ImageDataPtr source1, const ImageDataPtr source2)
+void MainWindow::setImage(ImageDataPtr result, ImageDataPtr source1, ImageDataPtr source2)
 {
     if(m_subImage)
         m_subImage->updateImage(result->toPixmap());

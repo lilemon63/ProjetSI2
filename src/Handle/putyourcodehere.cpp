@@ -16,7 +16,7 @@ PutYourCodeHere::PutYourCodeHere()
 }
 
 // your handle
-ImageDataPtr PutYourCodeHere::startHandle(ImageDataPtr source, const ImageDataPtr source1)
+ImageDataPtr PutYourCodeHere::startHandle(ImageDataPtr source, ImageDataPtr source1)
 {
     //put your code here !
     ImageDataPtr result = executeHandle("Rotation", source, source1);

@@ -85,6 +85,12 @@ QStringList VirtualHandle::getAllHandleName(void)
 }
 
 
+const std::string & VirtualHandle::getName(void) const
+{
+    return m_name;
+}
+
+
 void VirtualHandle::hideParameters(void)
 {
     m_spoiler->hideAll();
@@ -115,9 +121,10 @@ void VirtualHandle::showParameters(QWidget * parent, Numbering num )
 }
 
 
-void VirtualHandle::showParameters(QWidget * parent)
+void VirtualHandle::showParameters(QWidget * parent, bool reinit)
 {
-    m_numbering.cloneFrom( Numbering() );
+    if(reinit)
+        m_numbering.cloneFrom( Numbering() );
     m_spoiler->setParam(m_listParameters, m_viewParameters, m_dependancies, m_affName, parent, m_numbering);
 }
 

@@ -9,7 +9,7 @@
 #include "Parameters/colorselection.h"
 #include "../View/viewzi.h"
 
-ZI::ZI(QRect rect, QWidget *parent, Numbering num)
+ZI::ZI(QRect rect, QWidget *parent, const Numbering num)
     : VirtualHandle("ZI"),
       m_area(new InputsTexts("Coordonnees", 4, QStringList( { QString::number( (long long int)rect.x() ),
                                                               QString::number( (long long int)rect.y() ),
@@ -94,9 +94,8 @@ void ZI::resize( Direction direction, int value)
 
 void ZI::showParameters(void)
 {
-    showParameters(m_parent);
+    showParameters(m_parent, false);
 }
-
 
 ViewZI * ZI::view(void)
 {

@@ -7,8 +7,8 @@
 Grayscale::Grayscale(const QString & affName, const std::string & name)
     :VirtualHandle(affName, name)
 {
-    m_listParameters.resize(1);
-    m_listParameters[0] = HandleParameters::build_checkbox("Grayscale",QStringList({"on"}));
+    m_listParameters.resize(MAX);
+    m_listParameters[ACTIVE] = HandleParameters::build_checkbox("Grayscale",QStringList({"on"}));
 }
 
 ImageDataPtr Grayscale::startHandle(const ImageDataPtr src1, ImageDataPtr)

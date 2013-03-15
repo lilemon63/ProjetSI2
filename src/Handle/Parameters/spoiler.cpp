@@ -12,9 +12,9 @@ Spoiler::Spoiler()
     m_button( new QPushButton() ),
     m_button_icon( new QPushButton() ),
     m_frame( new QFrame() ),
-    m_layout( new QHBoxLayout(this) ),
     m_title( new QFrame() )
 {
+    QHBoxLayout * m_layout( new QHBoxLayout(this) );
     m_button_icon->setIcon(QIcon(QPixmap("low_arrow.png")));
 
     m_layout->addWidget(m_button_icon);

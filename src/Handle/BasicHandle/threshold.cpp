@@ -5,9 +5,9 @@
 Threshold::Threshold(const QString & affName, const std::string & name)
     :VirtualHandle(affName, name)
 {
-    m_listParameters.resize(2);
-    m_listParameters[0] = HandleParameters::build_slider("value",0,0,255);
-    m_listParameters[1] = HandleParameters::build_checkbox("option",QStringList({"inversion couleurs"}));
+    m_listParameters.resize(MAX);
+    m_listParameters[SEUIL] = HandleParameters::build_slider("value",0,0,255);
+    m_listParameters[INVERSION] = HandleParameters::build_checkbox("option",QStringList({"inversion couleurs"}));
 }
 
 ImageDataPtr Threshold::startHandle(ImageDataPtr src1, ImageDataPtr)

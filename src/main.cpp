@@ -18,6 +18,10 @@
 **  - Majacquet3
 **
 **  Ce programme est sous Licence LGPL
+**
+**  Utilisez doxygen >= 1.8.3.1 pour générer la documentation
+**
+**  Use doxygen >= 1.8.3.1 to generate the documentation
 */
 
 #include <QApplication>

@@ -61,7 +61,7 @@ void ImageData::forEachPixel( std::function< void(unsigned char & r,
 }
 
 
-ImageDataPtr ImageData::getSubRegion(int x, int y, int width, int height)
+ImageDataPtr ImageData::getSubRegion(int x, int y, int width, int height) const
 {
     ImageData * retour = new ImageData();
     CvRect cvrect = cvRect(x,y,width, height);
@@ -112,10 +112,13 @@ void ImageData::merge( ImageDataPtr image, int x, int y)
         lineSrc += src->widthStep;
         lineDst += dst->widthStep;
     }
+
+    for( auto pair : image->m_results.toStdMap() )
+        m_results[pair.first] = pair.second;
 }
 
 
-QVariant ImageData::operator[](const QString & name)
+QVariant & ImageData::operator[](const QString & name)
 {
     return m_results[name];
 }
