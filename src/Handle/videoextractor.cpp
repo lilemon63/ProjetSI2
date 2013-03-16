@@ -12,10 +12,10 @@ VideoExtractor::VideoExtractor(bool dual, VideoReader * source1, VideoReader * s
       m_stopped(true),
       m_videoStream{ source1 , source2 }
 {
-    m_paramHandle.setActionOnChangeValue( [this]( QVariant Value, HandleParameters * hp )
+    m_paramHandle.setActionOnChangeValue( [this]( QVariant value, HandleParameters * hp )
                                             {
                                                     hideParameters();
-                                                    hp->acceptChanges(Value);
+                                                    hp->acceptChanges(value);
                                                     if( m_currentParent )
                                                         showParameters(m_currentParent);
                                             } );

@@ -568,6 +568,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changeSource1()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>213</x>
+     <y>567</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>268</x>
+     <y>607</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changeSource2()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>343</x>
+     <y>563</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>433</x>
+     <y>618</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>nextFrame()</slot>
@@ -584,5 +616,7 @@
   <slot>enterInFreeMode()</slot>
   <slot>showHideDockStreamControl()</slot>
   <slot>attachDetach()</slot>
+  <slot>changeSource1()</slot>
+  <slot>changeSource2()</slot>
  </slots>
 </ui>

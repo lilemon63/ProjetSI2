@@ -91,6 +91,7 @@ void SubMdiWindowsImage::createZI(QRect rect)
     frame->layout()->addWidget(buttonConfirm);
     ZI * zi = m_handle->createZI(rect);
     zi->showParameters( dialog , false );
+    ( (QVBoxLayout *)dialog->layout() )->addStretch(0);
     dialog->layout()->addWidget(frame);
     buttonConfirm->setDefault(true);
     dialog->setBaseSize(200, 400);

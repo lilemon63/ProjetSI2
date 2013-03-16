@@ -161,9 +161,23 @@ private:
         /** @brief */
         Free};
 
+    /** @brief Open a pop-up to change the video stream for one of the two sources.
+    **
+    **  When the pop-up is closed the source will be updated.
+    **  @param int : source number : 1 for the first source, 2 for the second.
+    */
+    void openChangeSourcesDialog(int);
 
     /** @brief Enable or disable the seek gui element and update them. */
     void updateSeek(void);
+
+private slots :
+    /** @brief Open a pop-up to change the first video stream source. */
+    void changeSource1(void);
+
+
+    /** @brief Open a pop-up to change the second video stream source. */
+    void changeSource2(void);
 private :
 
     /** @brief Current Mdi's mode */

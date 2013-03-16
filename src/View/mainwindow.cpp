@@ -1,11 +1,13 @@
-#include <QGraphicsView>
+#include <QDialog>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "../Handle/Handle.h"
 #include "../Handle/videoextractor.h"
+#include "../Handle/Reader/folderreader.h"
 #include "../Handle/Parameters/slider.h"
 #include "../Handle/Parameters/combobox.h"
+#include "../Handle/Parameters/handleparameters.h"
 #include "submdiwindowsimage.h"
 #include "submdiwindowsresults.h"
 
@@ -284,8 +286,11 @@ void MainWindow::windowStateChanged(Qt::WindowStates, Qt::WindowStates states)
     if( m_areaMode == Default )
     {
         QObject * sender = QObject::sender();
-        if ( states &  Qt::WindowMinimized && ( sender == m_subImage || sender == m_subImageSource1
-                             || sender == m_subImageSource2 || sender == m_subResults )  )
+        if ( states &  Qt::WindowMinimized
+             && ( sender == m_subImage || sender == m_subImageSource1
+                  || sender == m_subImageSource2 || sender == m_subResults
+                )
+            )
             enterInFreeMode();
     }
 }
@@ -293,6 +298,65 @@ void MainWindow::windowStateChanged(Qt::WindowStates, Qt::WindowStates states)
 /*---------------------------------------------------------------------------------------------------
 ------------------------------------------------PRIVATE----------------------------------------------
 ---------------------------------------------------------------------------------------------------*/
+
+void MainWindow::openChangeSourcesDialog( int idSource )
+{
+    QDialog * dialog = new QDialog();
+    dialog->setModal(true);
+    dialog->setLayout( new QVBoxLayout() );
+
+    auto sourceType = HandleParameters::build_comboBox( "Type de la source",
+                                                        {"Camera", "Dossier", "Aucune"} );
+    auto path = HandleParameters::build_inputtext( "Chemin", ".",  InputText::Directory );
+    QFrame * pathFrame = new QFrame();
+    pathFrame->setLayout( new QVBoxLayout() );
+    path->showParameters( pathFrame );
+    sourceType->setActionOnChangeValue( [this, &pathFrame, &dialog](QVariant value, HandleParameters * hp)
+        {
+            hp->acceptChanges(value);
+            if( hp->toString() == "Dossier")
+                pathFrame->show();
+            else
+                pathFrame->hide();
+        }
+                                        );
+    sourceType->showParameters( dialog );
+    ( (QVBoxLayout *)dialog->layout() )->addStretch(0);
+    dialog->layout()->addWidget( pathFrame );
+    pathFrame->hide();
+
+    QFrame * frame = new QFrame();
+    frame->setLayout(new QHBoxLayout() );
+    QPushButton * changeSource = new QPushButton("Changer source");
+    QPushButton * cancel = new QPushButton("Annuler");
+    frame->layout()->addWidget( changeSource );
+    frame->layout()->addWidget( cancel );
+    dialog->layout()->addWidget( frame );
+
+    connect( changeSource, SIGNAL(clicked() ), dialog, SLOT(accept()));
+    connect( cancel, SIGNAL(clicked() ), dialog, SLOT(reject()));
+
+    dialog->setWindowTitle("Configuration de la source " + QString::number(idSource) );
+
+
+
+    if( dialog->exec() == QDialog::Accepted )
+    {
+        m_extractor->useSource( new VideoReader() , idSource - 1);
+        VideoReader * reader;
+        if( sourceType->toString() == "Camera")
+        {
+            reader = new VideoReader();
+            reader->useCamera();
+        }
+        else if( sourceType->toString() == "Dossier" )
+            reader = new FolderReader( path->toString().toStdString() );
+
+        m_extractor->useSource( reader , idSource - 1);
+    }
+    dialog->deleteLater();
+}
+
 
 void MainWindow::updateSeek()
 {
@@ -306,4 +370,19 @@ void MainWindow::updateSeek()
     ui->labelCurseur->setText("0");
 
     ui->sliderCurseur->setMaximum( m_extractor->numberOfFrame() );
+}
+
+
+/*---------------------------------------------------------------------------------------------------
+------------------------------------------------PRIVATE SLOT-----------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+void MainWindow::changeSource1(void)
+{
+    openChangeSourcesDialog(1);
+}
+
+void MainWindow::changeSource2(void)
+{
+    openChangeSourcesDialog(2);
 }
