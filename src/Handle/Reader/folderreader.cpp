@@ -34,7 +34,6 @@ bool FolderReader::acceptSeek(void)
     return true;
 }
 
-
 IplImage * FolderReader::getImage(void)
 {
     static IplImage * data = nullptr;
@@ -42,7 +41,7 @@ IplImage * FolderReader::getImage(void)
         cvReleaseImage(&data);
 
     if( m_iterator != m_listePath.end() )
-        data = cvLoadImage( (m_path + m_iterator->second.toStdString() ).c_str() );
+        data = cvLoadImage( (m_path + "/" + m_iterator->second.toStdString() ).c_str() );
     return data;
 }
 
@@ -73,7 +72,7 @@ QDateTime FolderReader::parseFileName(const QString & file)
     QStringList dataList = fileName.split('\n');
 
     if(dataList.size() != 8)
-        throw ParseException::buildParseException("The file's name " + fileName.toStdString() + "is incorrect.",
+        throw ParseException::buildParseException("The file's name " + fileName.toStdString() + " is incorrect.",
                                                   "FolderReader", "parseFileName",EP);
     QDateTime time;
     time.setDate( QDate(dataList[1].toInt(),
@@ -102,7 +101,6 @@ void FolderReader::r_grab()
 void FolderReader::slid(int value)
 {
     auto it = m_listePath.begin();
-    value--;
     for( int i = 0; value != i; ++i)
         it++;
     m_iterator = it;

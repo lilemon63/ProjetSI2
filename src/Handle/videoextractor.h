@@ -14,6 +14,7 @@
 ** VideoExtractor will extract image from VideoReader and call the selected VirtualHandle to process one or
    two image. Then send a signal : imageHandled().
 ** VideoExtractor run in its own thread.
+** @todo We can remove m_dual and see if the second sources is nullptr or not.
 */
 class VideoExtractor : public QThread // final
 {
@@ -110,7 +111,6 @@ public :
 
 
     /** @brief Specifies the video stream source to use.
-    **  @todo We can update m_dual according to if source is nullptr or not and if channel is 1.
     **  @param VideoReader * source : video stream source.
     **  @param int channel : channel, ie if the VideoReader will be the first source (0) or the second (1)
     **  @warning : for now we only have 2 channel (0 and 1).
@@ -165,6 +165,8 @@ signals :
     /** @brief emitted when the VideoExtractor's thread is finished. */
     void finished(void);
 
+    /** @brief emitted when the video stream's automatic reading is finished. */
+    void streamFinished(void);
 private :
     /** @brief process a frame */
     void processFrame(void);

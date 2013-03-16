@@ -165,6 +165,7 @@ private:
     **
     **  When the pop-up is closed the source will be updated.
     **  @param int : source number : 1 for the first source, 2 for the second.
+    **  @todo We can create the QDialog with the Qt Creator.
     */
     void openChangeSourcesDialog(int);
 

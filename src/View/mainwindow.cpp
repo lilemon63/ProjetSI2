@@ -1,7 +1,9 @@
 #include <QDialog>
+#include <QMessageBox>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "../exception.h"
 #include "../Handle/Handle.h"
 #include "../Handle/videoextractor.h"
 #include "../Handle/Reader/folderreader.h"
@@ -39,23 +41,26 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_extractor->changeHandleParameters( new ComboBox("Traitement", VirtualHandle::getAllHandleName(),
                                                       MainHandle),
-                                            ui->scrollAreaWidgetContents );
+                                            ui->parametersArea );
     m_extractor->changePeriodeParameters( new Slider("Time", 200000000, 0, max) ,
-                                          ui->scrollAreaWidgetContents );
+                                          ui->parametersArea );
 
     /* obligatoire, à n'appeler qu'une unique fois et dans une fonction /!\ */
     qRegisterMetaType<ImageDataPtr>("ImageDataPtr");
     connect( m_extractor, SIGNAL(imageHandled(ImageDataPtr,ImageDataPtr,ImageDataPtr) ),
              this, SLOT(setImage(ImageDataPtr,ImageDataPtr,ImageDataPtr) ) );
+    connect( m_extractor, SIGNAL(streamFinished()), this, SLOT(playPause()));
 
     VideoReader * cam1 = new VideoReader();
     cam1->useCamera(); //or FolderReader * cam1 = new FolderReader("img/");
 
     m_extractor->useSource(cam1, 0);
-    m_extractor->showParameters( ui->scrollAreaWidgetContents );
+    m_extractor->showParameters( ui->parametersArea );
 
     ui->mdiAreaMode->setCurrentIndex( ui->mdiAreaMode->findData(m_areaMode) );
     VirtualHandle::setView(ui->mdiArea);
+
+    ui->sliderCurseur->setTracking(true);
 
     m_extractor->start();
     updateSeek();
@@ -177,6 +182,7 @@ void MainWindow::nextFrame(void)
 {
     m_isPlay = false;
     ui->buttonPlay->setText("Lancer les flux");
+    ui->sliderCurseur->setValue( ui->sliderCurseur->value() + 1 );
     m_extractor->next();
 }
 
@@ -217,6 +223,7 @@ void MainWindow::previousFrame(void)
 {
     m_isPlay = false;
     ui->buttonPlay->setText("Lancer les flux");
+    ui->sliderCurseur->setValue( ui->sliderCurseur->value() - 1);
     m_extractor->previous();
 }
 
@@ -254,7 +261,9 @@ void MainWindow::setImage(ImageDataPtr result, ImageDataPtr source1, ImageDataPt
     if( m_subResults )
         m_subResults->extractInformationFromImage(result);
 
-    int value = ui->sliderCurseur->value() + 1;
+    int value = ui->sliderCurseur->value();
+    if( m_isPlay )
+        value++;
     ui->sliderCurseur->setValue( value );
     ui->labelCurseur->setText( QString::number( value ) );
 }
@@ -272,9 +281,13 @@ void MainWindow::showHideDockStreamControl(void)
 }
 
 
-void MainWindow::sliderMoved(int value)
+void MainWindow::sliderMoved(int action)
 {
-    m_extractor->slid(value);
+
+    m_isPlay = false;
+    int value = ui->sliderCurseur->sliderPosition();
+    ui->sliderCurseur->setValue(value);
+    m_extractor->slid( value );
     ui->labelCurseur->setText( QString::number( value ) );
 }
 
@@ -343,16 +356,24 @@ void MainWindow::openChangeSourcesDialog( int idSource )
     if( dialog->exec() == QDialog::Accepted )
     {
         m_extractor->useSource( new VideoReader() , idSource - 1);
-        VideoReader * reader;
-        if( sourceType->toString() == "Camera")
+        VideoReader * reader = nullptr;
+        try
         {
-            reader = new VideoReader();
-            reader->useCamera();
+            if( sourceType->toString() == "Camera")
+            {
+                reader = new VideoReader();
+                reader->useCamera();
+            }
+            else if( sourceType->toString() == "Dossier" )
+                reader = new FolderReader( path->toString().toStdString() );
+        } catch ( Exception e )
+        {
+            QMessageBox::warning(dialog, "Error", e.getMessage().c_str() );
+            delete reader;
+            return;
         }
-        else if( sourceType->toString() == "Dossier" )
-            reader = new FolderReader( path->toString().toStdString() );
-
         m_extractor->useSource( reader , idSource - 1);
+        updateSeek();
     }
     dialog->deleteLater();
 }

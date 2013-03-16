@@ -24,6 +24,9 @@
 **  Use doxygen >= 1.8.3.1 to generate the documentation
 */
 
+//TODO
+// - slider
+
 #include <QApplication>
 
 #include "exception.h"
@@ -31,11 +34,6 @@
 #include "Handle/handletools.h"
 #include "View/mainwindow.h"
 
-//mettre commentaires
-
-//rédiger wiki/utilisation
-
-//rédiger diagrammes
 
 int main(int argc, char *argv[])
 {

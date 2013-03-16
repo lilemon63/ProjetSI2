@@ -93,6 +93,17 @@ void VideoExtractor::useSource(VideoReader * source, int channel)
 {
     delete m_videoStream[channel];
     m_videoStream[channel] = source;
+    if( channel == 1)
+    {
+        if( m_dual )
+        {
+            if( ! source )
+                m_dual = false;
+        }
+        else
+            if( source )
+                m_dual = true;
+    }
 }
 
 /*---------------------------------------------------------------------------------------------------
@@ -127,6 +138,7 @@ void VideoExtractor::pause(void)
 
 void VideoExtractor::play(void)
 {
+    m_nbImageHandled = 0;
     m_autoPlay = true;
     m_cond.wakeAll();
 }
@@ -139,7 +151,6 @@ void VideoExtractor::previous(void)
     m_autoPlay = false;
     m_videoStream[0]->r_grab();
     m_videoStream[1]->r_grab();
-
     processFrame();
 
     m_mutex.unlock();
@@ -231,8 +242,11 @@ void VideoExtractor::processFrame(void)
         copySrc2 = ImageDataPtr(new ImageData(*source2) );
     }
     else if(! src1)
-        throw Exception::buildException("Aucune source valable", "VideoExtractor",
-                                        "run", EPC);
+    {
+        emit streamFinished();
+        m_autoPlay = false;
+        return;
+    }
 
     ImageDataPtr result;
     //endOfCapture = timer.nsecsElapsed();
