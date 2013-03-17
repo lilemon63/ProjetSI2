@@ -153,12 +153,12 @@ private:
     enum Mode{
         /** @brief Only the 4 main SubMdiWindows will be shown at specifics positions.
         **
-        **  When the user resize, move, close or open a windows, enter in Free mode.
+        **  When the user resize, move, close or open a window, enter in Free mode.
         */
         Default,
         /** @brief The SubMdiWindows will be shown as tab as we have in ours internet browse. */
         Tabulation,
-        /** @brief */
+        /** @brief The user can resize, move, close or open windows. */
         Free};
 
     /** @brief Open a pop-up to change the video stream for one of the two sources.

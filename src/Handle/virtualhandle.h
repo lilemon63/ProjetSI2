@@ -49,7 +49,7 @@ public:
     typedef std::vector<VirtualHandle *> ListDependancies;
 
 
-    /** @brief Create a ZI (Interest Area).
+    /** @brief Create a ZI (Interest Area or Zone of Interest).
     **  @param QRect rect : rectangle which delimit the ZI area.
     */
     ZI * createZI(QRect rect);

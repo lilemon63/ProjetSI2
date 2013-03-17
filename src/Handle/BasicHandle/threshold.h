@@ -7,6 +7,7 @@
 **
 **  The image will be convert in gray and the process will look at each pixel's gray value and if it's greater
     than the threshold, the pixel will be white, else it will be black.
+**  White and black can be reversed if the user want it.
 */
 class Threshold : public VirtualHandle
 {

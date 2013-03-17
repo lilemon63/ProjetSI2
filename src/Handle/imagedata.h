@@ -52,7 +52,7 @@ public:
 
     /** @brief Destroy an ImageData
     **
-    **  Realase the stored Image
+    **  Release the stored Image
     */
     virtual ~ImageData();
 

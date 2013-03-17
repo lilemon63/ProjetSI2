@@ -100,8 +100,8 @@ public :
     /** @brief Launch its own thread by default, the stream's reading doesn't start but the process will
         start as soon as the stream's reading start.
     **  @warning : we didn't really test the stream limitation as the maximal time and the maximal image.
-    **  @param qint64 timeMax : maximal time in nanosecond for the all handle, zero for infinite
-    **  @param qint64 nbMaxImage : number of image we want, zero for infinite
+    **  @param qint64 timeMax : maximal time in nanosecond for the all handle, zero for infinity
+    **  @param qint64 nbMaxImage : number of image we want, zero for infinity.
     */
     void start(qint64 timeMax = 0 , qint64 nbMaxImage = 0);
 
@@ -205,7 +205,7 @@ private :
     qint64 m_nbImageHandled;
 
 
-    /** @brief Number of maximal image we want, zero for infinite. */
+    /** @brief Number of maximal image we want, zero for infinity. */
     qint64 m_nbMaxImage;
 
 
@@ -225,7 +225,7 @@ private :
     bool m_stopped;
 
 
-    /** @brief maximal time in nanosecond for the all process, zero for infinite. */
+    /** @brief maximal time in nanosecond for the all process, zero for infinity. */
     qint64 m_timeMax;
 
 

@@ -3,7 +3,7 @@
 
 #include "../virtualhandle.h"
 
-/** @brief VirtualHandle which doest nothing. */
+/** @brief VirtualHandle which does nothing. */
 class NoHandle : public VirtualHandle
 {
 public:

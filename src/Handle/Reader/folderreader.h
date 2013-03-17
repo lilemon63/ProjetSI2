@@ -11,7 +11,7 @@ class FolderReader final : public VideoReader
 public:
 
     /** @brief Create a reader from all image which is in a same folder.
-    **  @warning All image in the folder must be correctly named else a ParseException is thown.
+    **  @warning All image in the folder must be correctly named else a ParseException is thrown.
     **  @param const std::string & path : folder's path.
     */
     FolderReader(const std::string & path);
@@ -31,7 +31,7 @@ public:
 
     /** @brief grab the current image from the video stream.
     **
-    **  There is no copy so it's faster so we can get several image from several video stream at the same time
+    **  There is no copy so it's faster, we can get several image from several video stream at the same time
         with more accuracy. */
     void grab(void);
 
@@ -57,7 +57,7 @@ public:
 
     /** @brief Grab the previous image from the video stream.
     **
-    **  There is no copy so it's faster so we can get several image from several video stream at the same time
+    **  There is no copy so it's faster, we can get several image from several video stream at the same time
         with more accuracy.
     **
     **  If the stream doesn't accepted seek, do nothing.
@@ -65,7 +65,7 @@ public:
     void r_grab(void);
 
 
-    /** @brief Grab the ième image from the video stream.
+    /** @brief Grab the nth image from the video stream.
     **
     **  There is no copy so it's faster so we can get several image from several video stream at the same time
         with more accuracy.

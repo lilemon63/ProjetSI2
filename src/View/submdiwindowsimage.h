@@ -56,7 +56,7 @@ public:
     void updateImage(const QPixmap &);
 
 
-    /** @brief Update the image asynchronous .
+    /** @brief Update the image asynchronous.
     **  @param const ImageDataPtr : new image.
     */
     void updateImageAsc(const ImageDataPtr );
